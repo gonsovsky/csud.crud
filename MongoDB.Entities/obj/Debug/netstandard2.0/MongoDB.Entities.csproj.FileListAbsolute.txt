@@ -1,0 +1,11 @@
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\bin\Debug\netstandard2.0\MongoDB.Entities.deps.json
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\bin\Debug\netstandard2.0\MongoDB.Entities.dll
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\bin\Debug\netstandard2.0\MongoDB.Entities.pdb
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\bin\Debug\netstandard2.0\MongoDB.Entities.xml
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.AssemblyInfoInputs.cache
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.AssemblyInfo.cs
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.csproj.CoreCompileInputs.cache
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.dll
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.xml
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.pdb
+C:\@job\Csud.Crud\Csud.Crud.Console\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.csprojAssemblyReference.cache
