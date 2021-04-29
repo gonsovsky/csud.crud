@@ -2,5 +2,6 @@
 {
     public class RuleContext: BaseContext
     {
+        public string RuleName { get; set; }
     }
 }

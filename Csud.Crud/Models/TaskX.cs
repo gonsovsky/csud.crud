@@ -5,11 +5,11 @@
         public int? RelatedObjectKey { get; set; }
         public int? ObjectKey { get; set; }
 
-        public Obj RelatedObject
+        public ObjectX RelatedObject
         {
             set => RelatedObjectKey = value.Key;
         }
-        public Obj Object
+        public ObjectX Object
         {
             set => ObjectKey = value.Key;
         }

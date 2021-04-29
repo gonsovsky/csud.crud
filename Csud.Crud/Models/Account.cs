@@ -1,6 +1,4 @@
-﻿using MongoDB.Entities;
-
-namespace Csud.Crud.Models
+﻿namespace Csud.Crud.Models
 {
     public class Account: Base
     {

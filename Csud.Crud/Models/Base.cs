@@ -1,6 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using MongoDB.Entities;
@@ -15,7 +17,13 @@ namespace Csud.Crud.Models
         public string ID
         {
             get => Key.ToString();
-            set => Key = int.Parse(value);
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    Key = int.Parse(value);
+                else
+                    Key = null;
+            }
         }
 
         [Ignore] public bool HasId => Key != null && Key != 0;
@@ -36,6 +44,31 @@ namespace Csud.Crud.Models
                 sq.Key += 1;
                 sq.SaveAsync().Wait();
                 return sq.Key.ToString();
+            }
+        }
+
+        public virtual void CopyTo(Base destination)
+        {
+            var source = this;
+            // If any this null throw an exception
+            if (source == null || destination == null)
+                throw new Exception("Source or/and Destination Objects are null");
+            // Getting the Types of the objects
+            Type typeDest = destination.GetType();
+            Type typeSrc = source.GetType();
+            // Collect all the valid properties to map
+            var results = from srcProp in typeSrc.GetProperties()
+                let targetProperty = typeDest.GetProperty(srcProp.Name)
+                where srcProp.CanRead
+                      && targetProperty != null
+                      && targetProperty.GetSetMethod(true) != null && !targetProperty.GetSetMethod(true).IsPrivate
+                      && (targetProperty.GetSetMethod().Attributes & MethodAttributes.Static) == 0
+                      && targetProperty.PropertyType.IsAssignableFrom(srcProp.PropertyType)
+                select new { sourceProperty = srcProp, targetProperty = targetProperty };
+            //map the properties
+            foreach (var props in results)
+            {
+                props.targetProperty.SetValue(destination, props.sourceProperty.GetValue(source, null), null);
             }
         }
 

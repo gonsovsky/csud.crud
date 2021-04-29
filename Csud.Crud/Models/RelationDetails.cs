@@ -9,7 +9,7 @@
         {
             set => SubjectKey = value.Key;
         }
-        public Obj Object
+        public ObjectX Object
         {
             set => ObjectKey = value.Key;
         }

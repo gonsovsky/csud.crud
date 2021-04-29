@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.Models;
-using Csud.Crud.Models.Contexts;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
@@ -26,7 +25,7 @@ namespace Csud.Crud.Mongo
             .Where(type => type.IsAbstract==false)
             .Select(type => Activator.CreateInstance(type) as Base);
 
-        public void Add<T>(T entity) where T : Base
+        public void AddEntity<T>(T entity) where T : Base
         {
             entity.SaveAsync().Wait();
         }
@@ -35,13 +34,5 @@ namespace Csud.Crud.Mongo
         {
             return DB.Queryable<T>();
         }
-
-        public void AddPerson(Person person) => Add(person);
-        public void AddAccountProvider(AccountProvider provider) => Add(provider);
-        public void AddAccount(Account account) => Add(account);
-        public void AddSubject(Subject subject) => Add(subject);
-        public void AddContext(Context context) => Add(context);
-        public void AddTimeContext(TimeContext timeContext) => Add(timeContext);
-        public void AddSegmentContext(TimeContext segmentContext) => Add(segmentContext);
     }
 }

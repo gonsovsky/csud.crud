@@ -42,7 +42,7 @@ namespace Csud.Crud
                 DisplayName = "Active Directory",
                 Name = "ActiveDirectory"
             };
-            Csud.Add(ap);
+            Csud.AddEntity(ap);
             while ((currentLine = sr.ReadLine()) != null)
             {
                 n++;
@@ -71,7 +71,7 @@ namespace Csud.Crud
                         Description = V(values, fields, "useraccountcontrol"),
                         Name = V(values, fields, "samaccountname"),
                     };
-                    Csud.Add(p);
+                    Csud.AddEntity(p);
 
                     var su = new Subject()
                     {
@@ -80,70 +80,69 @@ namespace Csud.Crud
                         Name = "subject:" + V(values, fields, "samaccountname"),
                         DisplayName = "subject:" + V(values, fields, "userprincipalname"),
                     };
-                    Csud.Add(su);
+                    Csud.AddEntity(su);
 
                     var ac = new Account()
                     {
-                        AccountProvider = ap,
+                        AccountProviderKey = 1,
                         Description = V(values, fields, "useraccountcontrol"),
                         Name = V(values, fields, "samaccountname"),
                         DisplayName = V(values, fields, "userprincipalname"),
                         Person = p,
                         Subject = su
                     };
-                    Csud.Add(ac);
+                    Csud.AddEntity(ac);
 
                     Console.WriteLine(ac.ID);
                 }
                 else
                 {
-                    var co = new Context()
-                    {
-                        Description = "context:" + V(values, fields, "useraccountcontrol"),
-                        Name = "context:" + V(values, fields, "samaccountname"),
-                        DisplayName = "context:" + V(values, fields, "userprincipalname"),
-                    };
-                    Csud.Add(co);
-
                     var timeCo = new TimeContext()
                     {
                         Description = "timeContext:" + V(values, fields, "useraccountcontrol"),
                         Name = "timeContext:" + V(values, fields, "samaccountname"),
                         DisplayName = "timeContext:" + V(values, fields, "userprincipalname"),
-                        Context = co,
                         TimeStart = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)),
                         TimeEnd = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)),
                     };
-                    Csud.Add(timeCo);
+                    Csud.AddContext(timeCo);
 
                     var segmentContext = new SegmentContext()
                     {
                         Description = "segmentContext:" + V(values, fields, "useraccountcontrol"),
                         Name = "segmentContext:" + V(values, fields, "samaccountname"),
                         DisplayName = "segmentContext:" + V(values, fields, "userprincipalname"),
-                        Context = co,
+                        SegmentName = "segment N " + n.ToString()
                     };
-                    Csud.Add(segmentContext);
+                    Csud.AddContext(segmentContext);
 
                     var structContext = new StructContext()
                     {
                         Description = "structContext:" + V(values, fields, "useraccountcontrol"),
                         Name = "structContext:" + V(values, fields, "samaccountname"),
                         DisplayName = "structContext:" + V(values, fields, "userprincipalname"),
-                        Context = co,
                         StructCode = n.ToString()
                     };
-                    Csud.Add(structContext);
+                    Csud.AddContext(structContext);
 
-                    var su = new Subject()
+                    var ruleContext = new RuleContext()
                     {
-                        SubjectType = Subject.SubjectTypeEnum.Group,
-                        Description = "subject:" + V(values, fields, "useraccountcontrol"),
-                        Name = "subject:" + V(values, fields, "samaccountname"),
-                        DisplayName = "subject:" + V(values, fields, "userprincipalname"),
-                        Context = co
+                        Description = "structContext:" + V(values, fields, "useraccountcontrol"),
+                        Name = "structContext:" + V(values, fields, "samaccountname"),
+                        DisplayName = "structContext:" + V(values, fields, "userprincipalname"),
+                        RuleName = "rule N " + n.ToString()
                     };
-                    Csud.Add(su);
+                    Csud.AddContext(ruleContext);
+
+                    //var su = new Subject()
+                    //{
+                    //    SubjectType = Subject.SubjectTypeEnum.Group,
+                    //    Description = "subject:" + V(values, fields, "useraccountcontrol"),
+                    //    Name = "subject:" + V(values, fields, "samaccountname"),
+                    //    DisplayName = "subject:" + V(values, fields, "userprincipalname"),
+                    //    Context = co
+                    //};
+                    //Csud.AddEntity(su);
                 }
             }
         }

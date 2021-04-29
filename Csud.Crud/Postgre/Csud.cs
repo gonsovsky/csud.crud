@@ -32,17 +32,15 @@ namespace Csud.Crud.Postgre
         public DbSet<Account> Account { get; set; }
         public DbSet<Context> Context { get; set; }
         public DbSet<Subject> Subject { get; set; }
-        public DbSet<Obj> Obj { get; set; }
+        public DbSet<ObjectX> Obj { get; set; }
         public DbSet<TaskX> Task { get; set; }
-
-        public DbSet<AttribContext> AttribContext { get; set; }
         public DbSet<CompositeContext> CompositeContext { get; set; }
         public DbSet<RuleContext> RuleContext { get; set; }
         public DbSet<SegmentContext> SegmentContext { get; set; }
         public DbSet<StructContext> StructContext { get; set; }
         public DbSet<TimeContext> TimeContext { get; set; }
 
-        public void Add<T>(T entity) where T : Base
+        public void AddEntity<T>(T entity) where T : Base
         {
             Set<T>().Add(entity);
             SaveChanges();
@@ -52,13 +50,5 @@ namespace Csud.Crud.Postgre
         {
             return Set<T>().AsQueryable();
         }
-
-        public void AddPerson(Person person) => Add(person);
-        public void AddAccountProvider(AccountProvider provider) => Add(provider);
-        public void AddAccount(Account account) => Add(account);
-        public void AddSubject(Subject subject) => Add(subject);
-        public void AddContext(Context context) => Add(context);
-        public void AddTimeContext(TimeContext timeContext) => Add(timeContext);
-        public void AddSegmentContext(TimeContext segmentContext) => Add(segmentContext);
     }
 }

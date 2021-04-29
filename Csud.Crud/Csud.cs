@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.Models;
-using Csud.Crud.Models.Contexts;
 using Csud.Crud.Mongo;
 using Csud.Crud.Postgre;
 
@@ -19,12 +18,12 @@ namespace Csud.Crud
             Db.Add(postgre);
         }
 
-        public void Add<T>(T entity) where T : Base
+        public void AddEntity<T>(T entity) where T : Base
         {
             Db.ForEach(x=>
             {
                 entity.Key = null;
-                x.Add(entity);
+                x.AddEntity(entity);
             });
         }
 
@@ -32,13 +31,5 @@ namespace Csud.Crud
         {
             throw new System.NotImplementedException();
         }
-
-        public void AddPerson(Person person) => Add(person);
-        public void AddAccountProvider(AccountProvider provider) => Add(provider);
-        public void AddAccount(Account account) => Add(account);
-        public void AddSubject(Subject subject) => Add(subject);
-        public void AddContext(Context context) => Add(context);
-        public void AddTimeContext(TimeContext timeContext) => Add(timeContext);
-        public void AddSegmentContext(TimeContext segmentContext) => Add(segmentContext);
     }
 }

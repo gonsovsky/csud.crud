@@ -1,6 +1,6 @@
 ﻿namespace Csud.Crud.Models
 {
-    public class Obj : Base
+    public class ObjectX : Base
     {
         public enum ObjectType
         {

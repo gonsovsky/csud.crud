@@ -2,6 +2,6 @@
 {
     public class SegmentContext : BaseContext
     {
-
+        public string SegmentName { get; set; }
     }
 }
