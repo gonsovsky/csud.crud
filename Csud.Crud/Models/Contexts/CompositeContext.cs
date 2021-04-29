@@ -1,13 +1,12 @@
-﻿using MongoDB.Entities;
-
-namespace Csud.Crud.Models.Contexts
+﻿namespace Csud.Crud.Models.Contexts
 {
     public class CompositeContext : BaseContext
     {
-#if (Postgre)
-        public Context RelatedContext { get; set; }
-#else
-        public One<Context> RelatedContext { get; set; }
-#endif
+        public int? RelatedContextKey { get; set; }
+
+        public Context RelatedContext
+        {
+            set => RelatedContextKey = value.Key;
+        }
     }
 }

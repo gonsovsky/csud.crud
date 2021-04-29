@@ -3,9 +3,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Csud.Crud.Demo
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.json", true, true);
@@ -16,8 +16,8 @@ namespace Csud.Crud.Demo
             var mongoPort = config["Mongo:Port"];
             var mongoDb = config["Mongo:Db"];
 
-            ICsud csud = ICsud.GetDatabase(postgre, mongoHost, int.Parse(mongoPort), mongoDb);
-            var gen = new DatasetGenerator(csud);
+            ICsud csud = new Csud(postgre, mongoHost, int.Parse(mongoPort), mongoDb);
+            var gen = new DataGenerator(csud);
             gen.Generate();
             Console.WriteLine("Done");
             Console.ReadKey();

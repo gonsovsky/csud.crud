@@ -1,18 +1,26 @@
-﻿using System.Diagnostics;
-using MongoDB.Entities;
+﻿using MongoDB.Entities;
 
 namespace Csud.Crud.Models
 {
     public class Account: Base
     {
-#if (Postgre)
+        public int? AccountProviderKey { get; set; }
+        public int? PersonKey { get; set; }
+        public int? SubjectKey { get; set; }
 
-        public Subject Subject { get; set; }
-        public Person Person { get; set; }
-#else
-        public One<AccountProvider> AccountProvider { get; set; }
-        public One<Subject> Subject { get; set; }
-        public One<Person> Person { get; set; }
-#endif
+        public AccountProvider AccountProvider
+        {
+            set => AccountProviderKey = value.Key;
+        }
+
+        public Subject Subject
+        {
+            set => SubjectKey = value.Key;
+        }
+
+        public Person Person
+        {
+            set => PersonKey = value.Key;
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using MongoDB.Entities;
-
-namespace Csud.Crud.Models
+﻿namespace Csud.Crud.Models
 {
     public class Obj : Base
     {
@@ -14,10 +12,11 @@ namespace Csud.Crud.Models
 
         public ObjectType Type { get; set; }
 
-#if (Postgre)
-        public Context Context { get; set; }
-#else
-        public One<Context> Context { get; set; }
-#endif
+        public int? ContextKey { get; set; }
+
+        public Context Context
+        {
+            set => ContextKey = value.Key;
+        }
     }
 }

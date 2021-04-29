@@ -8,11 +8,8 @@
             Time,
             Segment
         }
-
         public ContextTypeEnum Type { get; set; }
-
         public bool Temporary { get; set; }
-
         public int HashCode { get; set; }
     }
 }

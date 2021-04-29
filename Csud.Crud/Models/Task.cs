@@ -1,15 +1,17 @@
-﻿using MongoDB.Entities;
-
-namespace Csud.Crud.Models
+﻿namespace Csud.Crud.Models
 {
     public class TaskX : Base
     {
-#if (Postgre)
-        public Obj Object { get; set; }
-        public Obj RelatedObject { get; set; }
-#else
-        public One<Obj> Object { get; set; }
-        public One<Obj> RelatedObject { get; set; }
-#endif
+        public int? RelatedObjectKey { get; set; }
+        public int? ObjectKey { get; set; }
+
+        public Obj RelatedObject
+        {
+            set => RelatedObjectKey = value.Key;
+        }
+        public Obj Object
+        {
+            set => ObjectKey = value.Key;
+        }
     }
 }

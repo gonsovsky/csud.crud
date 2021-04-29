@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Csud.Crud.Models;
+﻿using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Driver;
 
 namespace Csud.Crud.Postgre
 {
@@ -25,9 +21,9 @@ namespace Csud.Crud.Postgre
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Person>()
-                .Property(f => f.ID)
-                .ValueGeneratedOnAdd();
+            //modelBuilder.Entity<Person>()
+            //    .Property(f => f.ID)
+            //    .ValueGeneratedOnAdd();
         }
 
         public DbSet<Person> Person { get; set; }
@@ -47,11 +43,8 @@ namespace Csud.Crud.Postgre
 
         public void AddEntity<T>(T entity) where T : Base
         {
-            if (entity.HasId == false)
-            {
-                Set<T>().Add(entity);
-                SaveChanges();
-            }
+            Set<T>().Add(entity);
+            SaveChanges();
         }
 
         public void AddPerson(Person person) => AddEntity(person);

@@ -10,8 +10,7 @@ namespace Csud.Crud.Mongo
 {
     public class CsudMongo: ICsud
     {
-        public static IMongoDatabase Db;
-
+        private protected static IMongoDatabase Db;
         public CsudMongo(string mongoHost, int mongoPort, string mongoDb)
         {
             DB.InitAsync(mongoDb, mongoHost, mongoPort).Wait();
@@ -21,7 +20,6 @@ namespace Csud.Crud.Mongo
                 entity.StartUp();
             }
         }
-
         public IEnumerable<Base> Entities => AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(assembly => assembly.GetTypes())
             .Where(type => type.IsSubclassOf(typeof(Base)))
@@ -30,10 +28,7 @@ namespace Csud.Crud.Mongo
 
         public void AddEntity<T>(T entity) where T : Base
         {
-            if (entity.HasId == false)
-            {
-                entity.SaveAsync().Wait();
-            }
+            entity.SaveAsync().Wait();
         }
         public void AddPerson(Person person) => AddEntity(person);
         public void AddAccountProvider(AccountProvider provider) => AddEntity(provider);

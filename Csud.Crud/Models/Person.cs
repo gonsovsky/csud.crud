@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using MongoDB.Entities;
+﻿using MongoDB.Entities;
 
 namespace Csud.Crud.Models
 {
@@ -9,9 +8,6 @@ namespace Csud.Crud.Models
 
         public string LastName { get; set; }
 
-#if (Postgre)
-
-#else
         public override void StartUp()
         {
             DB.Index<Person>()
@@ -20,6 +16,5 @@ namespace Csud.Crud.Models
                 .Key(a => a.LastName, KeyType.Text)
                 .CreateAsync().Wait();
         }
-#endif
     }
 }
