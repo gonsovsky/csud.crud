@@ -1,4 +1,5 @@
-﻿using Csud.Crud.Models;
+﻿using System.Linq;
+using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,18 +42,23 @@ namespace Csud.Crud.Postgre
         public DbSet<StructContext> StructContext { get; set; }
         public DbSet<TimeContext> TimeContext { get; set; }
 
-        public void AddEntity<T>(T entity) where T : Base
+        public void Add<T>(T entity) where T : Base
         {
             Set<T>().Add(entity);
             SaveChanges();
         }
 
-        public void AddPerson(Person person) => AddEntity(person);
-        public void AddAccountProvider(AccountProvider provider) => AddEntity(provider);
-        public void AddAccount(Account account) => AddEntity(account);
-        public void AddSubject(Subject subject) => AddEntity(subject);
-        public void AddContext(Context context) => AddEntity(context);
-        public void AddTimeContext(TimeContext timeContext) => AddEntity(timeContext);
-        public void AddSegmentContext(TimeContext segmentContext) => AddEntity(segmentContext);
+        public IQueryable<T> Q<T>() where T : Base
+        {
+            return Set<T>().AsQueryable();
+        }
+
+        public void AddPerson(Person person) => Add(person);
+        public void AddAccountProvider(AccountProvider provider) => Add(provider);
+        public void AddAccount(Account account) => Add(account);
+        public void AddSubject(Subject subject) => Add(subject);
+        public void AddContext(Context context) => Add(context);
+        public void AddTimeContext(TimeContext timeContext) => Add(timeContext);
+        public void AddSegmentContext(TimeContext segmentContext) => Add(segmentContext);
     }
 }

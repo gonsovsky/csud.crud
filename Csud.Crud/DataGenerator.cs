@@ -42,10 +42,12 @@ namespace Csud.Crud
                 DisplayName = "Active Directory",
                 Name = "ActiveDirectory"
             };
-            Csud.AddEntity(ap);
+            Csud.Add(ap);
             while ((currentLine = sr.ReadLine()) != null)
             {
                 n++;
+                if (n == 200)
+                    break;
                 var values = Regex.Split(currentLine, ",(?=(?:[^']*'[^']*')*[^']*$)");
                 if (fields == null)
                 {
@@ -69,7 +71,7 @@ namespace Csud.Crud
                         Description = V(values, fields, "useraccountcontrol"),
                         Name = V(values, fields, "samaccountname"),
                     };
-                    Csud.AddEntity(p);
+                    Csud.Add(p);
 
                     var su = new Subject()
                     {
@@ -78,7 +80,7 @@ namespace Csud.Crud
                         Name = "subject:" + V(values, fields, "samaccountname"),
                         DisplayName = "subject:" + V(values, fields, "userprincipalname"),
                     };
-                    Csud.AddEntity(su);
+                    Csud.Add(su);
 
                     var ac = new Account()
                     {
@@ -89,7 +91,7 @@ namespace Csud.Crud
                         Person = p,
                         Subject = su
                     };
-                    Csud.AddEntity(ac);
+                    Csud.Add(ac);
 
                     Console.WriteLine(ac.ID);
                 }
@@ -101,7 +103,7 @@ namespace Csud.Crud
                         Name = "context:" + V(values, fields, "samaccountname"),
                         DisplayName = "context:" + V(values, fields, "userprincipalname"),
                     };
-                    Csud.AddEntity(co);
+                    Csud.Add(co);
 
                     var timeCo = new TimeContext()
                     {
@@ -112,7 +114,7 @@ namespace Csud.Crud
                         TimeStart = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)),
                         TimeEnd = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)),
                     };
-                    Csud.AddEntity(timeCo);
+                    Csud.Add(timeCo);
 
                     var segmentContext = new SegmentContext()
                     {
@@ -121,7 +123,7 @@ namespace Csud.Crud
                         DisplayName = "segmentContext:" + V(values, fields, "userprincipalname"),
                         Context = co,
                     };
-                    Csud.AddEntity(segmentContext);
+                    Csud.Add(segmentContext);
 
                     var structContext = new StructContext()
                     {
@@ -131,7 +133,7 @@ namespace Csud.Crud
                         Context = co,
                         StructCode = n.ToString()
                     };
-                    Csud.AddEntity(structContext);
+                    Csud.Add(structContext);
 
                     var su = new Subject()
                     {
@@ -141,7 +143,7 @@ namespace Csud.Crud
                         DisplayName = "subject:" + V(values, fields, "userprincipalname"),
                         Context = co
                     };
-                    Csud.AddEntity(su);
+                    Csud.Add(su);
                 }
             }
         }

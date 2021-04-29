@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Mongo;
@@ -8,7 +9,7 @@ namespace Csud.Crud
 {
     public class Csud: ICsud
     {
-        protected List<ICsud> Db = new();
+        public List<ICsud> Db = new();
 
         public Csud(string postgreConStr, string mongoHost, int mongoPort, string mongoDb)
         {
@@ -18,20 +19,26 @@ namespace Csud.Crud
             Db.Add(postgre);
         }
 
-        public void AddEntity<T>(T entity) where T : Base
+        public void Add<T>(T entity) where T : Base
         {
             Db.ForEach(x=>
             {
                 entity.Key = null;
-                x.AddEntity(entity);
+                x.Add(entity);
             });
         }
-        public void AddPerson(Person person) => AddEntity(person);
-        public void AddAccountProvider(AccountProvider provider) => AddEntity(provider);
-        public void AddAccount(Account account) => AddEntity(account);
-        public void AddSubject(Subject subject) => AddEntity(subject);
-        public void AddContext(Context context) => AddEntity(context);
-        public void AddTimeContext(TimeContext timeContext) => AddEntity(timeContext);
-        public void AddSegmentContext(TimeContext segmentContext) => AddEntity(segmentContext);
+
+        public IQueryable<T> Q<T>() where T : Base
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void AddPerson(Person person) => Add(person);
+        public void AddAccountProvider(AccountProvider provider) => Add(provider);
+        public void AddAccount(Account account) => Add(account);
+        public void AddSubject(Subject subject) => Add(subject);
+        public void AddContext(Context context) => Add(context);
+        public void AddTimeContext(TimeContext timeContext) => Add(timeContext);
+        public void AddSegmentContext(TimeContext segmentContext) => Add(segmentContext);
     }
 }

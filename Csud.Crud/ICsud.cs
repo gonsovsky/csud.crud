@@ -1,11 +1,14 @@
-﻿using Csud.Crud.Models;
+﻿using System.Linq;
+using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 
 namespace Csud.Crud
 {
     public interface ICsud
     {
-        void AddEntity<T>(T entity) where T : Base;
+        void Add<T>(T entity) where T : Base;
+
+        IQueryable<T> Q<T>() where T : Base;
 
         void AddPerson(Person person);
 

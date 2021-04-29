@@ -26,16 +26,22 @@ namespace Csud.Crud.Mongo
             .Where(type => type.IsAbstract==false)
             .Select(type => Activator.CreateInstance(type) as Base);
 
-        public void AddEntity<T>(T entity) where T : Base
+        public void Add<T>(T entity) where T : Base
         {
             entity.SaveAsync().Wait();
         }
-        public void AddPerson(Person person) => AddEntity(person);
-        public void AddAccountProvider(AccountProvider provider) => AddEntity(provider);
-        public void AddAccount(Account account) => AddEntity(account);
-        public void AddSubject(Subject subject) => AddEntity(subject);
-        public void AddContext(Context context) => AddEntity(context);
-        public void AddTimeContext(TimeContext timeContext) => AddEntity(timeContext);
-        public void AddSegmentContext(TimeContext segmentContext) => AddEntity(segmentContext);
+
+        public IQueryable<T> Q<T>() where T : Base
+        {
+            return DB.Queryable<T>();
+        }
+
+        public void AddPerson(Person person) => Add(person);
+        public void AddAccountProvider(AccountProvider provider) => Add(provider);
+        public void AddAccount(Account account) => Add(account);
+        public void AddSubject(Subject subject) => Add(subject);
+        public void AddContext(Context context) => Add(context);
+        public void AddTimeContext(TimeContext timeContext) => Add(timeContext);
+        public void AddSegmentContext(TimeContext segmentContext) => Add(segmentContext);
     }
 }
