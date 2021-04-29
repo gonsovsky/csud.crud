@@ -10,7 +10,6 @@ namespace Csud.Crud.Models
 #else
         public One<Obj> Object { get; set; }
         public One<Obj> RelatedObject { get; set; }
-        public override string GenerateNewID() => Next<Obj>();
 #endif
     }
 }

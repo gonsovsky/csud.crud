@@ -18,7 +18,6 @@ namespace Csud.Crud.Models
         public Context Context { get; set; }
 #else
         public One<Context> Context { get; set; }
-        public override string GenerateNewID() => Next<Obj>();
 #endif
     }
 }

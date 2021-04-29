@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud\\Csud.Crud.csproj": {}
+    "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {}
   },
   "projects": {
-    "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud\\Csud.Crud.csproj": {
+    "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud\\Csud.Crud.csproj",
+        "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj",
         "projectName": "Csud.Crud",
-        "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud\\Csud.Crud.csproj",
+        "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud\\obj\\",
+        "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -31,8 +31,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\MongoDB.Entities.csproj": {
-                "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\MongoDB.Entities.csproj"
+              "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj": {
+                "projectPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj"
               }
             }
           }
@@ -99,14 +99,14 @@
         }
       }
     },
-    "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\MongoDB.Entities.csproj": {
+    "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj": {
       "version": "20.10.0",
       "restore": {
-        "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\MongoDB.Entities.csproj",
+        "projectUniqueName": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj",
         "projectName": "MongoDB.Entities",
-        "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\MongoDB.Entities.csproj",
+        "projectPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\obj\\",
+        "outputPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

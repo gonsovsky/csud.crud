@@ -1,4 +1,6 @@
-﻿namespace Csud.Crud.Models.Contexts
+﻿using MongoDB.Entities;
+
+namespace Csud.Crud.Models.Contexts
 {
     public class CompositeContext : BaseContext
     {
@@ -6,7 +8,6 @@
         public Context RelatedContext { get; set; }
 #else
         public One<Context> RelatedContext { get; set; }
-        public override string GenerateNewID() => Next<CompositeContext>();
 #endif
     }
 }

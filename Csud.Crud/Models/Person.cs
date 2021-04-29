@@ -12,8 +12,6 @@ namespace Csud.Crud.Models
 #if (Postgre)
 
 #else
-        public override string GenerateNewID() => Next<Person>();
-
         public override void StartUp()
         {
             DB.Index<Person>()

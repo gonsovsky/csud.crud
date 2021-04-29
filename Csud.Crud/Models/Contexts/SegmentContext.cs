@@ -2,9 +2,6 @@
 {
     public class SegmentContext : BaseContext
     {
-#if (Postgre)
-#else
-        public override string GenerateNewID() => Next<SegmentContext>();
-#endif
+
     }
 }

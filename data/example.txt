@@ -1,0 +1,113 @@
+﻿		[0]	"createtimestamp  --Mon Mar 01 2021 03:26:09 GMT+0300"	string
+		[1]	"usnchanged  --12716"	string
+		[2]	"objectguid  --{1D311F75-BA09-407F-BBFC-C03687262C95}"	string
+		[3]	"modifytimestamp  --Mon Mar 01 2021 03:26:10 GMT+0300"	string
+		[4]	"ou  --SCSM_users"	string
+		[5]	"whencreated  --Mon Mar 01 2021 03:26:09 GMT+0300"	string
+		[6]	"structuralobjectclass  --top|organizationalUnit"	string
+		[7]	"street  --Microsoft.ActiveDirectory.Management.ADPropertyValueCollection"	string
+		[8]	"name  --SCSM_users"	string
+		[9]	"subschemasubentry  --\"CN=Aggregate"	string
+		[10]	"usncreated  --CN=Schema"	string
+		[11]	"objectcategory  --CN=Configuration"	string
+		[12]	"dscorepropagationdata  --DC=scsm"	string
+		[13]	"distinguishedname  --DC=msk\""	string
+		[14]	"instancetype  --12712"	string
+		[15]	"objectclass  --\"CN=Organizational-Unit"	string
+		[16]	"whenchanged  --CN=Schema"	string
+		[17]	"memberof  --CN=Configuration"	string
+		[18]	"objectsid  --DC=scsm"	string
+		[19]	"primarygroupid  --DC=msk\""	string
+		[20]	"codepage  --Mon Mar 01 2021 03:26:10 GMT+0300|Mon Jan 01 1601 03:00:00 GMT+0300"	string
+		[21]	"userprincipalname  --\"OU=SCSM_users"	string
+		[22]	"badpwdcount  --DC=scsm"	string
+		[23]	"logoncount  --DC=msk\""	string
+		[24]	"sn  --4"	string
+		[25]	"givenname  --top|organizationalUnit"	string
+		[26]	"displayname  --Mon Mar 01 2021 03:26:10 GMT+0300"	string
+		[27]	"lastlogon  --"	string
+		[28]	"samaccountname  --"	string
+		[29]	"badpasswordtime  --"	string
+		[30]	"lastlogoff  --"	string
+		[31]	"department  --"	string
+		[32]	"accountexpires  --"	string
+		[33]	"cn  --"	string
+		[34]	"pwdlastset  --"	string
+		[35]	"company  --"	string
+		[36]	"useraccountcontrol  --"	string
+		[37]	"countrycode  --"	string
+		[38]	"samaccounttype  --"	string
+		[39]	"title  --"	string
+		[40]	"admincount  --"	string
+		[41]	"lastlogontimestamp  --"	string
+		[42]	"lockouttime  --"	string
+		[43]	""	string
+		[44]	""	string
+		[45]	""	string
+		[46]	""	string
+		[47]	""	string
+		[48]	""	string
+		[49]	""	string
+		[50]	""	string
+		[51]	""	string
+		[52]	""	string
+
+
+		[0]	"createtimestamp  --Mon Mar 01 2021 03:42:48 GMT+0300"	string
+		[1]	"usnchanged  --39364"	string
+		[2]	"objectguid  --{11786FDE-EEBA-4259-95D9-3DB21971E8E5}"	string
+		[3]	"modifytimestamp  --Mon Mar 01 2021 03:42:48 GMT+0300"	string
+		[4]	"ou  --"	string
+		[5]	"whencreated  --Mon Mar 01 2021 03:42:48 GMT+0300"	string
+		[6]	"structuralobjectclass  --top|person|organizationalPerson|user"	string
+		[7]	"street  --"	string
+		[8]	"name  --Кирилл Клепиков"	string
+		[9]	"subschemasubentry  --\"CN=Aggregate"	string
+		[10]	"usncreated  --CN=Schema"	string
+		[11]	"objectcategory  --CN=Configuration"	string
+		[12]	"dscorepropagationdata  --DC=scsm"	string
+		[13]	"distinguishedname  --DC=msk\""	string
+		[14]	"instancetype  --39361"	string
+		[15]	"objectclass  --\"CN=Person"	string
+		[16]	"whenchanged  --CN=Schema"	string
+		[17]	"memberof  --CN=Configuration"	string
+		[18]	"objectsid  --DC=scsm"	string
+		[19]	"primarygroupid  --DC=msk\""	string
+		[20]	"codepage  --Mon Jan 01 1601 03:00:00 GMT+0300"	string
+		[21]	"userprincipalname  --\"CN=Кирилл Клепиков"	string
+		[22]	"badpwdcount  --OU=SCSM_users"	string
+		[23]	"logoncount  --DC=scsm"	string
+		[24]	"sn  --DC=msk\""	string
+		[25]	"givenname  --4"	string
+		[26]	"displayname  --top|person|organizationalPerson|user"	string
+		[27]	"lastlogon  --Mon Mar 01 2021 03:42:48 GMT+0300"	string
+		[28]	"samaccountname  --\"CN=Налоговое администрирование"	string
+		[29]	"badpasswordtime  --OU=User Roles"	string
+		[30]	"lastlogoff  --OU=System Users"	string
+		[31]	"department  --DC=scsm"	string
+		[32]	"accountexpires  --DC=msk\""	string
+		[33]	"cn  --S-1-5-21-1204852460-3897448092-256100406-5407"	string
+		[34]	"pwdlastset  --513"	string
+		[35]	"company  --0"	string
+		[36]	"useraccountcontrol  --KlepikovKA@scsm.msk"	string
+		[37]	"countrycode  --0"	string
+		[38]	"samaccounttype  --0"	string
+		[39]	"title  --Клепиков"	string
+		[40]	"admincount  --Кирилл"	string
+		[41]	"lastlogontimestamp  --Кирилл Клепиков"	string
+		[42]	"lockouttime  --0"	string
+		[43]	"KlepikovKA"	string
+		[44]	"0"	string
+		[45]	"0"	string
+		[46]	"32 отдел"	string
+		[47]	"Thu Sep 14 30828 05:48:05 GMT+0300"	string
+		[48]	"Кирилл Клепиков"	string
+		[49]	"Mon Mar 01 2021 03:42:48 GMT+0300"	string
+		[50]	"ФГУП ГНИВЦ ФНС России"	string
+		[51]	"66050"	string
+		[52]	"0"	string
+		[53]	"805306368"	string
+		[54]	"Ведущий специалист"	string
+		[55]	""	string
+		[56]	""	string
+		[57]	""	string

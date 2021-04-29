@@ -7,10 +7,5 @@ namespace Csud.Crud.Models.Contexts
         public TimeSpan TimeStart { get; set; }
 
         public TimeSpan TimeEnd { get; set; }
-
-#if (Postgre)
-#else
-        public override string GenerateNewID() => Next<TimeContext>();
-#endif
     }
 }

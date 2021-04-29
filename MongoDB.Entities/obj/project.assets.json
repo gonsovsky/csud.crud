@@ -678,11 +678,11 @@
   "project": {
     "version": "20.10.0",
     "restore": {
-      "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\MongoDB.Entities.csproj",
+      "projectUniqueName": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj",
       "projectName": "MongoDB.Entities",
-      "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\MongoDB.Entities.csproj",
+      "projectPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\obj\\",
+      "outputPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

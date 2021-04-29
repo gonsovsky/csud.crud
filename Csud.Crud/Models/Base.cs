@@ -1,6 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Csud.Crud.Mongo;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
@@ -8,8 +12,6 @@ namespace Csud.Crud.Models
 {
     public class Base: Entity
     {
-        //[Ignore] public int Key => int.Parse(ID);
-
 #if (Postgre)
         [Key]
         public new int ID { get; set; }
@@ -17,17 +19,27 @@ namespace Csud.Crud.Models
         [NotMapped]
         public bool HasId => ID != 0;
 #else
-        protected static string Next<T>() where T : Base
+        public override string ID { get; set; }
+        public override string GenerateNewID()
         {
-            var q = DB.Collection<T>().AsQueryable();
+            var col = GetType().Name;
+            var q = DB.Collection<Seq>().AsQueryable().Where(x => x.ID == col);
             if (q.Any() == false)
+            {
+                var sq = new Seq() { ID = col, Key = 1 };
+                sq.SaveAsync().Wait();
                 return 1.ToString();
-            var last = Queryable.OrderByDescending(q, x => x.ID).First();
-            return (last.ID + 1).ToString();
+            }
+            else
+            {
+                var sq = q.First();
+                sq.Key += 1;
+                sq.SaveAsync().Wait();
+                return sq.Key.ToString();
+            }
         }
 
-        [Ignore]
-        public bool HasId => string.IsNullOrEmpty(ID) == false;
+        [Ignore] public bool HasId => !string.IsNullOrEmpty(ID);
 #endif
 
         public virtual void StartUp()

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "dMsiGNGKIuVtZpfqqwLD/NqEBZVHrMtsRp+pAuDD51qE5faa6wY7HIs6mif8KD4AX5nMYXdGPrOEl77FVCNSuw==",
+  "dgSpecHash": "Z1MJPP/6ubEQCbgGRKjRztbtsCp5/ULskzAPUWoBKPvnmlf5XoHiFTJFDjZdCjHd6k1posmQaxWsD6pA8kdlKA==",
   "success": true,
-  "projectFilePath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\MongoDB.Entities\\MongoDB.Entities.csproj",
+  "projectFilePath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

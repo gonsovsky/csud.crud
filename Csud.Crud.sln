@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDB.Entities", "MongoDB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{0D9B9DC4-5B56-4FDF-B37B-13A1209A57B0}"
 	ProjectSection(SolutionItems) = preProject
-		data\scsm.scv = data\scsm.scv
+		data\scsm.csv = data\scsm.csv
 	EndProjectSection
 EndProject
 Global

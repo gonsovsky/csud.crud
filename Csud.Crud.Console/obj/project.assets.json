@@ -2031,11 +2031,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud.Console\\Csud.Crud.Console.csproj",
+      "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud.Console.csproj",
       "projectName": "Csud.Crud.Console",
-      "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud.Console\\Csud.Crud.Console.csproj",
+      "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud.Console.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud.Console\\obj\\",
+      "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -2055,8 +2055,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud\\Csud.Crud.csproj": {
-              "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.Console\\Csud.Crud\\Csud.Crud.csproj"
+            "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {
+              "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj"
             }
           }
         }
