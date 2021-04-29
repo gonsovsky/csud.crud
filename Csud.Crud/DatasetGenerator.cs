@@ -59,6 +59,7 @@ namespace Csud.Crud
                 Csud.AddEntity(ap);
                 while ((currentLine = sr.ReadLine()) != null)
                 {
+                    n++;
                     var values = Regex.Split(currentLine, ",(?=(?:[^']*'[^']*')*[^']*$)");
                     if (fields == null)
                     {
@@ -67,8 +68,8 @@ namespace Csud.Crud
                         continue;
                     }
 
-                    for (int i = 0; i <= fields.Count - 1; i++)
-                        values[i] = fields.Keys.ToList().ElementAt(i) + "  --" + values[i];
+                    //for (int i = 0; i <= fields.Count - 1; i++)
+                    //    values[i] = fields.Keys.ToList().ElementAt(i) + "  --" + values[i];
 
                     var recType = V(values, fields, "structuralobjectclass");
                     if (recType.Contains("user"))

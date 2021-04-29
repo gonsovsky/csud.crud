@@ -10,14 +10,17 @@ namespace Csud.Crud.Postgre
 {
     public sealed class CsudPostgre : DbContext, ICsud
     {
-        public CsudPostgre(DbContextOptions<CsudPostgre> options) : base(options)
+        private readonly string conStr;
+
+        public CsudPostgre(string conStr)
         {
+            this.conStr = conStr;
             Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(@"Server=localhost;database=postgres;user id=postgres;password=abc123");
+            optionsBuilder.UseNpgsql(conStr);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,69 +45,21 @@ namespace Csud.Crud.Postgre
         public DbSet<StructContext> StructContext { get; set; }
         public DbSet<TimeContext> TimeContext { get; set; }
 
-        public static DbSet<T> DbSet<T>(Base entity) where T : Base
-        {
-            return null;
-        }
-
         public void AddEntity<T>(T entity) where T : Base
         {
-            //if (entity.HasId == false)
-            //{
-            //    Subject.Add(entity);
-            //    SaveChanges();
-            //}
-        }
-
-        public void AddPerson(Person person)
-        {
-            if (!person.HasId)
+            if (entity.HasId == false)
             {
-                Person.Add(person);
+                Set<T>().Add(entity);
                 SaveChanges();
             }
         }
 
-        public void AddAccountProvider(AccountProvider provider)
-        {
-            if (provider.HasId == false)
-            {
-                AccountProvider.Add(provider);
-            }
-        }
-
-        public void AddAccount(Account account)
-        {
-            if (account.HasId == false)
-            {
-                Account.Add(account);
-                SaveChanges();
-            }
-        }
-
-        public void AddSubject(Subject subject)
-        {
-            if (subject.HasId == false)
-            {
-                Subject.Add(subject);
-                SaveChanges();
-            }
-        }
-
-        public void AddContext(Context context)
-        {
-
-        }
-
-        public void AddTimeContext(TimeContext timeContext)
-        {
-
-        }
-
-        public void AddSegmentContext(TimeContext segmentContext)
-        {
-
-        }
-
+        public void AddPerson(Person person) => AddEntity(person);
+        public void AddAccountProvider(AccountProvider provider) => AddEntity(provider);
+        public void AddAccount(Account account) => AddEntity(account);
+        public void AddSubject(Subject subject) => AddEntity(subject);
+        public void AddContext(Context context) => AddEntity(context);
+        public void AddTimeContext(TimeContext timeContext) => AddEntity(timeContext);
+        public void AddSegmentContext(TimeContext segmentContext) => AddEntity(segmentContext);
     }
 }

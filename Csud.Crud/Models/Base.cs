@@ -19,7 +19,6 @@ namespace Csud.Crud.Models
         [NotMapped]
         public bool HasId => ID != 0;
 #else
-        public override string ID { get; set; }
         public override string GenerateNewID()
         {
             var col = GetType().Name;

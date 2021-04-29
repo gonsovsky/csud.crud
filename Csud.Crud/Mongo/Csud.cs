@@ -12,10 +12,10 @@ namespace Csud.Crud.Mongo
     {
         public static IMongoDatabase Db;
 
-        public CsudMongo(string ip, string dbName)
+        public CsudMongo(string mongoHost, int mongoPort, string mongoDb)
         {
-            DB.InitAsync(dbName, ip).Wait();
-            Db = DB.Database(dbName);
+            DB.InitAsync(mongoDb, mongoHost, mongoPort).Wait();
+            Db = DB.Database(mongoDb);
             foreach (var entity in Entities)
             {
                 entity.StartUp();
@@ -35,40 +35,12 @@ namespace Csud.Crud.Mongo
                 entity.SaveAsync().Wait();
             }
         }
-
-        public void AddPerson(Person person)
-        {
-            AddEntity(person);
-        }
-
-        public void AddAccountProvider(AccountProvider provider)
-        {
-            AddEntity(provider);
-        }
-
-        public void AddAccount(Account account)
-        {
-            AddEntity(account);
-        }
-
-        public void AddSubject(Subject subject)
-        {
-            AddEntity(subject);
-        }
-
-        public void AddContext(Context context)
-        {
-            AddEntity(context);
-        }
-
-        public void AddTimeContext(TimeContext timeContext)
-        {
-            AddEntity(timeContext);
-        }
-
-        public void AddSegmentContext(TimeContext segmentContext)
-        {
-            AddEntity(segmentContext);
-        }
+        public void AddPerson(Person person) => AddEntity(person);
+        public void AddAccountProvider(AccountProvider provider) => AddEntity(provider);
+        public void AddAccount(Account account) => AddEntity(account);
+        public void AddSubject(Subject subject) => AddEntity(subject);
+        public void AddContext(Context context) => AddEntity(context);
+        public void AddTimeContext(TimeContext timeContext) => AddEntity(timeContext);
+        public void AddSegmentContext(TimeContext segmentContext) => AddEntity(segmentContext);
     }
 }

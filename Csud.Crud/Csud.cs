@@ -29,17 +29,17 @@ namespace Csud.Crud
 
         void AddSegmentContext(TimeContext segmentContext);
 
-        static ICsud GetDatabase()
+        static ICsud GetDatabase(string postgreConStr, string mongoHost, int mongoPort, string mongoDb)
         {
             ICsud csud = null;
             {
 #if (Postgre)
-            csud = new CsudPostgre(new DbContextOptions<CsudPostgre>() { });
+            csud = new CsudPostgre(postgreConStr);
 #else
-             var mongo = new CsudMongo("127.0.0.1", "csud");
-             csud = mongo;
+            var mongo = new CsudMongo(mongoHost, mongoPort, mongoDb);
+            csud = mongo;
 #endif
-             return csud;
+            return csud;
             }
         }
     }
