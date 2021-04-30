@@ -34,7 +34,7 @@ namespace Csud.Crud
         public void AddContext<T>(T entity, bool isTemporary = false) where T : BaseContext
         {
             var context = new Context();
-            entity.CopyTo(context);
+            entity.CopyTo(context,false);
             context.Temporary = isTemporary;
             AddEntity(context);
             entity.Key = context.Key;

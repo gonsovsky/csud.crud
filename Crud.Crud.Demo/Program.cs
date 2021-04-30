@@ -29,8 +29,13 @@ namespace Csud.Crud.Demo
 
         private static void Test()
         {
-            Console.WriteLine("updating");
+            Console.WriteLine("getting");
             var person = _csud.Person.First();
+            var q = _csud.Person.ToList();
+            person = q.First(x => x.Key == 1);
+
+            Console.WriteLine("updating");
+            person = _csud.Person.First();
             person.FirstName = "Updated";
             _csud.UpdateEntity(person);
 

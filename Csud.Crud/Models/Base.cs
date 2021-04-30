@@ -11,9 +11,9 @@ namespace Csud.Crud.Models
 {
     public class Base : IEntity, ICloneable
     {
-        [Key] [BsonIgnore] public int? Key { get; set; }
+        [Key] public int? Key { get; set; }
 
-        [NotMapped] [BsonElement("Key")] 
+        [NotMapped]
         public string ID
         {
             get => Key.ToString();
@@ -47,7 +47,7 @@ namespace Csud.Crud.Models
             }
         }
 
-        public virtual void CopyTo(Base destination)
+        public virtual void CopyTo(Base destination, bool withKey)
         {
             var source = this;
             // If any this null throw an exception
@@ -68,6 +68,11 @@ namespace Csud.Crud.Models
             //map the properties
             foreach (var props in results)
             {
+                if (props.sourceProperty.Name == "ID" || props.sourceProperty.Name == "Key")
+                {
+                    if (!withKey)
+                        continue;
+                }
                 props.targetProperty.SetValue(destination, props.sourceProperty.GetValue(source, null), null);
             }
         }
@@ -75,8 +80,7 @@ namespace Csud.Crud.Models
         public object Clone()
         {
             var x = (Base)Activator.CreateInstance(this.GetType());
-            this.CopyTo(x);
-            x.Key = null;
+            this.CopyTo(x, false);
             return x;
         }
 

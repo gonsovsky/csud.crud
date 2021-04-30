@@ -39,7 +39,7 @@ namespace Csud.Crud
                 if (x is CsudPostgre)
                 {
                     var y = x.Q<T>().First(a => a.Key == entity.Key);
-                    entity.CopyTo(y);
+                    entity.CopyTo(y, false);
                     x.UpdateEntity(y);
                     return;
                 }
