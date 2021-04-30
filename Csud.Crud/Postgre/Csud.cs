@@ -22,9 +22,11 @@ namespace Csud.Crud.Postgre
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Person>()
-            //    .Property(f => f.ID)
-            //    .ValueGeneratedOnAdd();
+            modelBuilder.Entity<CompositeContext>()
+                .HasKey(x => new { x.Key, x.RelatedKey });
+
+            modelBuilder.Entity<Person>()
+                .HasIndex(x => new { x.FirstName, x.LastName });
         }
 
         public DbSet<Person> Person { get; set; }
@@ -40,7 +42,7 @@ namespace Csud.Crud.Postgre
         public DbSet<StructContext> StructContext { get; set; }
         public DbSet<TimeContext> TimeContext { get; set; }
 
-        public void AddEntity<T>(T entity) where T : Base
+        public void AddEntity<T>(T entity, bool idPredefined = false) where T : Base
         {
             Set<T>().Add(entity);
             SaveChanges();

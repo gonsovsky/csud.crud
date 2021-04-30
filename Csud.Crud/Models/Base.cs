@@ -80,10 +80,6 @@ namespace Csud.Crud.Models
             return x;
         }
 
-        public virtual void StartUp()
-        {
-        }
-
         public virtual string Status { get; set; } = Const.StatusActual;
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }

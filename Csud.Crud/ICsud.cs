@@ -7,7 +7,7 @@ namespace Csud.Crud
 {
     public interface ICsud
     {
-        public void AddEntity<T>(T entity) where T : Base;
+        public void AddEntity<T>(T entity, bool idPredefined = false) where T : Base;
 
         public void UpdateEntity<T>(T entity) where T : Base;
 
@@ -31,14 +31,14 @@ namespace Csud.Crud
 
         public IQueryable<T> Q<T>() where T : Base;
 
-        public void AddContext<T>(T entity, bool temp = false) where T : BaseContext
+        public void AddContext<T>(T entity, bool isTemporary = false) where T : BaseContext
         {
             var context = new Context();
             entity.CopyTo(context);
-            context.Temporary = temp;
+            context.Temporary = isTemporary;
             AddEntity(context);
-            entity.ContextKey = context.Key;
-            AddEntity(entity);
+            entity.Key = context.Key;
+            AddEntity(entity,true);
         }
 
         public IQueryable<Person> Person => Q<Person>();

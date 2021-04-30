@@ -95,7 +95,7 @@ namespace Csud.Crud
                 }
                 else
                 {
-                    var timeCo = new TimeContext()
+                    var timeContext = new TimeContext()
                     {
                         Description = "timeContext:" + V(values, fields, "useraccountcontrol"),
                         Name = "timeContext:" + V(values, fields, "samaccountname"),
@@ -103,7 +103,7 @@ namespace Csud.Crud
                         TimeStart = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)),
                         TimeEnd = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)),
                     };
-                    Csud.AddContext(timeCo);
+                    Csud.AddContext(timeContext);
 
                     var segmentContext = new SegmentContext()
                     {
@@ -132,13 +132,36 @@ namespace Csud.Crud
                     };
                     Csud.AddContext(ruleContext);
 
+                    var compositeContext = new CompositeContext()
+                    {
+                        Description = "structContext:" + V(values, fields, "useraccountcontrol"),
+                        Name = "structContext:" + V(values, fields, "samaccountname"),
+                        DisplayName = "structContext:" + V(values, fields, "userprincipalname"),
+                    };
+
+                    compositeContext = (CompositeContext)compositeContext.Clone();
+                    compositeContext.RelatedKey = timeContext.Key;
+                    Csud.AddContext(compositeContext);
+
+                    compositeContext = (CompositeContext)compositeContext.Clone();
+                    compositeContext.RelatedKey = segmentContext.Key;
+                    Csud.AddContext(compositeContext);
+
+                    compositeContext = (CompositeContext)compositeContext.Clone();
+                    compositeContext.RelatedKey = structContext.Key;
+                    Csud.AddContext(compositeContext);
+
+                    compositeContext = (CompositeContext)compositeContext.Clone();
+                    compositeContext.RelatedKey = ruleContext.Key;
+                    Csud.AddContext(compositeContext);
+
                     var su = new Subject()
                     {
                         SubjectType = Const.SubjectGroup,
                         Description = "subject:" + V(values, fields, "useraccountcontrol"),
                         Name = "subject:" + V(values, fields, "samaccountname"),
                         DisplayName = "subject:" + V(values, fields, "userprincipalname"),
-                        ContextKey = ruleContext.ContextKey
+                        ContextKey = ruleContext.Key
                     };
                     Csud.AddEntity(su);
                 }

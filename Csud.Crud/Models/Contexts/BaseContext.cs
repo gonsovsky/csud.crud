@@ -6,12 +6,6 @@ namespace Csud.Crud.Models.Contexts
 {
     public abstract class BaseContext: Base
     {
-        public int? ContextKey { get; set; }
-        public Context Context
-        {
-            set => ContextKey = value.Key;
-        }
-
         [NotMapped] [Ignore] [BsonIgnore]
         public override string Name { get; set; }
 

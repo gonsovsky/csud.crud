@@ -2,11 +2,11 @@
 {
     public class CompositeContext : BaseContext
     {
-        public int? RelatedContextKey { get; set; }
+        public int? RelatedKey { get; set; }
 
         public Context RelatedContext
         {
-            set => RelatedContextKey = value.Key;
+            set => RelatedKey = value.Key;
         }
     }
 }

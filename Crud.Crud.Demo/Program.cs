@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Csud.Crud.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace Csud.Crud.Demo
 {
     internal class Program
     {
-        private static ICsud csud;
+        private static ICsud _csud;
         private static void Main()
         {
             var builder = new ConfigurationBuilder()
@@ -19,9 +18,10 @@ namespace Csud.Crud.Demo
             var mongoPort = config["Mongo:Port"];
             var mongoDb = config["Mongo:Db"];
 
-            csud = new Csud(postgre, mongoHost, int.Parse(mongoPort), mongoDb);
-            var gen = new DataGenerator(csud);
+            _csud = new Csud(postgre, mongoHost, int.Parse(mongoPort), mongoDb);
+            var gen = new DataGenerator(_csud);
             gen.Generate(100);
+
             Test();
             Console.WriteLine("Done");
             Console.ReadKey();
@@ -30,49 +30,17 @@ namespace Csud.Crud.Demo
         private static void Test()
         {
             Console.WriteLine("updating");
-            var person = csud.Person.First();
+            var person = _csud.Person.First();
             person.FirstName = "Updated";
-            csud.UpdateEntity(person);
+            _csud.UpdateEntity(person);
 
             Console.WriteLine("deleting");
-            person = csud.Person.First();
-            csud.DelEntity(person);
+            person = _csud.Person.First();
+            _csud.DelEntity(person);
 
             Console.WriteLine("cloning");
-            person = csud.Person.First();
-            csud.CopyEntity(person);
-
-            //Console.WriteLine("persons");
-            //csud.Db.ForEach((db) =>
-            //{
-            //    Console.WriteLine(db.Person.Count());
-            //});
-            //Console.WriteLine("accounts");
-            //csud.Db.ForEach((db) =>
-            //{
-            //    Console.WriteLine(db.Account.Count());
-            //});
-            //Console.WriteLine("contexts");
-            //csud.Db.ForEach((db) =>
-            //{
-            //    Console.WriteLine(db.Context.Count());
-            //});
-            //csud.Db.ForEach((db) =>
-            //{
-            //    var q = from s in db.Subject
-            //        join a in db.Account on s.Key equals a.SubjectKey
-            //        join ap in db.AccountProvider on a.AccountProviderKey equals ap.Key
-            //        join p in db.Person on a.PersonKey equals p.Key
-            //        join co in db.Context on s.ContextKey equals co.Key
-            //        join tc in db.TimeContext on co.Key equals tc.ContextKey
-            //        join o in db.Object on co.Key equals o.ContextKey
-            //        join t in db.Task on o.Key equals t.ObjectKey
-            //        select new {p.DisplayName};
-            //    foreach (var item in q)
-            //    {
-            //        Console.WriteLine(item.DisplayName);
-            //    }
-            //});
+            person = _csud.Person.First();
+            _csud.CopyEntity(person);
         }
     }
 }
