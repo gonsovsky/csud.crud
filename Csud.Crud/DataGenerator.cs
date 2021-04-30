@@ -29,7 +29,7 @@ namespace Csud.Crud
                 return s;
             }
         }
-        public void Generate()
+        public void Generate(int numbber)
         {
             var r = new Random();
             var n = 0;
@@ -46,7 +46,7 @@ namespace Csud.Crud
             while ((currentLine = sr.ReadLine()) != null)
             {
                 n++;
-                if (n == 200)
+                if (n == numbber)
                     break;
                 var values = Regex.Split(currentLine, ",(?=(?:[^']*'[^']*')*[^']*$)");
                 if (fields == null)
@@ -67,7 +67,6 @@ namespace Csud.Crud
                         DisplayName = V(values, fields, "userprincipalname"),
                         FirstName = V(values, fields, "name",1),
                         LastName = V(values, fields, "name", 0),
-                        Status = ItemStatus.Actual,
                         Description = V(values, fields, "useraccountcontrol"),
                         Name = V(values, fields, "samaccountname"),
                     };
@@ -75,7 +74,6 @@ namespace Csud.Crud
 
                     var su = new Subject()
                     {
-                        SubjectType = Subject.SubjectTypeEnum.Account,
                         Description = "subject:" + V(values, fields, "useraccountcontrol"),
                         Name = "subject:" + V(values, fields, "samaccountname"),
                         DisplayName = "subject:" + V(values, fields, "userprincipalname"),
@@ -134,15 +132,15 @@ namespace Csud.Crud
                     };
                     Csud.AddContext(ruleContext);
 
-                    //var su = new Subject()
-                    //{
-                    //    SubjectType = Subject.SubjectTypeEnum.Group,
-                    //    Description = "subject:" + V(values, fields, "useraccountcontrol"),
-                    //    Name = "subject:" + V(values, fields, "samaccountname"),
-                    //    DisplayName = "subject:" + V(values, fields, "userprincipalname"),
-                    //    Context = co
-                    //};
-                    //Csud.AddEntity(su);
+                    var su = new Subject()
+                    {
+                        SubjectType = Const.SubjectGroup,
+                        Description = "subject:" + V(values, fields, "useraccountcontrol"),
+                        Name = "subject:" + V(values, fields, "samaccountname"),
+                        DisplayName = "subject:" + V(values, fields, "userprincipalname"),
+                        ContextKey = ruleContext.ContextKey
+                    };
+                    Csud.AddEntity(su);
                 }
             }
         }

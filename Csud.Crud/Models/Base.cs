@@ -9,7 +9,7 @@ using MongoDB.Entities;
 
 namespace Csud.Crud.Models
 {
-    public class Base : IEntity
+    public class Base : IEntity, ICloneable
     {
         [Key] [BsonIgnore] public int? Key { get; set; }
 
@@ -72,19 +72,22 @@ namespace Csud.Crud.Models
             }
         }
 
+        public object Clone()
+        {
+            var x = (Base)Activator.CreateInstance(this.GetType());
+            this.CopyTo(x);
+            x.Key = null;
+            return x;
+        }
+
         public virtual void StartUp()
         {
         }
 
-        public virtual ItemStatus Status { get; set; }
+        public virtual string Status { get; set; } = Const.StatusActual;
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
         public virtual string DisplayName { get; set; }
-    }
-
-    public enum ItemStatus
-    {
-        Actual,
-        Removed
+     
     }
 }

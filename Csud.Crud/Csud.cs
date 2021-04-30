@@ -10,12 +10,16 @@ namespace Csud.Crud
     {
         public List<ICsud> Db = new();
 
+        public CsudMongo Mongo;
+
+        public CsudPostgre Postgre;
+
         public Csud(string postgreConStr, string mongoHost, int mongoPort, string mongoDb)
         {
-            var postgre = new CsudPostgre(postgreConStr);
-            var mongo = new CsudMongo(mongoHost, mongoPort, mongoDb);
-            Db.Add(mongo);
-            Db.Add(postgre);
+            Postgre = new CsudPostgre(postgreConStr);
+            Mongo = new CsudMongo(mongoHost, mongoPort, mongoDb);
+            Db.Add(Mongo);
+            Db.Add(Postgre);
         }
 
         public void AddEntity<T>(T entity) where T : Base
@@ -27,9 +31,24 @@ namespace Csud.Crud
             });
         }
 
+        public void UpdateEntity<T>(T entity) where T : Base
+        {
+            Db.ForEach(x =>
+            {
+                if (x is CsudPostgre)
+                {
+                    var y = x.Q<T>().First(a => a.Key == entity.Key);
+                    entity.CopyTo(y);
+                    x.UpdateEntity(y);
+                    return;
+                }
+                x.UpdateEntity(entity);
+            });
+        }
+
         public IQueryable<T> Q<T>() where T : Base
         {
-            throw new System.NotImplementedException();
+            return Db.First().Q<T>();
         }
     }
 }

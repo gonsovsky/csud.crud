@@ -7,7 +7,7 @@ namespace Csud.Crud.Demo
 {
     internal class Program
     {
-        private static Csud csud;
+        private static ICsud csud;
         private static void Main()
         {
             var builder = new ConfigurationBuilder()
@@ -21,7 +21,7 @@ namespace Csud.Crud.Demo
 
             csud = new Csud(postgre, mongoHost, int.Parse(mongoPort), mongoDb);
             var gen = new DataGenerator(csud);
-            gen.Generate();
+            gen.Generate(100);
             Test();
             Console.WriteLine("Done");
             Console.ReadKey();
@@ -29,21 +29,34 @@ namespace Csud.Crud.Demo
 
         private static void Test()
         {
-            Console.WriteLine("persons");
-            csud.Db.ForEach((db) =>
-            {
-                Console.WriteLine(db.Person.Count());
-            });
-            Console.WriteLine("accounts");
-            csud.Db.ForEach((db) =>
-            {
-                Console.WriteLine(db.Account.Count());
-            });
-            Console.WriteLine("contexts");
-            csud.Db.ForEach((db) =>
-            {
-                Console.WriteLine(db.Context.Count());
-            });
+            Console.WriteLine("updating");
+            var person = csud.Person.First();
+            person.FirstName = "Updated";
+            csud.UpdateEntity(person);
+
+            Console.WriteLine("deleting");
+            person = csud.Person.First();
+            csud.DelEntity(person);
+
+            Console.WriteLine("cloning");
+            person = csud.Person.First();
+            csud.CopyEntity(person);
+
+            //Console.WriteLine("persons");
+            //csud.Db.ForEach((db) =>
+            //{
+            //    Console.WriteLine(db.Person.Count());
+            //});
+            //Console.WriteLine("accounts");
+            //csud.Db.ForEach((db) =>
+            //{
+            //    Console.WriteLine(db.Account.Count());
+            //});
+            //Console.WriteLine("contexts");
+            //csud.Db.ForEach((db) =>
+            //{
+            //    Console.WriteLine(db.Context.Count());
+            //});
             //csud.Db.ForEach((db) =>
             //{
             //    var q = from s in db.Subject

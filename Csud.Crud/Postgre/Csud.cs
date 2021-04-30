@@ -46,6 +46,12 @@ namespace Csud.Crud.Postgre
             SaveChanges();
         }
 
+        public void UpdateEntity<T>(T entity) where T : Base
+        {
+            Set<T>().Update(entity);
+            SaveChanges();
+        }
+
         public IQueryable<T> Q<T>() where T : Base
         {
             return Set<T>().AsQueryable();

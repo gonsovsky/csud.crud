@@ -30,6 +30,11 @@ namespace Csud.Crud.Mongo
             entity.SaveAsync().Wait();
         }
 
+        public void UpdateEntity<T>(T entity) where T : Base
+        {
+            entity.SaveAsync().Wait();
+        }
+
         public IQueryable<T> Q<T>() where T : Base
         {
             return DB.Queryable<T>();
