@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Rules;
 using Microsoft.EntityFrameworkCore;
 
 namespace Csud.Crud.Postgre
@@ -25,8 +26,18 @@ namespace Csud.Crud.Postgre
             modelBuilder.Entity<CompositeContext>()
                 .HasKey(x => new { x.Key, x.RelatedKey });
 
+            modelBuilder.Entity<Account>()
+                .HasKey(x => new { x.Key, x.AccountProviderKey });
+
+            modelBuilder.Entity<Account>()
+                .Property(f => f.Key)
+                .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<Person>()
                 .HasIndex(x => new { x.FirstName, x.LastName });
+
+            modelBuilder.Entity<Group>()
+                .HasKey(x => new { x.Key, x.RelatedKey });
         }
 
         public DbSet<Person> Person { get; set; }
@@ -42,7 +53,7 @@ namespace Csud.Crud.Postgre
         public DbSet<StructContext> StructContext { get; set; }
         public DbSet<TimeContext> TimeContext { get; set; }
 
-        public void AddEntity<T>(T entity, bool idPredefined = false) where T : Base
+        public void AddEntity<T>(T entity, bool keyDefined = false) where T : Base
         {
             Set<T>().Add(entity);
             SaveChanges();

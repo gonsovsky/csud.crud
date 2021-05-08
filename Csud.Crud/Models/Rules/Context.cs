@@ -3,7 +3,7 @@ using Csud.Crud.Models.Contexts;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Entities;
 
-namespace Csud.Crud.Models
+namespace Csud.Crud.Models.Rules
 {
     public class Context: Base
     {

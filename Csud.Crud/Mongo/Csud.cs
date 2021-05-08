@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Rules;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
@@ -23,7 +24,31 @@ namespace Csud.Crud.Mongo
                 .CreateAsync().Wait();
 
             DB.Index<CompositeContext>()
-                .Option(o => o.Background = false)
+                .Option(o =>
+                {
+                    o.Background = false;
+                    o.Unique = true;
+                })
+                .Key(a => a.Key, KeyType.Text)
+                .Key(a => a.RelatedKey, KeyType.Text)
+                .CreateAsync().Wait();
+
+            DB.Index<Account>()
+                .Option(o =>
+                {
+                    o.Background = false;
+                    o.Unique = true;
+                })
+                .Key(a => a.Key, KeyType.Text)
+                .Key(a => a.AccountProviderKey, KeyType.Text)
+                .CreateAsync().Wait();
+
+            DB.Index<Group>()
+                .Option(o =>
+                {
+                    o.Background = false;
+                    o.Unique = true;
+                })
                 .Key(a => a.Key, KeyType.Text)
                 .Key(a => a.RelatedKey, KeyType.Text)
                 .CreateAsync().Wait();
@@ -34,7 +59,7 @@ namespace Csud.Crud.Mongo
             .Where(type => type.IsAbstract==false)
             .Select(type => Activator.CreateInstance(type) as Base);
 
-        public void AddEntity<T>(T entity, bool idPredefined = false) where T : Base
+        public void AddEntity<T>(T entity, bool keyDefined = false) where T : Base
         {
             entity.SaveAsync().Wait();
         }

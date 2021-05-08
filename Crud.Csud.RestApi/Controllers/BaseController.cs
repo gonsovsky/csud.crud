@@ -13,18 +13,13 @@ namespace Crud.Csud.RestApi.Controllers
     {
         protected static ICsud Csud => CsudService.Csud;
 
-        [HttpGet]
-        public virtual IActionResult Get(int skip, int take)
+        [HttpGet("list")]
+        public virtual IActionResult List(int skip=0, int take=0)
         {
             try
             {
-                var q = Csud.Q<T>();
-                if (skip != 0)
-                    q = q.Skip(skip);
-                if (take != 0)
-                    q = q.Take(take);
-                
-                return Ok(q.ToList());
+                var q = Csud.List<T>(skip, take);
+                return Ok(q);
 
             }
             catch (Exception ex)
@@ -33,12 +28,12 @@ namespace Crud.Csud.RestApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public virtual IActionResult Get(int id)
+        [HttpGet("{key}")]
+        public virtual IActionResult Get(int key)
         {
             try
             {
-                var entity = Csud.Q<T>().First(a=> a.Key == id);
+                var entity = Csud.Q<T>().First(a=> a.Key == key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -55,7 +50,7 @@ namespace Crud.Csud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Post(int id, T entity)
+        public virtual IActionResult Post(int key, T entity)
         {
             try
             {
@@ -64,7 +59,7 @@ namespace Crud.Csud.RestApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var existing = Csud.Q<T>().First(a => a.Key == id);
+                var existing = Csud.Q<T>().First(a => a.Key == key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -83,7 +78,7 @@ namespace Crud.Csud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(int id, T entity)
+        public virtual IActionResult Put(T entity)
         {
             try
             {
@@ -100,12 +95,12 @@ namespace Crud.Csud.RestApi.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public virtual IActionResult Delete(int id)
+        [HttpDelete("{key}")]
+        public virtual IActionResult Delete(int key)
         {
             try
             {
-                Csud.DelEntity(Csud.Q<T>().First(a => a.Key == id));
+                Csud.DelEntity(Csud.Q<T>().First(a => a.Key == key));
                 return Ok();
             }
             catch (Exception ex)
@@ -114,11 +109,11 @@ namespace Crud.Csud.RestApi.Controllers
             }
         }
 
-        [HttpPut("{id}/copy")]
+        [HttpPut("{key}/copy")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Copy(int id)
+        public virtual IActionResult Copy(int key)
         {
             try
             {
@@ -126,7 +121,7 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.CopyEntity(Csud.Q<T>().First(a => a.Key == id));
+                Csud.CopyEntity(Csud.Q<T>().First(a => a.Key == key));
                 return Ok();
             }
             catch (Exception ex)

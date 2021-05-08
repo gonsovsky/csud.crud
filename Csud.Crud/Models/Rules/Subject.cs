@@ -1,7 +1,8 @@
-﻿namespace Csud.Crud.Models
+﻿namespace Csud.Crud.Models.Rules
 {
-    public class Relation: Base
+    public class Subject: Base
     {
+        public string SubjectType { get; set; } = Const.SubjectAccount;
         public int? ContextKey { get; set; }
         public Context Context
         {

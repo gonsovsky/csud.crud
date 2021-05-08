@@ -50,13 +50,10 @@ namespace Csud.Crud.Models
         public virtual void CopyTo(Base destination, bool withKey)
         {
             var source = this;
-            // If any this null throw an exception
             if (source == null || destination == null)
                 throw new Exception("Source or/and Destination Objects are null");
-            // Getting the Types of the objects
-            Type typeDest = destination.GetType();
-            Type typeSrc = source.GetType();
-            // Collect all the valid properties to map
+            var typeDest = destination.GetType();
+            var typeSrc = source.GetType();
             var results = from srcProp in typeSrc.GetProperties()
                 let targetProperty = typeDest.GetProperty(srcProp.Name)
                 where srcProp.CanRead
@@ -65,10 +62,9 @@ namespace Csud.Crud.Models
                       && (targetProperty.GetSetMethod().Attributes & MethodAttributes.Static) == 0
                       && targetProperty.PropertyType.IsAssignableFrom(srcProp.PropertyType)
                 select new { sourceProperty = srcProp, targetProperty = targetProperty };
-            //map the properties
             foreach (var props in results)
             {
-                if (props.sourceProperty.Name == "ID" || props.sourceProperty.Name == "Key")
+                if (props.sourceProperty.Name == "Key")
                 {
                     if (!withKey)
                         continue;
@@ -81,6 +77,13 @@ namespace Csud.Crud.Models
         {
             var x = (Base)Activator.CreateInstance(this.GetType());
             this.CopyTo(x, false);
+            return x;
+        }
+
+        public object Clone(bool keepKey)
+        {
+            var x = (Base)Activator.CreateInstance(this.GetType());
+            this.CopyTo(x, keepKey);
             return x;
         }
 

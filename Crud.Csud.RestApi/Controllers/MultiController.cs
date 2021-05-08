@@ -1,4 +1,5 @@
 ﻿using Csud.Crud.Models;
+using Csud.Crud.Models.Rules;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crud.Csud.RestApi.Controllers

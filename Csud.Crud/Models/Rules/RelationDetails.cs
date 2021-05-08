@@ -1,4 +1,4 @@
-﻿namespace Csud.Crud.Models
+﻿namespace Csud.Crud.Models.Rules
 {
     public class RelationDetails: Base
     {

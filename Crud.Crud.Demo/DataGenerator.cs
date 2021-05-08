@@ -6,8 +6,9 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Rules;
 
-namespace Csud.Crud
+namespace Csud.Crud.Demo
 {
     public class DataGenerator
     {
@@ -91,7 +92,7 @@ namespace Csud.Crud
                     };
                     Csud.AddEntity(ac);
 
-                    Console.WriteLine(ac.ID);
+                    Console.WriteLine(ac.Key);
                 }
                 else
                 {
@@ -134,25 +135,16 @@ namespace Csud.Crud
 
                     var compositeContext = new CompositeContext()
                     {
-                        Description = "structContext:" + V(values, fields, "useraccountcontrol"),
-                        Name = "structContext:" + V(values, fields, "samaccountname"),
-                        DisplayName = "structContext:" + V(values, fields, "userprincipalname"),
+                        Description = "compositeContext:" + V(values, fields, "useraccountcontrol"),
+                        Name = "compositeContext:" + V(values, fields, "samaccountname"),
+                        DisplayName = "compositeContext:" + V(values, fields, "userprincipalname"),
                     };
 
-                    compositeContext = (CompositeContext)compositeContext.Clone();
-                    compositeContext.RelatedKey = timeContext.Key;
-                    Csud.AddContext(compositeContext);
+                    compositeContext.Compose(timeContext);
+                    compositeContext.Compose(segmentContext);
+                    compositeContext.Compose(structContext);
+                    compositeContext.Compose(ruleContext);
 
-                    compositeContext = (CompositeContext)compositeContext.Clone();
-                    compositeContext.RelatedKey = segmentContext.Key;
-                    Csud.AddContext(compositeContext);
-
-                    compositeContext = (CompositeContext)compositeContext.Clone();
-                    compositeContext.RelatedKey = structContext.Key;
-                    Csud.AddContext(compositeContext);
-
-                    compositeContext = (CompositeContext)compositeContext.Clone();
-                    compositeContext.RelatedKey = ruleContext.Key;
                     Csud.AddContext(compositeContext);
 
                     var su = new Subject()

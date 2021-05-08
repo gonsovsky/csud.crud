@@ -22,14 +22,14 @@ namespace Csud.Crud
             Db.Add(Postgre);
         }
 
-        public void AddEntity<T>(T entity, bool idPredefined = false) where T : Base
+        public void AddEntity<T>(T entity, bool keyDefined = false) where T : Base
         {
-            Db.ForEach(x=>
+            foreach (var x in Db)
             {
-                if (idPredefined==false)
+                if (keyDefined == false)
                     entity.Key = null;
                 x.AddEntity(entity);
-            });
+            }
         }
 
         public void UpdateEntity<T>(T entity) where T : Base
