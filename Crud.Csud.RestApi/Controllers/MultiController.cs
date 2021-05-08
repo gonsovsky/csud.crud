@@ -1,36 +1,59 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Crud.Csud.RestApi.Models;
-using Csud.Crud.Models;
+﻿using Csud.Crud.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crud.Csud.RestApi.Controllers
 {
+    [Route("api/person")]
+    [ApiController]
     public class PersonController : BaseController<Person>
     {
     }
 
-    //public class AccountController : BaseController<Account>
-    //{
-    //}
+    [Route("api/account")]
+    [ApiController]
+    public class AccountController : BaseController<Account>
+    {
+    }
 
-    //public class AccountProviderController : BaseController<AccountProvider>
-    //{
-    //}
+    [Route("api/accountProvider")]
+    [ApiController]
+    public class AccountProviderController : BaseController<AccountProvider>
+    {
+    }
 
-    //public class ContextController : BaseController<Context>
-    //{
-    //}
+    [Route("api/object")]
+    [ApiController]
+    public class ObjectController : BaseController<ObjectX>
+    {
+    }
 
-    //public class ObjectController : BaseController<ObjectX>
-    //{
-    //}
+    [Route("api/group")]
+    [ApiController]
+    public class GroupController : BaseController<Group>
+    {
+    }
 
-    //public class SubjectController : BaseController<Subject>
-    //{
-    //}
+    [Route("api/subject")]
+    [ApiController]
+    public class SubjectController : BaseController<Subject>
+    {
+    }
 
-    //public class TaskController : BaseController<TaskX>
-    //{
-    //}
+    [Route("api/task")]
+    [ApiController]
+    public class TaskController : BaseController<TaskX>
+    {
+    }
+
+    [Route("api/relation")]
+    [ApiController]
+    public class RelationController : BaseController<Relation>
+    {
+    }
+
+    [Route("api/relationDetail")]
+    [ApiController]
+    public class RelationDetailController : BaseController<RelationDetails>
+    {
+    }
 }

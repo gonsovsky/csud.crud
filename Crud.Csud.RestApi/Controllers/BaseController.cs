@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Crud.Csud.RestApi.Services;
 using Csud.Crud;
 using Csud.Crud.Models;
@@ -9,18 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Crud.Csud.RestApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public abstract class BaseController<T>: ControllerBase where T : Base
     {
         protected static ICsud Csud => CsudService.Csud;
 
         [HttpGet]
-        public virtual IActionResult Get()
+        public virtual IActionResult Get(int skip=0, int take=0)
         {
             try
             {
-                return Ok(Csud.Q<T>().ToList());
+                var q = Csud.Q<T>();
+                if (skip != 0)
+                    q = q.Skip(skip);
+                if (take != 0)
+                    q = q.Take(take);
+                
+                return Ok(q.ToList());
 
             }
             catch (Exception ex)
@@ -29,7 +33,7 @@ namespace Crud.Csud.RestApi.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public virtual IActionResult Get(int id)
         {
             try
@@ -130,9 +134,5 @@ namespace Crud.Csud.RestApi.Controllers
                 return this.Problem(ex.Message);
             }
         }
-
-        //Добавить Find
-        //Добавить Range в Get
-        //сделать группы
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
@@ -39,6 +41,43 @@ namespace Csud.Crud
             AddEntity(context);
             entity.Key = context.Key;
             AddEntity(entity,true);
+        }
+
+        public Context GetContext(int? key)
+        {
+            var co = this.Context.First(x => x.Key == key);
+            switch (co.ContextType)
+            {
+                case "time":
+                    co.Details = this.TimeContext.First(x => x.Key == key);
+                    break;
+                case "attrib":
+                    co.Details = this.AttribContext.First(x => x.Key == key);
+                    break;
+                case "rule":
+                    co.Details = this.RuleContext.First(x => x.Key == key);
+                    break;
+                case "struct":
+                    co.Details = this.StructContext.First(x => x.Key == key);
+                    break;
+                case "segment":
+                    co.Details = this.SegmentContext.First(x => x.Key == key);
+                    break;
+                case "composite":
+                    co.Details = this.CompositeContext.First(x => x.Key == key);
+                    break;
+                default:
+                    throw new ArgumentException("Недопустимый код операции");
+            }
+            return co;
+        }
+
+        public IEnumerable<Context> GetContext()
+        {
+            var q = from co in Context
+                join t in TimeContext on co.Key equals t.Key
+                select new Context() {Details = t};
+            return q.ToArray();
         }
 
         public IQueryable<Person> Person => Q<Person>();
