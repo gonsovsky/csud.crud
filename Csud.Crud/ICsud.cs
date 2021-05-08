@@ -72,12 +72,17 @@ namespace Csud.Crud
             return co;
         }
 
-        public IEnumerable<Context> GetContext()
+        public IEnumerable GetContext(int skip = 0, int take=0)
         {
-            var q = from co in Context
-                join t in TimeContext on co.Key equals t.Key
-                select new Context() {Details = t};
-            return q.ToArray();
+            var q = Context;
+            if (skip != 0)
+                q = q.Skip(skip);
+            if (take != 0)
+                q = q.Take(take);
+            foreach (var context in q)
+            {
+                yield return GetContext(context.Key);
+            }
         }
 
         public IQueryable<Person> Person => Q<Person>();

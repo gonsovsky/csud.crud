@@ -11,16 +11,12 @@ namespace Crud.Csud.RestApi.Controllers
     public class ContextController: BaseController<Context>
     {
         [HttpGet()]
-        public override IActionResult Get(int skip = 0, int take = 0)
+        public override IActionResult Get(int skip, int take)
         {
             try
             {
-                var q = Csud.GetContext();
-                if (skip != 0)
-                    q = q.Skip(skip);
-                if (take != 0)
-                    q = q.Take(take);
-                return Ok(q.ToList());
+                var q = Csud.GetContext(skip, take);
+                return Ok(q);
             }
             catch (Exception ex)
             {

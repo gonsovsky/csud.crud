@@ -14,7 +14,7 @@ namespace Crud.Csud.RestApi.Controllers
         protected static ICsud Csud => CsudService.Csud;
 
         [HttpGet]
-        public virtual IActionResult Get(int skip=0, int take=0)
+        public virtual IActionResult Get(int skip, int take)
         {
             try
             {
