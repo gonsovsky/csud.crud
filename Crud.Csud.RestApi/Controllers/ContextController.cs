@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Crud.Csud.RestApi.Services;
 using Csud.Crud;
 using Csud.Crud.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +14,11 @@ namespace Crud.Csud.RestApi.Controllers
         protected static ICsud Csud => CsudService.Csud;
 
         [HttpGet("list")]
-        public virtual IActionResult List(int skip=0, int take=0)
+        public virtual IActionResult List(string status = Const.Status.Actual, int skip =0, int take=0)
         {
             try
             {
-                var q = Csud.ListContext(skip, take);
+                var q = Csud.ListContext(status, skip, take);
                 return Ok(q);
             }
             catch (Exception ex)
@@ -39,6 +38,41 @@ namespace Crud.Csud.RestApi.Controllers
                     return NotFound();
                 }
                 return Ok(entity);
+            }
+            catch (Exception ex)
+            {
+                return this.Problem(ex.Message);
+            }
+        }
+
+        [HttpDelete("{key}")]
+        public virtual IActionResult Delete(int key)
+        {
+            try
+            {
+                Csud.DelContext(key);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.Problem(ex.Message);
+            }
+        }
+
+        [HttpPost("{key}/copy")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Copy(int key)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                Csud.CopyContext(key);
+                return Ok();
             }
             catch (Exception ex)
             {

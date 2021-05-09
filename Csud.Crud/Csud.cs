@@ -22,34 +22,32 @@ namespace Csud.Crud
             Db.Add(Postgre);
         }
 
-        public void AddEntity<T>(T entity, bool keyDefined = false) where T : Base
+        public void Insert<T>(T entity, bool generateKey = true) where T : Base
         {
             foreach (var x in Db)
             {
-                if (keyDefined == false)
-                    entity.Key = null;
-                x.AddEntity(entity);
+                x.Insert(entity, generateKey);
             }
         }
 
-        public void UpdateEntity<T>(T entity) where T : Base
+        public void Upd<T>(T entity) where T : Base
         {
             Db.ForEach(x =>
             {
                 if (x is CsudPostgre)
                 {
-                    var y = x.Q<T>().First(a => a.Key == entity.Key);
+                    var y = x.Select<T>().First(a => a.Key == entity.Key);
                     entity.CopyTo(y, false);
-                    x.UpdateEntity(y);
+                    x.Upd(y);
                     return;
                 }
-                x.UpdateEntity(entity);
+                x.Upd(entity);
             });
         }
 
-        public IQueryable<T> Q<T>() where T : Base
+        public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
         {
-            return Db.First().Q<T>();
+            return Db.First().Select<T>(status);
         }
     }
 }

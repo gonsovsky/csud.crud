@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Crud.Csud.RestApi.Services;
+using Csud.Crud;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,28 +24,25 @@ namespace Crud.Csud.RestApi
         {
             CsudService.StartUp(Configuration);
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "ЦСУД API",
-                    Version = "v1",
-                    Description = "API для администрирования ЦСУД",
-                    TermsOfService = new Uri("https://gnivc.ru"),
-                    Contact = new OpenApiContact
+                    c.SwaggerDoc("v1", new OpenApiInfo
                     {
-                        Name = "info@gnivc.ru",
-                        Email = "info@gnivc.ru",
-                        Url = new Uri("https://gnivc.ru"),
-                    }
-                });
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+                        Title = "ЦСУД API",
+                        Version = "v1",
+                        Description = "API для администрирования ЦСУД",
+                        TermsOfService = new Uri("https://gnivc.ru"),
+                        Contact = new OpenApiContact
+                        {
+                            Name = "info@gnivc.ru",
+                            Email = "info@gnivc.ru",
+                            Url = new Uri("https://gnivc.ru"),
+                        }
+                    });
+                  
+                }
+            );
 
             services.AddControllers();
-
 
         }
 
@@ -75,6 +72,7 @@ namespace Crud.Csud.RestApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ЦСУД API V1");
             });
+
         }
     }
 }

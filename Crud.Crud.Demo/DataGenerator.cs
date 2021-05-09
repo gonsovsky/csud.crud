@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Rules;
+using Group = Csud.Crud.Models.Rules.Group;
 
 namespace Csud.Crud.Demo
 {
@@ -32,6 +34,8 @@ namespace Csud.Crud.Demo
         }
         public void Generate(int numbber)
         {
+            CompositeContext LastContext=null;
+            Group LastGroup = null;
             var r = new Random();
             var n = 0;
             using var sr = new StreamReader(DataFile);
@@ -41,9 +45,10 @@ namespace Csud.Crud.Demo
             {
                 Description = "Active Directory",
                 DisplayName = "Active Directory",
-                Name = "ActiveDirectory"
+                Name = "ActiveDirectory",
+                Type = "Active Directory"
             };
-            Csud.AddEntity(ap);
+            Csud.Insert(ap);
             while ((currentLine = sr.ReadLine()) != null)
             {
                 n++;
@@ -71,15 +76,16 @@ namespace Csud.Crud.Demo
                         Description = V(values, fields, "useraccountcontrol"),
                         Name = V(values, fields, "samaccountname"),
                     };
-                    Csud.AddEntity(p);
+                    Csud.Insert(p);
 
                     var su = new Subject()
                     {
                         Description = "subject:" + V(values, fields, "useraccountcontrol"),
                         Name = "subject:" + V(values, fields, "samaccountname"),
                         DisplayName = "subject:" + V(values, fields, "userprincipalname"),
+                        ContextKey = LastContext.Key
                     };
-                    Csud.AddEntity(su);
+                    Csud.Insert(su);
 
                     var ac = new Account()
                     {
@@ -90,7 +96,13 @@ namespace Csud.Crud.Demo
                         Person = p,
                         Subject = su
                     };
-                    Csud.AddEntity(ac);
+                    Csud.Insert(ac);
+
+                    var gr = (Group)LastGroup.Clone(false);
+                    gr.Key = LastGroup.Key;
+                    gr.RelatedKey = su.Key;
+                    gr.ContextKey = LastGroup.ContextKey;
+                    Csud.Insert(gr, false);
 
                     Console.WriteLine(ac.Key);
                 }
@@ -101,8 +113,8 @@ namespace Csud.Crud.Demo
                         Description = "timeContext:" + V(values, fields, "useraccountcontrol"),
                         Name = "timeContext:" + V(values, fields, "samaccountname"),
                         DisplayName = "timeContext:" + V(values, fields, "userprincipalname"),
-                        TimeStart = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)),
-                        TimeEnd = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)),
+                        TimeStart = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)).Ticks,
+                        TimeEnd = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)).Ticks
                     };
                     Csud.AddContext(timeContext);
 
@@ -146,16 +158,28 @@ namespace Csud.Crud.Demo
                     compositeContext.Compose(ruleContext);
 
                     Csud.AddContext(compositeContext);
+                    LastContext = compositeContext;
 
                     var su = new Subject()
                     {
-                        SubjectType = Const.SubjectGroup,
+                        SubjectType = Const.Subject.Group,
                         Description = "subject:" + V(values, fields, "useraccountcontrol"),
                         Name = "subject:" + V(values, fields, "samaccountname"),
                         DisplayName = "subject:" + V(values, fields, "userprincipalname"),
-                        ContextKey = ruleContext.Key
+                        ContextKey = LastContext.Key
                     };
-                    Csud.AddEntity(su);
+                    Csud.Insert(su);
+
+                    var gr = new Group()
+                    {
+                        Key = su.Key,
+                        Description = "group:" + V(values, fields, "useraccountcontrol"),
+                        Name = "group:" + V(values, fields, "samaccountname"),
+                        DisplayName = "group:" + V(values, fields, "userprincipalname"),
+                        ContextKey = LastContext.Key
+                    };
+                    LastGroup = gr;
+                    Console.WriteLine("group:" + gr.Key);
                 }
             }
         }

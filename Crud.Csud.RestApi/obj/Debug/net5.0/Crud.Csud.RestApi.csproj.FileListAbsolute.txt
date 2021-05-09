@@ -98,7 +98,6 @@ C:\@job\Csud.Crud\Crud.Csud.RestApi\obj\Debug\net5.0\Crud.Csud.RestApi.Generated
 C:\@job\Csud.Crud\Crud.Csud.RestApi\obj\Debug\net5.0\Crud.Csud.RestApi.AssemblyInfoInputs.cache
 C:\@job\Csud.Crud\Crud.Csud.RestApi\obj\Debug\net5.0\Crud.Csud.RestApi.AssemblyInfo.cs
 C:\@job\Csud.Crud\Crud.Csud.RestApi\obj\Debug\net5.0\Crud.Csud.RestApi.csproj.CoreCompileInputs.cache
-C:\@job\Csud.Crud\Crud.Csud.RestApi\obj\Debug\net5.0\Crud.Csud.RestApi.MvcApplicationPartsAssemblyInfo.cs
 C:\@job\Csud.Crud\Crud.Csud.RestApi\obj\Debug\net5.0\Crud.Csud.RestApi.MvcApplicationPartsAssemblyInfo.cache
 C:\@job\Csud.Crud\Crud.Csud.RestApi\obj\Debug\net5.0\staticwebassets\Crud.Csud.RestApi.StaticWebAssets.Manifest.cache
 C:\@job\Csud.Crud\Crud.Csud.RestApi\obj\Debug\net5.0\staticwebassets\Crud.Csud.RestApi.StaticWebAssets.xml
@@ -162,3 +161,4 @@ C:\@job\Csud.Crud\Crud.Csud.RestApi\bin\Debug\net5.0\MongoDB.Entities.dll
 C:\@job\Csud.Crud\Crud.Csud.RestApi\bin\Debug\net5.0\Csud.Crud.pdb
 C:\@job\Csud.Crud\Crud.Csud.RestApi\bin\Debug\net5.0\MongoDB.Entities.pdb
 C:\@job\Csud.Crud\Crud.Csud.RestApi\bin\Debug\net5.0\MongoDB.Entities.xml
+C:\@job\Csud.Crud\Crud.Csud.RestApi\obj\Debug\net5.0\Crud.Csud.RestApi.MvcApplicationPartsAssemblyInfo.cs

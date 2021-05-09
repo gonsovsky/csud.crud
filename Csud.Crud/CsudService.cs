@@ -1,7 +1,6 @@
-﻿using Csud.Crud;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
-namespace Crud.Csud.RestApi.Services
+namespace Csud.Crud
 {
     public static class CsudService
     {

@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Entities;
 
 namespace Csud.Crud.Models.Contexts
 {
@@ -9,26 +10,33 @@ namespace Csud.Crud.Models.Contexts
     {
         public int? RelatedKey { get; set; }
 
+        [NotMapped]
+        [BsonIgnore]
+        [JsonIgnore]
         public BaseContext RelatedContext
         {
             set => RelatedKey = value.Key;
         }
 
-        [NotMapped] [BsonIgnore] private List<BaseContext> RelatedContexts = new List<BaseContext>();
+        [NotMapped] [BsonIgnore] [JsonIgnore] 
+        protected List<BaseContext> _RelatedContexts = new List<BaseContext>();
 
         public void Compose(BaseContext co)
         {
-            RelatedContexts.Add(co);
+            _RelatedContexts.Add(co);
         }
 
         public IEnumerable<CompositeContext> Decompose()
         {
-            foreach (var c in RelatedContexts)
+            foreach (var c in _RelatedContexts)
             {
-                var x = (CompositeContext)this.Clone(true);
+                var x = (CompositeContext) this.Clone(true);
                 x.RelatedContext = c;
                 yield return x;
             }
         }
+
+        [NotMapped] [BsonIgnore] [JsonIgnore] public IEnumerable RelatedContexts { get; set; }
+
     }
 }

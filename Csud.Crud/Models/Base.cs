@@ -1,34 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using MongoDB.Bson.Serialization.Attributes;
+using System.Text.Json.Serialization;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
 namespace Csud.Crud.Models
 {
-    public class Base : IEntity, ICloneable
+    public class Base : Entity, ICloneable
     {
-        [Key] public int? Key { get; set; }
-
-        [NotMapped]
-        public string ID
-        {
-            get => Key.ToString();
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                    Key = int.Parse(value);
-                else
-                    Key = null;
-            }
-        }
-
-        [Ignore] public bool HasId => Key != null && Key != 0;
-
-        public string GenerateNewID()
+        [JsonIgnore] [Key] public virtual int? Key { get; set; }
+        [NotMapped] [JsonIgnore]
+        public override string ID { get; set; }
+        public int? GenerateNewKey()
         {
             var col = GetType().Name;
             var q = DB.Collection<Seq>().AsQueryable().Where(x => x.ID == col);
@@ -36,17 +23,16 @@ namespace Csud.Crud.Models
             {
                 var sq = new Seq() {ID = col, Key = 1};
                 sq.SaveAsync().Wait();
-                return 1.ToString();
+                return 1;
             }
             else
             {
                 var sq = q.First();
                 sq.Key += 1;
                 sq.SaveAsync().Wait();
-                return sq.Key.ToString();
+                return sq.Key;
             }
         }
-
         public virtual void CopyTo(Base destination, bool withKey)
         {
             var source = this;
@@ -64,22 +50,22 @@ namespace Csud.Crud.Models
                 select new { sourceProperty = srcProp, targetProperty = targetProperty };
             foreach (var props in results)
             {
-                if (props.sourceProperty.Name == "Key")
+                if (!withKey)
                 {
-                    if (!withKey)
+                    if (props.sourceProperty.Name == nameof(Base.Key) || props.sourceProperty.Name == nameof(Base.ID))
+                    {
                         continue;
+                    }
                 }
                 props.targetProperty.SetValue(destination, props.sourceProperty.GetValue(source, null), null);
             }
         }
-
         public object Clone()
         {
             var x = (Base)Activator.CreateInstance(this.GetType());
             this.CopyTo(x, false);
             return x;
         }
-
         public object Clone(bool keepKey)
         {
             var x = (Base)Activator.CreateInstance(this.GetType());
@@ -87,10 +73,36 @@ namespace Csud.Crud.Models
             return x;
         }
 
-        public virtual string Status { get; set; } = Const.StatusActual;
+        [JsonIgnore]
+        public virtual string Status { get; set; } = Const.Status.Actual;
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
         public virtual string DisplayName { get; set; }
-     
+        internal ICsud Csud => CsudService.Csud;
+        public virtual void Validate()
+        {
+            if (Status != Const.Status.Actual && Status != Const.Status.Removed)
+                Status = Const.Status.Actual;
+            var results = new List<ValidationResult>();
+            var context = new ValidationContext(this);
+            if (Validator.TryValidateObject(this, context, results, true)) return;
+            var err =  string.Join(' ', results.Select(x => x.ErrorMessage));
+            throw new ArgumentException(err);
+        }
+    }
+
+    internal class BaseValidator : ValidationAttribute
+    {
+        internal ICsud Csud => CsudService.Csud;
+        protected void Error(string err)
+        {
+            this.ErrorMessage ??= "";
+            this.ErrorMessage += @$"{err} ";
+        }
+        protected void Reset()
+        {
+            this.ErrorMessage = null;
+        }
+        protected bool Validated => string.IsNullOrEmpty(this.ErrorMessage);
     }
 }

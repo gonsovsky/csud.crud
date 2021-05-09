@@ -26,6 +26,12 @@ namespace Csud.Crud.Postgre
             modelBuilder.Entity<CompositeContext>()
                 .HasKey(x => new { x.Key, x.RelatedKey });
 
+            modelBuilder.Entity<Group>()
+                .HasKey(x => new { x.Key, x.RelatedKey });
+
+            modelBuilder.Entity<TaskX>()
+                .HasKey(x => new { x.Key, x.RelatedKey });
+
             modelBuilder.Entity<Account>()
                 .HasKey(x => new { x.Key, x.AccountProviderKey });
 
@@ -35,9 +41,6 @@ namespace Csud.Crud.Postgre
 
             modelBuilder.Entity<Person>()
                 .HasIndex(x => new { x.FirstName, x.LastName });
-
-            modelBuilder.Entity<Group>()
-                .HasKey(x => new { x.Key, x.RelatedKey });
         }
 
         public DbSet<Person> Person { get; set; }
@@ -53,21 +56,19 @@ namespace Csud.Crud.Postgre
         public DbSet<StructContext> StructContext { get; set; }
         public DbSet<TimeContext> TimeContext { get; set; }
 
-        public void AddEntity<T>(T entity, bool keyDefined = false) where T : Base
+        public void Insert<T>(T entity, bool generateKey = true) where T : Base
         {
             Set<T>().Add(entity);
             SaveChanges();
         }
-
-        public void UpdateEntity<T>(T entity) where T : Base
+        public void Upd<T>(T entity) where T : Base
         {
             Set<T>().Update(entity);
             SaveChanges();
         }
-
-        public IQueryable<T> Q<T>() where T : Base
+        public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
         {
-            return Set<T>().AsQueryable();
+            return Set<T>().AsQueryable().Where(x => x.Status == status);
         }
     }
 }

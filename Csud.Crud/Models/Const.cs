@@ -1,15 +1,15 @@
 ﻿namespace Csud.Crud.Models
 {
-    internal struct Id
+    public struct CsudKey
     {
-        private int peer;
+        private int? peer;
 
-        public static implicit operator Id(int i)
+        public static implicit operator CsudKey(int? i)
         {
-            return new Id { peer = i };
+            return new CsudKey { peer = i };
         }
 
-        public static implicit operator int(Id p)
+        public static implicit operator int?(CsudKey p)
         {
             return p.peer;
         }
@@ -17,10 +17,26 @@
 
     public static class Const
     {
-        public const string StatusActual = "actual";
-        public const string StatusRemoved = "removed";
+        public static class Status
+        {
+            public const string Actual = "actual";
+            public const string Removed = "removed";
+        }
 
-        public const string SubjectAccount = "account";
-        public const string SubjectGroup = "group";
+        public static class Subject
+        {
+            public const string Account = "account";
+            public const string Group = "group";
+        }
+
+        public static class Context
+        {
+            public const string Time = "time";
+            public const string Attrib = "attrib";
+            public const string Rule = "rule";
+            public const string Struct= "struct";
+            public const string Segment = "segment";
+            public const string Composite = "composite";
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Crud.Csud.RestApi.Services;
 using Csud.Crud;
 using Csud.Crud.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +13,11 @@ namespace Crud.Csud.RestApi.Controllers
         protected static ICsud Csud => CsudService.Csud;
 
         [HttpGet("list")]
-        public virtual IActionResult List(int skip=0, int take=0)
+        public virtual IActionResult List(string status=Const.Status.Actual, int skip=0, int take=0)
         {
             try
             {
-                var q = Csud.List<T>(skip, take);
+                var q = Csud.List<T>(status, skip, take);
                 return Ok(q);
 
             }
@@ -33,7 +32,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             try
             {
-                var entity = Csud.Q<T>().First(a=> a.Key == key);
+                var entity = Csud.Select<T>().First(a=> a.Key == key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -59,13 +58,13 @@ namespace Crud.Csud.RestApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var existing = Csud.Q<T>().First(a => a.Key == key);
+                var existing = Csud.Select<T>().First(a => a.Key == key);
                 if (entity == null)
                 {
                     return NotFound();
                 }
                 entity.CopyTo(existing, false);
-                Csud.UpdateEntity(existing);
+                Csud.Upd(existing);
                 return Ok(existing);
             }
             catch (Exception ex)
@@ -86,7 +85,7 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.AddEntity(entity);
+                Csud.Insert(entity);
                 return Ok(entity);
             }
             catch (Exception ex)
@@ -100,7 +99,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             try
             {
-                Csud.DelEntity(Csud.Q<T>().First(a => a.Key == key));
+                Csud.Del(Csud.Select<T>().First(a => a.Key == key));
                 return Ok();
             }
             catch (Exception ex)
@@ -109,7 +108,7 @@ namespace Crud.Csud.RestApi.Controllers
             }
         }
 
-        [HttpPut("{key}/copy")]
+        [HttpPost("{key}/copy")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
@@ -121,7 +120,7 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.CopyEntity(Csud.Q<T>().First(a => a.Key == key));
+                Csud.Copy(Csud.Select<T>().First(a => a.Key == key));
                 return Ok();
             }
             catch (Exception ex)

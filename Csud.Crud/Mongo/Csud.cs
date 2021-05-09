@@ -17,20 +17,24 @@ namespace Csud.Crud.Mongo
             DB.InitAsync(mongoDb, mongoHost, mongoPort).Wait();
             Db = DB.Database(mongoDb);
 
+            RelatedKeyIndex<Group>();
+            RelatedKeyIndex<CompositeContext>();
+            RelatedKeyIndex<TaskX>();
+
+            KeyIndex<Context>();
+            KeyIndex<AccountProvider>();
+            KeyIndex<ObjectX>();
+            KeyIndex<Person>();
+            KeyIndex<Subject>();
+            KeyIndex<TimeContext>();
+            KeyIndex<SegmentContext>();
+            KeyIndex<StructContext>();
+            KeyIndex<RuleContext>();
+
             DB.Index<Person>()
                 .Option(o => o.Background = false)
                 .Key(a => a.FirstName, KeyType.Text)
                 .Key(a => a.LastName, KeyType.Text)
-                .CreateAsync().Wait();
-
-            DB.Index<CompositeContext>()
-                .Option(o =>
-                {
-                    o.Background = false;
-                    o.Unique = true;
-                })
-                .Key(a => a.Key, KeyType.Text)
-                .Key(a => a.RelatedKey, KeyType.Text)
                 .CreateAsync().Wait();
 
             DB.Index<Account>()
@@ -42,8 +46,23 @@ namespace Csud.Crud.Mongo
                 .Key(a => a.Key, KeyType.Text)
                 .Key(a => a.AccountProviderKey, KeyType.Text)
                 .CreateAsync().Wait();
+        }
 
-            DB.Index<Group>()
+        protected void KeyIndex<T>() where T: Base
+        {
+            DB.Index<T>()
+                .Option(o =>
+                {
+                    o.Background = false;
+                    o.Unique = true;
+                })
+                .Key(a => a.Key, KeyType.Text)
+                .CreateAsync().Wait();
+        }
+
+        protected void RelatedKeyIndex<T>() where T : Base, IRelatable
+        {
+            DB.Index<T>()
                 .Option(o =>
                 {
                     o.Background = false;
@@ -53,25 +72,29 @@ namespace Csud.Crud.Mongo
                 .Key(a => a.RelatedKey, KeyType.Text)
                 .CreateAsync().Wait();
         }
+
         public IEnumerable<Base> Entities => AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(assembly => assembly.GetTypes())
             .Where(type => type.IsSubclassOf(typeof(Base)))
             .Where(type => type.IsAbstract==false)
             .Select(type => Activator.CreateInstance(type) as Base);
 
-        public void AddEntity<T>(T entity, bool keyDefined = false) where T : Base
+        public void Insert<T>(T entity, bool generateKey=true) where T : Base
+        {
+            entity.ID = null;
+            if (generateKey)
+                entity.Key = entity.GenerateNewKey();
+            entity.SaveAsync().Wait();
+        }
+
+        public void Upd<T>(T entity) where T : Base
         {
             entity.SaveAsync().Wait();
         }
 
-        public void UpdateEntity<T>(T entity) where T : Base
+        public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
         {
-            entity.SaveAsync().Wait();
-        }
-
-        public IQueryable<T> Q<T>() where T : Base
-        {
-            return DB.Queryable<T>();
+            return DB.Queryable<T>().Where(x => x.Status == status);
         }
     }
 }
