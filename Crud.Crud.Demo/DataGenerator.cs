@@ -49,6 +49,7 @@ namespace Csud.Crud.Demo
                 Type = "Active Directory"
             };
             Csud.Insert(ap);
+
             while ((currentLine = sr.ReadLine()) != null)
             {
                 n++;
@@ -152,10 +153,10 @@ namespace Csud.Crud.Demo
                         DisplayName = "compositeContext:" + V(values, fields, "userprincipalname"),
                     };
 
-                    compositeContext.Compose(timeContext);
-                    compositeContext.Compose(segmentContext);
-                    compositeContext.Compose(structContext);
-                    compositeContext.Compose(ruleContext);
+                    compositeContext.Compose(timeContext.Key);
+                    compositeContext.Compose(segmentContext.Key);
+                    compositeContext.Compose(structContext.Key);
+                    compositeContext.Compose(ruleContext.Key);
 
                     Csud.AddContext(compositeContext);
                     LastContext = compositeContext;

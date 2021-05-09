@@ -19,7 +19,7 @@ namespace Csud.Crud
         public void Copy<T>(T entity, bool keepKey=false) where T : Base
         {
             var a = (T) entity.Clone(keepKey);
-            Insert(a, keepKey);
+            Insert(entity, !keepKey);
         }
         public void Restore<T>(T entity) where T : Base
         {
@@ -75,7 +75,7 @@ namespace Csud.Crud
                 case Const.Context.Time:
                     var time = TimeContext.First(x => x.Key == key);
                     time.Key = co.Key;
-                    Copy(time,true);
+                    Copy(time, true);
                     break;
                 case Const.Context.Attrib:
                     var attrib = AttribContext.First(x => x.Key == key);

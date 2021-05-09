@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Crud.Csud.RestApi.Models;
 using Csud.Crud;
 using Csud.Crud.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -84,7 +85,7 @@ namespace Crud.Csud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        protected virtual IActionResult Put(bool isTemporary, BaseContext entity)
+        protected virtual IActionResult Put<T>(bool isTemporary, T entity) where T: BaseContext
         {
             try
             {
@@ -92,7 +93,7 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.AddContext(entity,isTemporary);
+                Csud.AddContext<T>(entity,isTemporary);
                 return Ok(entity);
             }
             catch (Exception ex)
@@ -106,34 +107,46 @@ namespace Crud.Csud.RestApi.Controllers
         [ProducesResponseType(400)]
         [Produces("application/json")]
         public virtual IActionResult Put(bool isTemporary, TimeContext entity)
-            => Put(isTemporary, (BaseContext)entity);
+            => Put<TimeContext>(isTemporary, (TimeContext)entity);
 
         [HttpPut("rule")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
         public virtual IActionResult Put(bool isTemporary, RuleContext entity)
-            => Put(isTemporary, (BaseContext)entity);
+            => Put<RuleContext>(isTemporary, (RuleContext)entity);
 
         [HttpPut("segment")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
         public virtual IActionResult Put(bool isTemporary, SegmentContext entity)
-            => Put(isTemporary, (BaseContext)entity);
+            => Put<SegmentContext>(isTemporary, (SegmentContext)entity);
 
         [HttpPut("struct")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
         public virtual IActionResult Put(bool isTemporary, StructContext entity)
-            => Put(isTemporary, (BaseContext)entity);
+            => Put<StructContext>(isTemporary, (StructContext)entity);
 
         [HttpPut("composite")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(bool isTemporary, CompositeContext entity)
-            => Put(isTemporary, (BaseContext)entity);
+        public virtual IActionResult Put(bool isTemporary, CompositeContextModel entity)
+        {
+            var c = new CompositeContext();
+            entity.CopyTo(c, false);
+            if (entity.RelatedKeys==null || entity.RelatedKeys.Length==0)
+                throw new ArgumentException($"Связанные контексты не найдены");
+            foreach (var x in entity.RelatedKeys)
+            {
+                if (Csud.Context.Any(a => a.Key == x) == false)
+                    throw new ArgumentException($"Контекст с кодом {x} не найден");
+                c.Compose(x);  
+            }
+            return Put<CompositeContext>(isTemporary, (CompositeContext)c);
+        }
     }
 }

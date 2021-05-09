@@ -5,14 +5,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Csud.Crud.Models.Rules;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
 namespace Csud.Crud.Models
 {
     public class Base : Entity, ICloneable
-    {
-        [JsonIgnore] [Key] public virtual int? Key { get; set; }
+    { 
+        [Key] public virtual int? Key { get; set; }
         [NotMapped] [JsonIgnore]
         public override string ID { get; set; }
         public int? GenerateNewKey()
