@@ -26,25 +26,10 @@ namespace Csud.Crud.Models.Contexts
     {
         public int? RelatedKey { get; set; }
 
+        [NotMapped] [BsonIgnore] [JsonIgnore] 
+        public List<int?> RelatedKeys { get; set; } = new List<int?>();
 
         [NotMapped] [BsonIgnore] [JsonIgnore] 
-        protected List<int> _RelatedContexts = new List<int>();
-
-        public void Compose(int? co)
-        {
-            _RelatedContexts.Add((int)co);
-        }
-
-        public IEnumerable<CompositeContext> Decompose()
-        {
-            foreach (var c in _RelatedContexts)
-            {
-                var x = (CompositeContext) this.Clone(true);
-                x.RelatedKey = c;
-                yield return x;
-            }
-        }
-
-        [NotMapped] [BsonIgnore] [JsonIgnore] public IEnumerable RelatedContexts { get; set; }
+        public IEnumerable RelatedContexts { get; set; }
     }
 }

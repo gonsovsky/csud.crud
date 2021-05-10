@@ -138,14 +138,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             var c = new CompositeContext();
             entity.CopyTo(c, false);
-            if (entity.RelatedKeys==null || entity.RelatedKeys.Length==0)
-                throw new ArgumentException($"Связанные контексты не найдены");
-            foreach (var x in entity.RelatedKeys)
-            {
-                if (Csud.Context.Any(a => a.Key == x) == false)
-                    throw new ArgumentException($"Контекст с кодом {x} не найден");
-                c.Compose(x);  
-            }
+            c.RelatedKeys.AddRange(entity.RelatedKeys);
             return Put<CompositeContext>(isTemporary, (CompositeContext)c);
         }
     }

@@ -16,10 +16,11 @@ namespace Csud.Crud
             entity.Status = Const.Status.Removed;
             Upd(entity);
         }
-        public void Copy<T>(T entity, bool keepKey=false) where T : Base
+        public T Copy<T>(T entity, bool keepKey=false) where T : Base
         {
             var a = (T) entity.Clone(keepKey);
-            Insert(entity, !keepKey);
+            Insert(a, !keepKey);
+            return a;
         }
         public void Restore<T>(T entity) where T : Base
         {
@@ -58,7 +59,7 @@ namespace Csud.Crud
                     Del(SegmentContext.First(x => x.Key == key));
                     break;
                 case Const.Context.Composite:
-                    Del(SegmentContext.First(x => x.Key == key));
+                    Del(CompositeContext.First(x => x.Key == key));
                     break;
                 default:
                     throw new ArgumentException("Недопустимый код контекста");
@@ -69,7 +70,7 @@ namespace Csud.Crud
         public void CopyContext(int key)
         {
             var co = this.Context.First(a => a.Key == key);
-            Copy(co);
+            co = Copy(co);
             switch (co.ContextType)
             {
                 case Const.Context.Time:
@@ -98,9 +99,12 @@ namespace Csud.Crud
                     Copy(segment, true);
                     break;
                 case Const.Context.Composite:
-                    var composite = SegmentContext.First(x => x.Key == key);
-                    composite.Key = co.Key;
-                    Copy(composite, true);
+                    var compositeAll = CompositeContext.Where(x => x.Key == key);
+                    foreach (var composite in compositeAll)
+                    {
+                        composite.Key = co.Key;
+                        Copy(composite, true);
+                    }
                     break;
                 default:
                     throw new ArgumentException("Недопустимый код контекста");
@@ -108,6 +112,17 @@ namespace Csud.Crud
         }
         public void AddContext<T>(T entity, bool isTemporary = false) where T : BaseContext
         {
+            if (entity is CompositeContext)
+            {
+                var composite = entity as CompositeContext;
+                if (composite.RelatedKeys == null || composite.RelatedKeys.Count == 0)
+                    throw new ArgumentException($"Связанные контексты не найдены");
+                foreach (var rkey in composite.RelatedKeys)
+                {
+                    if (Context.Any(a => a.Key == rkey) == false)
+                        throw new ArgumentException($"Контекст с кодом {rkey} не найден");
+                }
+            }
             var context = new Context();
             entity.CopyTo(context, false);
             context.Temporary = isTemporary;
@@ -117,13 +132,12 @@ namespace Csud.Crud
             if (entity is CompositeContext)
             {
                 var composite = entity as CompositeContext;
-                var all = composite.Decompose();
-                foreach (var co in all)
+                foreach (var rkey in composite.RelatedKeys)
                 {
                     var x = (CompositeContext) entity.Clone();
                     x.ID = null;
                     x.Key = context.Key;
-                    x.RelatedKey = co.RelatedKey;
+                    x.RelatedKey = rkey;
                     Insert(x, false);
                 }
             }
@@ -162,9 +176,7 @@ namespace Csud.Crud
             var all = Select<CompositeContext>(status)
                 .Where(a => a.Key == key);
             foreach (var context in all)
-            {
                 yield return GetContext((int) context.RelatedKey, status);
-            }
         }
         public IEnumerable ListContext(string status = Const.Status.Actual, int skip = 0, int take = 0)
         {

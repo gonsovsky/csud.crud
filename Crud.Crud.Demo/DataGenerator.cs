@@ -153,10 +153,10 @@ namespace Csud.Crud.Demo
                         DisplayName = "compositeContext:" + V(values, fields, "userprincipalname"),
                     };
 
-                    compositeContext.Compose(timeContext.Key);
-                    compositeContext.Compose(segmentContext.Key);
-                    compositeContext.Compose(structContext.Key);
-                    compositeContext.Compose(ruleContext.Key);
+                    compositeContext.RelatedKeys.Add(timeContext.Key);
+                    compositeContext.RelatedKeys.Add(segmentContext.Key);
+                    compositeContext.RelatedKeys.Add(structContext.Key);
+                    compositeContext.RelatedKeys.Add(ruleContext.Key);
 
                     Csud.AddContext(compositeContext);
                     LastContext = compositeContext;

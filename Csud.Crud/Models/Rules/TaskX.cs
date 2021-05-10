@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -7,6 +9,16 @@ namespace Csud.Crud.Models.Rules
     public class TaskX : Base, IRelatable
     {
         public int? RelatedKey { get; set; }
+
+        [NotMapped]
+        [BsonIgnore]
+        [JsonIgnore]
+        public List<int?> RelatedKeys { get; set; }
+
+        [NotMapped]
+        [BsonIgnore]
+        [JsonIgnore]
+        public IEnumerable RelatedContexts { get; set; }
 
         public int? ObjectKey { get; set; }
 
@@ -17,15 +29,5 @@ namespace Csud.Crud.Models.Rules
         {
             set => RelatedKey = value.Key;
         }
-
-        [NotMapped]
-        [JsonIgnore]
-        [BsonIgnore]
-        public ObjectX Object
-        {
-            set => ObjectKey = value.Key;
-        }
-
-  
     }
 }

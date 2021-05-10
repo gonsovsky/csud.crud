@@ -46,15 +46,15 @@ namespace Crud.Csud.RestApi.Controllers
     {
     }
 
-    [Route("api/relation")]
-    [ApiController]
-    public class RelationController : BaseController<Relation>
-    {
-    }
+    //[Route("api/relation")]
+    //[ApiController]
+    //public class RelationController : BaseController<Relation>
+    //{
+    //}
 
-    [Route("api/relationDetail")]
-    [ApiController]
-    public class RelationDetailController : BaseController<RelationDetails>
-    {
-    }
+    //[Route("api/relationDetail")]
+    //[ApiController]
+    //public class RelationDetailController : BaseController<RelationDetails>
+    //{
+    //}
 }

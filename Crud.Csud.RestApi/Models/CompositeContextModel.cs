@@ -9,6 +9,6 @@ namespace Crud.Csud.RestApi.Models
 {
     public class CompositeContextModel: BaseContext
     {
-        public int[] RelatedKeys { get; set; }
+        public int?[] RelatedKeys { get; set; }
     }
 }

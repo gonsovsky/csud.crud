@@ -1,4 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text.Json.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Models.Rules
 {
@@ -25,6 +30,16 @@ namespace Csud.Crud.Models.Rules
     public class Group: Base, IRelatable
     {
         public int? RelatedKey { get; set; }
+
+        [NotMapped]
+        [BsonIgnore]
+        [JsonIgnore]
+        public List<int?> RelatedKeys { get; set; }
+
+        [NotMapped]
+        [BsonIgnore]
+        [JsonIgnore]
+        public IEnumerable RelatedContexts { get; set; }
         public int? ContextKey { get; set; }
     }
 }
