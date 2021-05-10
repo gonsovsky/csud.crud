@@ -4,6 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Crud.Csud.RestApi.Controllers
 {
+    [Route("api/task")]
+    [ApiController]
+    public class TaskController : RelationController<TaskX>
+    {
+    }
+
+    [Route("api/group")]
+    [ApiController]
+    public class GroupController : RelationController<Group>
+    {
+    }
+
     [Route("api/person")]
     [ApiController]
     public class PersonController : BaseController<Person>
@@ -28,23 +40,12 @@ namespace Crud.Csud.RestApi.Controllers
     {
     }
 
-    [Route("api/group")]
-    [ApiController]
-    public class GroupController : BaseController<Group>
-    {
-    }
-
     [Route("api/subject")]
     [ApiController]
     public class SubjectController : BaseController<Subject>
     {
     }
 
-    [Route("api/task")]
-    [ApiController]
-    public class TaskController : BaseController<TaskX>
-    {
-    }
 
     //[Route("api/relation")]
     //[ApiController]

@@ -139,9 +139,9 @@ namespace Csud.Crud.Demo
 
                     var ruleContext = new RuleContext()
                     {
-                        Description = "structContext:" + V(values, fields, "useraccountcontrol"),
-                        Name = "structContext:" + V(values, fields, "samaccountname"),
-                        DisplayName = "structContext:" + V(values, fields, "userprincipalname"),
+                        Description = "ruleContext:" + V(values, fields, "useraccountcontrol"),
+                        Name = "ruleContext:" + V(values, fields, "samaccountname"),
+                        DisplayName = "ruleContext:" + V(values, fields, "userprincipalname"),
                         RuleName = "rule N " + n.ToString()
                     };
                     Csud.AddContext(ruleContext);
@@ -174,13 +174,30 @@ namespace Csud.Crud.Demo
                     var gr = new Group()
                     {
                         Key = su.Key,
-                        Description = "group:" + V(values, fields, "useraccountcontrol"),
                         Name = "group:" + V(values, fields, "samaccountname"),
-                        DisplayName = "group:" + V(values, fields, "userprincipalname"),
                         ContextKey = LastContext.Key
                     };
                     LastGroup = gr;
                     Console.WriteLine("group:" + gr.Key);
+
+                    var obj1 = new ObjectX()
+                    {
+                        Type = Const.Object.Task,
+                        Description = "object:" + V(values, fields, "useraccountcontrol"),
+                        Name = "object:" + V(values, fields, "samaccountname"),
+                        DisplayName = "object:" + V(values, fields, "userprincipalname"),
+                        ContextKey = LastContext.Key
+                    };
+                    Csud.Insert(obj1);
+                    var obj2 = (ObjectX)obj1.Clone();
+                    Csud.Insert(obj2);
+
+                    var task = new TaskX()
+                    {
+                        Key = obj1.Key,
+                        RelatedKey = obj2.Key
+                    };
+                    Csud.Insert(task);
                 }
             }
         }

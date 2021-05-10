@@ -26,7 +26,6 @@ namespace Csud.Crud.Models.Rules
     }
 
     [GroupValidation]
-
     public class Group: Base, IRelatable
     {
         public int? RelatedKey { get; set; }
@@ -39,7 +38,7 @@ namespace Csud.Crud.Models.Rules
         [NotMapped]
         [BsonIgnore]
         [JsonIgnore]
-        public IEnumerable RelatedContexts { get; set; }
+        public IEnumerable RelatedEntities { get; set; }
         public int? ContextKey { get; set; }
     }
 }

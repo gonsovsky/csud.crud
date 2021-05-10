@@ -30,6 +30,6 @@ namespace Csud.Crud.Models.Contexts
         public List<int?> RelatedKeys { get; set; } = new List<int?>();
 
         [NotMapped] [BsonIgnore] [JsonIgnore] 
-        public IEnumerable RelatedContexts { get; set; }
+        public IEnumerable RelatedEntities { get; set; }
     }
 }

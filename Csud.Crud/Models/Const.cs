@@ -38,5 +38,12 @@
             public const string Segment = "segment";
             public const string Composite = "composite";
         }
+
+        public static class Object
+        {
+            public const string Role = "role";
+            public const string Entity = "entity";
+            public const string Task = "task";
+        }
     }
 }

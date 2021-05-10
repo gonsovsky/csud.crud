@@ -48,7 +48,7 @@ namespace Csud.Crud.Postgre
         public DbSet<Account> Account { get; set; }
         public DbSet<Context> Context { get; set; }
         public DbSet<Subject> Subject { get; set; }
-        public DbSet<ObjectX> Obj { get; set; }
+        public DbSet<ObjectX> ObjectX { get; set; }
         public DbSet<TaskX> Task { get; set; }
         public DbSet<CompositeContext> CompositeContext { get; set; }
         public DbSet<RuleContext> RuleContext { get; set; }

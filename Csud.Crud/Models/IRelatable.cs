@@ -18,7 +18,7 @@ namespace Csud.Crud.Models
         [NotMapped]
         [BsonIgnore]
         [JsonIgnore]
-        public IEnumerable RelatedContexts { get; set; }
+        public IEnumerable RelatedEntities { get; set; }
 
     }
 }
