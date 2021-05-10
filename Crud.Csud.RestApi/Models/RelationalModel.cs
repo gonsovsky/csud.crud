@@ -7,7 +7,7 @@ using Csud.Crud.Models.Contexts;
 
 namespace Crud.Csud.RestApi.Models
 {
-    public class CompositeContextModel: BaseContext
+    public class RelationalModel: BaseContext
     {
         public int?[] RelatedKeys { get; set; }
     }

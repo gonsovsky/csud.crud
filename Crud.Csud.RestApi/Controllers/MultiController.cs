@@ -1,18 +1,19 @@
-﻿using Csud.Crud.Models;
+﻿using Crud.Csud.RestApi.Models;
+using Csud.Crud.Models;
 using Csud.Crud.Models.Rules;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crud.Csud.RestApi.Controllers
 {
-    [Route("api/task")]
+    [Route("api/group")]
     [ApiController]
-    public class TaskController : RelationController<TaskX>
+    public class GroupController : RelationalController<Group, GroupAdd, Subject>
     {
     }
 
-    [Route("api/group")]
+    [Route("api/task")]
     [ApiController]
-    public class GroupController : RelationController<Group>
+    public class TaskController : RelationalController<TaskX, TaskAdd, ObjectX>
     {
     }
 
@@ -49,7 +50,7 @@ namespace Crud.Csud.RestApi.Controllers
 
     //[Route("api/relation")]
     //[ApiController]
-    //public class RelationController : BaseController<Relation>
+    //public class RelationalController : BaseController<Relation>
     //{
     //}
 

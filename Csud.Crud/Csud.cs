@@ -22,15 +22,15 @@ namespace Csud.Crud
             Db.Add(Postgre);
         }
 
-        public void Insert<T>(T entity, bool generateKey = true) where T : Base
+        public void AddEntity<T>(T entity, bool generateKey = true) where T : Base
         {
             foreach (var x in Db)
             {
-                x.Insert(entity, generateKey);
+                x.AddEntity(entity, generateKey);
             }
         }
 
-        public void Upd<T>(T entity) where T : Base
+        public void UpdateEntity<T>(T entity) where T : Base
         {
             Db.ForEach(x =>
             {
@@ -38,10 +38,10 @@ namespace Csud.Crud
                 {
                     var y = x.Select<T>().First(a => a.Key == entity.Key);
                     entity.CopyTo(y, false);
-                    x.Upd(y);
+                    x.UpdateEntity(y);
                     return;
                 }
-                x.Upd(entity);
+                x.UpdateEntity(entity);
             });
         }
 

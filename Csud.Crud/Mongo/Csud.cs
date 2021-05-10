@@ -60,7 +60,7 @@ namespace Csud.Crud.Mongo
                 .CreateAsync().Wait();
         }
 
-        protected void RelatedKeyIndex<T>() where T : Base, IRelatable
+        protected void RelatedKeyIndex<T>() where T : Base, IRelational
         {
             DB.Index<T>()
                 .Option(o =>
@@ -79,7 +79,7 @@ namespace Csud.Crud.Mongo
             .Where(type => type.IsAbstract==false)
             .Select(type => Activator.CreateInstance(type) as Base);
 
-        public void Insert<T>(T entity, bool generateKey=true) where T : Base
+        public void AddEntity<T>(T entity, bool generateKey=true) where T : Base
         {
             entity.ID = null;
             if (generateKey)
@@ -87,7 +87,7 @@ namespace Csud.Crud.Mongo
             entity.SaveAsync().Wait();
         }
 
-        public void Upd<T>(T entity) where T : Base
+        public void UpdateEntity<T>(T entity) where T : Base
         {
             entity.SaveAsync().Wait();
         }

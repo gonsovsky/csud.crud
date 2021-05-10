@@ -24,7 +24,7 @@ namespace Csud.Crud.Models.Rules
     }
 
     [SubjectValidation]
-    public class Subject: Base
+    public class Subject: Base, INameable
     {
         public string SubjectType { get; set; } = Const.Subject.Account;
         public int? ContextKey { get; set; }
@@ -34,5 +34,9 @@ namespace Csud.Crud.Models.Rules
         {
             set => ContextKey = value.Key;
         }
+
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string DisplayName { get; set; }
     }
 }

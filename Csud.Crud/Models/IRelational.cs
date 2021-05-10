@@ -6,19 +6,18 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Models
 {
-    public interface IRelatable
+    public interface IRelational
     {
         public int? RelatedKey { get; set; }
 
-        [NotMapped]
-        [BsonIgnore]
-        [JsonIgnore]
+        [NotMapped] [BsonIgnore] [JsonIgnore]
         public List<int?> RelatedKeys { get; set; }
 
-        [NotMapped]
-        [BsonIgnore]
-        [JsonIgnore]
+        [NotMapped] [BsonIgnore] [JsonIgnore]
         public IEnumerable RelatedEntities { get; set; }
+    }
 
+    internal interface IRelationalAdd: IRelational
+    {
     }
 }

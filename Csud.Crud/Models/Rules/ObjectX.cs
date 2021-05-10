@@ -24,18 +24,20 @@ namespace Csud.Crud.Models.Rules
     }
 
     [ObjectValidation]
-    public class ObjectX : Base
+    public class ObjectX : Base, INameable
     {
         public string Type { get; set; } = Const.Object.Role;
 
         public int? ContextKey { get; set; }
 
-        [NotMapped]
-        [BsonIgnore]
-        [JsonIgnore]
+        [NotMapped] [BsonIgnore] [JsonIgnore]
         public Context Context
         {
             set => ContextKey = value.Key;
         }
+
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string DisplayName { get; set; }
     }
 }

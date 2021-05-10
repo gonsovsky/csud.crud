@@ -13,7 +13,7 @@ namespace Crud.Csud.RestApi.Controllers
         protected static ICsud Csud => CsudService.Csud;
 
         [HttpGet("list")]
-        public virtual IActionResult List(string status=Const.Status.Actual, int skip=0, int take=0)
+        public virtual IActionResult List(int skip=0, int take=0, string status = Const.Status.Actual)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Crud.Csud.RestApi.Controllers
                     return NotFound();
                 }
                 entity.CopyTo(existing, false);
-                Csud.Upd(existing);
+                Csud.UpdateEntity(existing);
                 return Ok(existing);
             }
             catch (Exception ex)
@@ -85,7 +85,7 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.Insert(entity);
+                Csud.AddEntity(entity);
                 return Ok(entity);
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             try
             {
-                Csud.Del(Csud.Select<T>().First(a => a.Key == key));
+                Csud.DeleteEntity(Csud.Select<T>().First(a => a.Key == key));
                 return Ok();
             }
             catch (Exception ex)
@@ -120,7 +120,7 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.Copy(Csud.Select<T>().First(a => a.Key == key));
+                Csud.CopyEntity(Csud.Select<T>().First(a => a.Key == key));
                 return Ok();
             }
             catch (Exception ex)

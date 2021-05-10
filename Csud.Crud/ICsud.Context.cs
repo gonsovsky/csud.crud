@@ -12,75 +12,75 @@ namespace Csud.Crud
 {
     public partial interface ICsud
     {
-        public void DelContext(int key)
+        public void DeleteContext(int key)
         {
             var co = this.Context.First(a => a.Key == key);
             switch (co.ContextType)
             {
                 case Const.Context.Time:
-                    Del(TimeContext.First(x => x.Key == key));
+                    DeleteEntity(TimeContext.First(x => x.Key == key));
                     break;
                 case Const.Context.Attrib:
-                    Del(AttribContext.First(x => x.Key == key));
+                    DeleteEntity(AttribContext.First(x => x.Key == key));
                     break;
                 case Const.Context.Rule:
-                    Del(RuleContext.First(x => x.Key == key));
+                    DeleteEntity(RuleContext.First(x => x.Key == key));
                     break;
                 case Const.Context.Struct:
-                    Del(StructContext.First(x => x.Key == key));
+                    DeleteEntity(StructContext.First(x => x.Key == key));
                     break;
                 case Const.Context.Segment:
-                    Del(SegmentContext.First(x => x.Key == key));
+                    DeleteEntity(SegmentContext.First(x => x.Key == key));
                     break;
                 case Const.Context.Composite:
                     var compositeAll = CompositeContext.Where(x => x.Key == key);
                     foreach (var composite in compositeAll)
                     {
-                        Del(composite);
+                        DeleteEntity(composite);
                     }
                     break;
                 default:
                     throw new ArgumentException("Недопустимый код контекста");
             }
-            Del(co);
+            DeleteEntity(co);
         }
         public void CopyContext(int key)
         {
             var co = this.Context.First(a => a.Key == key);
-            co = Copy(co);
+            co = CopyEntity(co);
             switch (co.ContextType)
             {
                 case Const.Context.Time:
                     var time = TimeContext.First(x => x.Key == key);
                     time.Key = co.Key;
-                    Copy(time, true);
+                    CopyEntity(time, true);
                     break;
                 case Const.Context.Attrib:
                     var attrib = AttribContext.First(x => x.Key == key);
                     attrib.Key = co.Key;
-                    Copy(attrib, true);
+                    CopyEntity(attrib, true);
                     break;
                 case Const.Context.Rule:
                     var rule = RuleContext.First(x => x.Key == key);
                     rule.Key = co.Key;
-                    Copy(rule, true);
+                    CopyEntity(rule, true);
                     break;
                 case Const.Context.Struct:
                     var structX = StructContext.First(x => x.Key == key);
                     structX.Key = co.Key;
-                    Copy(structX, true);
+                    CopyEntity(structX, true);
                     break;
                 case Const.Context.Segment:
                     var segment = SegmentContext.First(x => x.Key == key);
                     segment.Key = co.Key;
-                    Copy(segment, true);
+                    CopyEntity(segment, true);
                     break;
                 case Const.Context.Composite:
                     var compositeAll = CompositeContext.Where(x => x.Key == key);
                     foreach (var composite in compositeAll)
                     {
                         composite.Key = co.Key;
-                        Copy(composite, true);
+                        CopyEntity(composite, true);
                     }
                     break;
                 default:
@@ -103,7 +103,7 @@ namespace Csud.Crud
             var context = new Context();
             entity.CopyTo(context, false);
             context.Temporary = isTemporary;
-            Insert(context);
+            AddEntity(context);
             entity.Key = context.Key;
             entity.ID = context.ID;
             if (entity is CompositeContext)
@@ -115,13 +115,13 @@ namespace Csud.Crud
                     x.ID = null;
                     x.Key = context.Key;
                     x.RelatedKey = rkey;
-                    Insert(x, false);
+                    AddEntity(x, false);
                 }
             }
             else
             {
                 entity.Key = context.Key;
-                Insert(entity, false);
+                AddEntity(entity, false);
             }
         }
         public BaseContext GetContext(int key, string status = Const.Status.Actual)
@@ -140,20 +140,12 @@ namespace Csud.Crud
                 case Const.Context.Segment:
                     return this.Select<SegmentContext>(status).First(x => x.Key == key);
                 case Const.Context.Composite:
-                    var c = new CompositeContext();
-                    co.CopyTo(c, true);
+                    var c = this.Select<CompositeContext>(status).First(x => x.Key == key);
                     c.RelatedEntities = ExpandCompositeContext(key);
                     return c;
                 default:
                     throw new ArgumentException("Недопустимый код контекста");
             }
-        }
-        private IEnumerable ExpandCompositeContext(int key, string status = Const.Status.Actual)
-        {
-            var all = Select<CompositeContext>(status)
-                .Where(a => a.Key == key);
-            foreach (var context in all)
-                yield return GetContext((int)context.RelatedKey, status);
         }
         public IEnumerable ListContext(string status = Const.Status.Actual, int skip = 0, int take = 0)
         {
@@ -166,6 +158,13 @@ namespace Csud.Crud
             {
                 yield return GetContext((int)context.Key, status);
             }
+        }
+        private IEnumerable ExpandCompositeContext(int key, string status = Const.Status.Actual)
+        {
+            var all = Select<CompositeContext>(status)
+                .Where(a => a.Key == key);
+            foreach (var context in all)
+                yield return GetContext((int)context.RelatedKey, status);
         }
         public IQueryable<Context> Context => Select<Context>();
         public IQueryable<TimeContext> TimeContext => Select<TimeContext>();

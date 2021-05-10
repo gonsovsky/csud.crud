@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Csud.Crud.Models.Rules;
 using Microsoft.Extensions.Configuration;
 
 namespace Csud.Crud.Demo
@@ -19,9 +20,27 @@ namespace Csud.Crud.Demo
             var gen = new DataGenerator(_csud);
             gen.Generate(100);
 
-            Test();
+            Test1();
             Console.WriteLine("Done");
             Console.ReadKey();
+        }
+
+        private static void Test1()
+        {
+            var n = 0;
+            var g = CsudService.CsudObj.Mongo.Select<Group>().ToList().GroupBy(x => x.Key);
+            foreach (var x in g)
+            {
+                Console.WriteLine($"{x.Key} - {x.Count()}");
+                foreach (var y in x)
+                {
+                    y.Dump();
+                    Console.WriteLine();
+                    n++;
+                    if (n > 20)
+                        break;
+                }
+            }
         }
 
         private static void Test()
@@ -34,15 +53,15 @@ namespace Csud.Crud.Demo
             Console.WriteLine("updating");
             person = _csud.Person.First();
             person.FirstName = "Updated";
-            _csud.Upd(person);
+            _csud.UpdateEntity(person);
 
             Console.WriteLine("deleting");
             person = _csud.Person.First();
-            _csud.Del(person);
+            _csud.DeleteEntity(person);
 
             Console.WriteLine("cloning");
             person = _csud.Person.First();
-            _csud.Copy(person);
+            _csud.CopyEntity(person);
         }
     }
 }

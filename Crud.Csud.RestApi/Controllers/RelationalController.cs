@@ -5,21 +5,22 @@ using Csud.Crud;
 using Csud.Crud.Models;
 using Microsoft.AspNetCore.Mvc;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Rules;
 
 namespace Crud.Csud.RestApi.Controllers
 {
     [Route("api/context")]
     [ApiController]
-    public class RelationController<T> : Controller where T: Base,IRelatable
+    public class RelationalController<TGroup, TAdd, TEntity> : Controller where TGroup: Base,IRelational where TAdd: Base, IRelational where TEntity : Base
     {
         protected static ICsud Csud => CsudService.Csud;
 
         [HttpGet("list")]
-        public virtual IActionResult List(string status = Const.Status.Actual, int skip = 0, int take = 0)
+        public virtual IActionResult List(int skip = 0, int take = 0, string status = Const.Status.Actual)
         {
             try
             {
-                var q = Csud.ListRelatable<T>(status, skip, take);
+                var q = Csud.ListRelational<TGroup,TEntity>(0, status, skip, take);
                 return Ok(q);
             }
             catch (Exception ex)
@@ -33,7 +34,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             try
             {
-                var entity = Csud.GetRelatable<T>(key);
+                var entity = Csud.GetRelational<TGroup,TEntity>(key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -51,7 +52,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             try
             {
-                Csud.DeleteRelatable<T>(Csud.Select<T>().First(a => a.Key == key));
+                Csud.DeleteRelational<TGroup>(key);
                 return Ok();
             }
             catch (Exception ex)
@@ -72,7 +73,7 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.CopyRelatable<T>(Csud.Select<T>().First(a => a.Key == key));
+                Csud.CopyRelational<TGroup>(key);
                 return Ok();
             }
             catch (Exception ex)
@@ -85,7 +86,7 @@ namespace Crud.Csud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(T entity)
+        public virtual IActionResult Put(TAdd entity)
         {
             try
             {
@@ -93,7 +94,9 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.InsertRelatable<T>(entity);
+                var p = Activator.CreateInstance<TGroup>();
+                entity.CopyTo(p,false);
+                Csud.InsertRelational<TGroup,TEntity>(p);
                 return Ok(entity);
             }
             catch (Exception ex)

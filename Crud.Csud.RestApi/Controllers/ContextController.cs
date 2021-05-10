@@ -15,7 +15,7 @@ namespace Crud.Csud.RestApi.Controllers
         protected static ICsud Csud => CsudService.Csud;
 
         [HttpGet("list")]
-        public virtual IActionResult List(string status = Const.Status.Actual, int skip =0, int take=0)
+        public virtual IActionResult List(int skip = 0, int take = 0, string status = Const.Status.Actual)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             try
             {
-                Csud.DelContext(key);
+                Csud.DeleteContext(key);
                 return Ok();
             }
             catch (Exception ex)
@@ -134,12 +134,12 @@ namespace Crud.Csud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(bool isTemporary, CompositeContextModel entity)
+        public virtual IActionResult Put(bool isTemporary, RelationalModel entity)
         {
-            var c = new CompositeContext();
-            entity.CopyTo(c, false);
-            c.RelatedKeys.AddRange(entity.RelatedKeys);
-            return Put<CompositeContext>(isTemporary, (CompositeContext)c);
+            var compositeResult = new CompositeContext();
+            entity.CopyTo(compositeResult, false);
+            compositeResult.RelatedKeys.AddRange(entity.RelatedKeys);
+            return Put<CompositeContext>(isTemporary, (CompositeContext)compositeResult);
         }
     }
 }

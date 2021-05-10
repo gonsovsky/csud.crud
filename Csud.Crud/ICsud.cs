@@ -9,23 +9,23 @@ namespace Csud.Crud
 {
     public partial interface ICsud
     {
-        public void Insert<T>(T entity, bool generateKey = true) where T : Base;
-        public void Upd<T>(T entity) where T : Base;
-        public void Del<T>(T entity) where T : Base
+        public void AddEntity<T>(T entity, bool generateKey = true) where T : Base;
+        public void UpdateEntity<T>(T entity) where T : Base;
+        public void DeleteEntity<T>(T entity) where T : Base
         {
             entity.Status = Const.Status.Removed;
-            Upd(entity);
+            UpdateEntity(entity);
         }
-        public T Copy<T>(T entity, bool keepKey=false) where T : Base
+        public T CopyEntity<T>(T entity, bool keepKey=false) where T : Base
         {
             var a = (T) entity.Clone(keepKey);
-            Insert(a, !keepKey);
+            AddEntity(a, !keepKey);
             return a;
         }
         public void Restore<T>(T entity) where T : Base
         {
             entity.Status = Const.Status.Actual;
-            Upd(entity);
+            UpdateEntity(entity);
         }
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base;
         public IQueryable<T> List<T>(string status = Const.Status.Actual, int skip = 0, int take = 0) where T : Base
@@ -37,12 +37,12 @@ namespace Csud.Crud
                 q = q.Take(take);
             return q;
         }
-  
         public IQueryable<Person> Person => Select<Person>();
         public IQueryable<AccountProvider> AccountProvider => Select<AccountProvider>();
         public IQueryable<Account> Account => Select<Account>();
         public IQueryable<Subject> Subject => Select<Subject>();
         public IQueryable<ObjectX> Object => Select<ObjectX>();
         public IQueryable<TaskX> Task => Select<TaskX>();
+        public IQueryable<Group> Group => Select<Group>();
     }
 }

@@ -4,10 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Csud.Crud.Models.Rules;
 using MongoDB.Driver;
 using MongoDB.Entities;
+using System.Text.Json.Serialization;
+using System.Xml;
 
 namespace Csud.Crud.Models
 {
@@ -74,11 +77,14 @@ namespace Csud.Crud.Models
             return x;
         }
 
+        public  void Dump()
+        {
+            string json = JsonSerializer.Serialize(this,new JsonSerializerOptions(){WriteIndented = true});
+            Console.WriteLine(json);
+        }
+
         [JsonIgnore]
         public virtual string Status { get; set; } = Const.Status.Actual;
-        public virtual string Name { get; set; }
-        public virtual string Description { get; set; }
-        public virtual string DisplayName { get; set; }
         internal ICsud Csud => CsudService.Csud;
         public virtual void Validate()
         {
@@ -92,18 +98,5 @@ namespace Csud.Crud.Models
         }
     }
 
-    internal class BaseValidator : ValidationAttribute
-    {
-        internal ICsud Csud => CsudService.Csud;
-        protected void Error(string err)
-        {
-            this.ErrorMessage ??= "";
-            this.ErrorMessage += @$"{err} ";
-        }
-        protected void Reset()
-        {
-            this.ErrorMessage = null;
-        }
-        protected bool Validated => string.IsNullOrEmpty(this.ErrorMessage);
-    }
+  
 }

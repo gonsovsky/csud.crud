@@ -56,12 +56,12 @@ namespace Csud.Crud.Postgre
         public DbSet<StructContext> StructContext { get; set; }
         public DbSet<TimeContext> TimeContext { get; set; }
 
-        public void Insert<T>(T entity, bool generateKey = true) where T : Base
+        public void AddEntity<T>(T entity, bool generateKey = true) where T : Base
         {
             Set<T>().Add(entity);
             SaveChanges();
         }
-        public void Upd<T>(T entity) where T : Base
+        public void UpdateEntity<T>(T entity) where T : Base
         {
             Set<T>().Update(entity);
             SaveChanges();

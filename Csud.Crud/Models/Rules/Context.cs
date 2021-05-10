@@ -26,16 +26,17 @@ namespace Csud.Crud.Models.Rules
     }
 
     [ContextValidation]
-
-    public class Context: Base
+    public class Context: Base, INameable
     {
         public string ContextType { get; set; }
         public bool Temporary { get; set; }
         public int HashCode { get; set; }
 
-        [NotMapped]
-        [Ignore]
-        [BsonIgnore]
+        [NotMapped] [Ignore] [BsonIgnore]
         public BaseContext Details { get; set; }
+
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string DisplayName { get; set; }
     }
 }

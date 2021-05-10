@@ -43,12 +43,9 @@ namespace Csud.Crud.Demo
             string currentLine;
             var ap = new AccountProvider()
             {
-                Description = "Active Directory",
-                DisplayName = "Active Directory",
-                Name = "ActiveDirectory",
                 Type = "Active Directory"
             };
-            Csud.Insert(ap);
+            Csud.AddEntity(ap);
 
             while ((currentLine = sr.ReadLine()) != null)
             {
@@ -71,13 +68,10 @@ namespace Csud.Crud.Demo
                 {
                     var p = new Person()
                     {
-                        DisplayName = V(values, fields, "userprincipalname"),
                         FirstName = V(values, fields, "name",1),
                         LastName = V(values, fields, "name", 0),
-                        Description = V(values, fields, "useraccountcontrol"),
-                        Name = V(values, fields, "samaccountname"),
                     };
-                    Csud.Insert(p);
+                    Csud.AddEntity(p);
 
                     var su = new Subject()
                     {
@@ -86,7 +80,7 @@ namespace Csud.Crud.Demo
                         DisplayName = "subject:" + V(values, fields, "userprincipalname"),
                         ContextKey = LastContext.Key
                     };
-                    Csud.Insert(su);
+                    Csud.AddEntity(su);
 
                     var ac = new Account()
                     {
@@ -97,13 +91,13 @@ namespace Csud.Crud.Demo
                         Person = p,
                         Subject = su
                     };
-                    Csud.Insert(ac);
+                    Csud.AddEntity(ac);
 
                     var gr = (Group)LastGroup.Clone(false);
                     gr.Key = LastGroup.Key;
                     gr.RelatedKey = su.Key;
                     gr.ContextKey = LastGroup.ContextKey;
-                    Csud.Insert(gr, false);
+                    Csud.AddEntity(gr, false);
 
                     Console.WriteLine(ac.Key);
                 }
@@ -111,9 +105,6 @@ namespace Csud.Crud.Demo
                 {
                     var timeContext = new TimeContext()
                     {
-                        Description = "timeContext:" + V(values, fields, "useraccountcontrol"),
-                        Name = "timeContext:" + V(values, fields, "samaccountname"),
-                        DisplayName = "timeContext:" + V(values, fields, "userprincipalname"),
                         TimeStart = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)).Ticks,
                         TimeEnd = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)).Ticks
                     };
@@ -121,36 +112,24 @@ namespace Csud.Crud.Demo
 
                     var segmentContext = new SegmentContext()
                     {
-                        Description = "segmentContext:" + V(values, fields, "useraccountcontrol"),
-                        Name = "segmentContext:" + V(values, fields, "samaccountname"),
-                        DisplayName = "segmentContext:" + V(values, fields, "userprincipalname"),
                         SegmentName = "segment N " + n.ToString()
                     };
                     Csud.AddContext(segmentContext);
 
                     var structContext = new StructContext()
                     {
-                        Description = "structContext:" + V(values, fields, "useraccountcontrol"),
-                        Name = "structContext:" + V(values, fields, "samaccountname"),
-                        DisplayName = "structContext:" + V(values, fields, "userprincipalname"),
                         StructCode = n.ToString()
                     };
                     Csud.AddContext(structContext);
 
                     var ruleContext = new RuleContext()
                     {
-                        Description = "ruleContext:" + V(values, fields, "useraccountcontrol"),
-                        Name = "ruleContext:" + V(values, fields, "samaccountname"),
-                        DisplayName = "ruleContext:" + V(values, fields, "userprincipalname"),
                         RuleName = "rule N " + n.ToString()
                     };
                     Csud.AddContext(ruleContext);
 
                     var compositeContext = new CompositeContext()
                     {
-                        Description = "compositeContext:" + V(values, fields, "useraccountcontrol"),
-                        Name = "compositeContext:" + V(values, fields, "samaccountname"),
-                        DisplayName = "compositeContext:" + V(values, fields, "userprincipalname"),
                     };
 
                     compositeContext.RelatedKeys.Add(timeContext.Key);
@@ -169,12 +148,11 @@ namespace Csud.Crud.Demo
                         DisplayName = "subject:" + V(values, fields, "userprincipalname"),
                         ContextKey = LastContext.Key
                     };
-                    Csud.Insert(su);
+                    Csud.AddEntity(su);
 
                     var gr = new Group()
                     {
                         Key = su.Key,
-                        Name = "group:" + V(values, fields, "samaccountname"),
                         ContextKey = LastContext.Key
                     };
                     LastGroup = gr;
@@ -188,16 +166,16 @@ namespace Csud.Crud.Demo
                         DisplayName = "object:" + V(values, fields, "userprincipalname"),
                         ContextKey = LastContext.Key
                     };
-                    Csud.Insert(obj1);
+                    Csud.AddEntity(obj1);
                     var obj2 = (ObjectX)obj1.Clone();
-                    Csud.Insert(obj2);
+                    Csud.AddEntity(obj2);
 
                     var task = new TaskX()
                     {
                         Key = obj1.Key,
                         RelatedKey = obj2.Key
                     };
-                    Csud.Insert(task);
+                    Csud.AddEntity(task);
                 }
             }
         }

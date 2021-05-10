@@ -5,6 +5,8 @@ namespace Csud.Crud
     public static class CsudService
     {
         public static ICsud Csud;
+
+        public static Csud CsudObj;
         public static void StartUp(IConfiguration config)
         {
             var postgre = config["Postgre"];
@@ -12,7 +14,8 @@ namespace Csud.Crud
             var mongoPort = config["Mongo:Port"];
             var mongoDb = config["Mongo:Db"];
 
-            Csud = new global::Csud.Crud.Csud(postgre, mongoHost, int.Parse(mongoPort), mongoDb);
+            CsudObj = new global::Csud.Crud.Csud(postgre, mongoHost, int.Parse(mongoPort), mongoDb);
+            Csud = CsudObj;
         }
     }
 }
