@@ -12,21 +12,21 @@ namespace Csud.Crud
 {
     public partial interface ICsud
     {
-        public IQueryable<T> SelectRelational<T>(string status = Const.Status.Actual) where T: Base, IRelational
+        public IQueryable<TEntity> SelectRelational<TEntity>(string status = Const.Status.Actual) where TEntity: Base, IRelational
         {
-            var x = Select<T>(status);
+            var x = Select<TEntity>(status);
             return x;
         }
 
-        public RelationalAggregated<T,T1> GetRelational<T,T1>(int key, string status = Const.Status.Actual, bool recursive=true) where T : Base, IRelational where T1 : Base
+        public RelationalAggregated<TEntity,TLinked>  GetRelational<TEntity,TLinked> (int key, string status = Const.Status.Actual, bool recursive=true) where TEntity : Base, IRelational where TLinked : Base
         {
-            var content = ListRelational<T, T1>(key).First();
+            var content = ListRelational<TEntity, TLinked>(key).First();
             return content;
         }
 
-        public IEnumerable<RelationalAggregated<T,T1>> ListRelational<T,T1>(int key = 0, string status = Const.Status.Actual, int skip = 0, int take = 0) where T : Base, IRelational where T1: Base
+        public IEnumerable<RelationalAggregated<TEntity,TLinked> > ListRelational<TEntity,TLinked> (int key = 0, string status = Const.Status.Actual, int skip = 0, int take = 0) where TEntity : Base, IRelational where TLinked : Base
         {
-            var q = SelectRelational<T>(status);
+            var q = SelectRelational<TEntity>(status);
             if (skip != 0)
                 q = q.Skip(skip);
             if (take != 0)
@@ -37,10 +37,10 @@ namespace Csud.Crud
 
             foreach (var x in z)
             {
-                var subject = Select<T1>(status).First(a => a.Key == x.Key);
+                var subject = Select<TLinked>(status).First(a => a.Key == x.Key);
                 var reletedKeys = x.Select(a => a.RelatedKey);
-                var relations = Select<T1>(status).Where(a => reletedKeys.Contains(a.Key));
-                var reslt = new RelationalAggregated<T,T1>() { 
+                var relations = Select<TLinked>(status).Where(a => reletedKeys.Contains(a.Key));
+                var reslt = new RelationalAggregated<TEntity,TLinked> () { 
                     Subject = subject, 
                       Relations = relations, 
                       Group =z.First(a=> a.Key==x.Key).First(), 
@@ -50,19 +50,19 @@ namespace Csud.Crud
             }
         }
 
-        public void InsertRelational<TGroup,TEntity>(TGroup entity, bool generateKey = true) where TGroup : Base, IRelational where TEntity : Base
+        public void InsertRelational<TEntity,TLinked>(TEntity entity, bool generateKey = true) where TEntity : Base, IRelational where TLinked : Base
         {
             if (entity.RelatedKeys == null || entity.RelatedKeys.Count == 0)
                 throw new ArgumentException($"Связанные объекты не найдены");
             foreach (var rkey in entity.RelatedKeys)
             {
-                if (Select<TEntity>().Any(a => a.Key == rkey) == false)
+                if (Select<TLinked>().Any(a => a.Key == rkey) == false)
                     throw new ArgumentException($"Связанный объект с кодом {rkey} не найден");
             }
             int? rootKey = null;
             foreach (var rkey in entity.RelatedKeys)
             {
-                var x = (TGroup) entity.Clone();
+                var x = (TEntity) entity.Clone();
                 x.RelatedKey = rkey;
                 x.Key = rootKey;
                 AddEntity(x, rootKey == null);
@@ -70,29 +70,29 @@ namespace Csud.Crud
             }
         }
 
-        public void DeleteRelational<T>(int key) where T : Base, IRelational
+        public void DeleteRelational<TEntity>(int key) where TEntity : Base, IRelational
         {
-            if (Select<T>().Any(a => a.Key == key) == false)
+            if (Select<TEntity>().Any(a => a.Key == key) == false)
                 throw new ArgumentException($"Объекты с ключем {key} не найдены");
-            var all = Select<T>().Where(a => a.Key == key);
+            var all = Select<TEntity>().Where(a => a.Key == key);
             foreach (var item in all)
             {
-                DeleteEntity<T>(item);
+                DeleteEntity<TEntity>(item);
             }
         }
 
-        public void CopyRelational<T>(int key, bool keepKey = false) where T : Base, IRelational
+        public void CopyRelational<TEntity>(int key, bool keepKey = false) where TEntity : Base, IRelational
         {
-            if (Select<T>().Any(a => a.Key == key) == false)
+            if (Select<TEntity>().Any(a => a.Key == key) == false)
                 throw new ArgumentException($"Объекты с ключем {key} не найдены");
 
-            var all = Select<T>().Where(a => a.Key == key);
+            var all = Select<TEntity>().Where(a => a.Key == key);
             int? rootKey = null;
             foreach (var item in all)
             {
                 item.ID = null;
                 item.Key = rootKey;
-                var add = CopyEntity<T>(item,rootKey!=null);
+                var add = CopyEntity<TEntity>(item,rootKey!=null);
                 rootKey ??= add.Key;
             }
         }

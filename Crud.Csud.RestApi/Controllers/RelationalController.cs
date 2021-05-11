@@ -11,7 +11,7 @@ namespace Crud.Csud.RestApi.Controllers
 {
     [Route("api/context")]
     [ApiController]
-    public class RelationalController<TGroup, TAdd, TEntity> : Controller where TGroup: Base,IRelational where TAdd: Base, IRelational where TEntity : Base
+    public class RelationalController<TEntity, TModelAdd, TLinked> : Controller where TEntity: Base,IRelational where TModelAdd: Base, IRelational where TLinked : Base
     {
         protected static ICsud Csud => CsudService.Csud;
 
@@ -20,7 +20,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             try
             {
-                var q = Csud.ListRelational<TGroup,TEntity>(0, status, skip, take);
+                var q = Csud.ListRelational<TEntity,TLinked>(0, status, skip, take);
                 return Ok(q);
             }
             catch (Exception ex)
@@ -34,7 +34,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             try
             {
-                var entity = Csud.GetRelational<TGroup,TEntity>(key);
+                var entity = Csud.GetRelational<TEntity,TLinked>(key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -52,7 +52,7 @@ namespace Crud.Csud.RestApi.Controllers
         {
             try
             {
-                Csud.DeleteRelational<TGroup>(key);
+                Csud.DeleteRelational<TEntity>(key);
                 return Ok();
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.CopyRelational<TGroup>(key);
+                Csud.CopyRelational<TEntity>(key);
                 return Ok();
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace Crud.Csud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(TAdd entity)
+        public virtual IActionResult Put(TModelAdd entity)
         {
             try
             {
@@ -94,9 +94,9 @@ namespace Crud.Csud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var p = Activator.CreateInstance<TGroup>();
+                var p = Activator.CreateInstance<TEntity>();
                 entity.CopyTo(p,false);
-                Csud.InsertRelational<TGroup,TEntity>(p);
+                Csud.InsertRelational<TEntity,TLinked>(p);
                 return Ok(entity);
             }
             catch (Exception ex)

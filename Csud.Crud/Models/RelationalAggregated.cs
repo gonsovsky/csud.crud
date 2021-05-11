@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Csud.Crud.Models
 {
-    public class RelationalAggregated<TGroup,TEntity> where TGroup : Base, IRelational where TEntity : Base
+    public class RelationalAggregated<TGroup,TLinked> where TGroup : Base, IRelational where TLinked : Base
     {
         public TGroup Group { get; set; }
         public IEnumerable<TGroup> Index { get; set; } = new List<TGroup>();
 
-        public TEntity Subject { get; set; }
-        public IEnumerable<TEntity> Relations { get; set; } = new List<TEntity>();
+        public TLinked Subject { get; set; }
+        public IEnumerable<TLinked> Relations { get; set; } = new List<TLinked>();
     }
 }
