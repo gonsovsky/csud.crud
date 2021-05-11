@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Csud.Crud.Models;
-using Csud.Crud.Models.Contexts;
-using MongoDB.Bson;
 
 namespace Csud.Crud
 {

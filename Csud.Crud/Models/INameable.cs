@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace Csud.Crud.Models
+﻿namespace Csud.Crud.Models
 {
     internal interface INameable
     {

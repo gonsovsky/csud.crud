@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Csud.Crud.Models.Contexts
+﻿namespace Csud.Crud.Models.Contexts
 {
     public class AttribContext : BaseContext
     {

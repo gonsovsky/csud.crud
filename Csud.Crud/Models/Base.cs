@@ -6,11 +6,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Csud.Crud.Models.Rules;
 using MongoDB.Driver;
 using MongoDB.Entities;
-using System.Text.Json.Serialization;
-using System.Xml;
 
 namespace Csud.Crud.Models
 {

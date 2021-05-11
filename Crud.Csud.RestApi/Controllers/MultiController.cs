@@ -1,6 +1,4 @@
-﻿using Crud.Csud.RestApi.Models;
-using Csud.Crud.Models;
-using Csud.Crud.Models.Rules;
+﻿using Csud.Crud.Models.Rules;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Crud.Csud.RestApi.Controllers

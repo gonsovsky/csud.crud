@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Linq;
-using Crud.Csud.RestApi.Models;
 using Csud.Crud;
 using Csud.Crud.Models;
 using Microsoft.AspNetCore.Mvc;
-using Csud.Crud.Models.Contexts;
-using Csud.Crud.Models.Rules;
 
 namespace Crud.Csud.RestApi.Controllers
 {

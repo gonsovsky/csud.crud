@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Reflection;
 using Csud.Crud;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

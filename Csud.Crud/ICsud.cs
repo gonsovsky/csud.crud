@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using Csud.Crud.Models;
-using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Rules;
 
 namespace Csud.Crud
