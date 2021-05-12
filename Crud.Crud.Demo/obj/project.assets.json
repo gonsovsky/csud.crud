@@ -2234,9 +2234,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\@job\\Csud.Crud\\Crud.Crud.Demo\\Csud.Crud.Demo.csproj",
-      "projectName": "Csud.Crud.Demo",
-      "projectPath": "C:\\@job\\Csud.Crud\\Crud.Crud.Demo\\Csud.Crud.Demo.csproj",
+      "projectUniqueName": "C:\\@job\\Csud.Crud\\Crud.Crud.Demo\\Csud.Crud.DBTool.csproj",
+      "projectName": "Csud.Crud.DBTool",
+      "projectPath": "C:\\@job\\Csud.Crud\\Crud.Crud.Demo\\Csud.Crud.DBTool.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
       "outputPath": "C:\\@job\\Csud.Crud\\Crud.Crud.Demo\\obj\\",
       "projectStyle": "PackageReference",

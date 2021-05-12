@@ -91,5 +91,14 @@ namespace Csud.Crud
                 rootKey ??= add.Key;
             }
         }
+
+        public void IncludeRelational<TEntity>(int key, int relatedKey) where TEntity : Base, IRelational
+        {
+            if (Select<TEntity>().Any(a => a.Key == key) == false)
+                throw new ArgumentException($"Объекты с ключем {key} не найдены");
+
+            if (Select<TEntity>().Any(a => a.Key == key && a.RelatedKey== relatedKey) == false)
+                throw new ArgumentException($"Пара {key}-{relatedKey} не найдена");
+        }
     }
 }

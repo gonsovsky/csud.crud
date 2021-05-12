@@ -10,9 +10,9 @@ namespace Csud.Crud.Postgre
     {
         private readonly string conStr;
 
-        public CsudPostgre(string conStr)
+        public CsudPostgre(Config cfg)
         {
-            this.conStr = conStr;
+            this.conStr = cfg.Postgre.ConnectionString;
             Database.EnsureCreated();
         }
 

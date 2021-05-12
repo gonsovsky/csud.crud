@@ -14,12 +14,18 @@ namespace Csud.Crud
 
         public CsudPostgre Postgre;
 
-        public Csud(string postgreConStr, string mongoHost, int mongoPort, string mongoDb)
+        public Csud(Config cfg)
         {
-            Postgre = new CsudPostgre(postgreConStr);
-            Mongo = new CsudMongo(mongoHost, mongoPort, mongoDb);
-            Db.Add(Mongo);
-            Db.Add(Postgre);
+            if (cfg.Mongo.Enabled)
+            {
+                Mongo = new CsudMongo(cfg);
+                Db.Add(Mongo);
+            }
+            if (cfg.Postgre.Enabled)
+            {
+                Postgre = new CsudPostgre(cfg);
+                Db.Add(Postgre);
+            }
         }
 
         public void AddEntity<T>(T entity, bool generateKey = true) where T : Base

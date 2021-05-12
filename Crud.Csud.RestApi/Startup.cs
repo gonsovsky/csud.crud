@@ -19,7 +19,7 @@ namespace Crud.Csud.RestApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            CsudService.StartUp(Configuration);
+            CsudService.StartUp(new Config(Configuration));
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Rules;
 using Group = Csud.Crud.Models.Rules.Group;
 
-namespace Csud.Crud.Demo
+namespace Csud.Crud.DBTool
 {
     public class DataGenerator
     {

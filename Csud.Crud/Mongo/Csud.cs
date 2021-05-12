@@ -12,10 +12,10 @@ namespace Csud.Crud.Mongo
     public class CsudMongo: ICsud
     {
         private protected static IMongoDatabase Db;
-        public CsudMongo(string mongoHost, int mongoPort, string mongoDb)
+        public CsudMongo(Config cfg)
         {
-            DB.InitAsync(mongoDb, mongoHost, mongoPort).Wait();
-            Db = DB.Database(mongoDb);
+            DB.InitAsync(cfg.Mongo.Db, cfg.Mongo.Host, cfg.Mongo.Port).Wait();
+            Db = DB.Database(cfg.Mongo.Db);
 
             RelatedKeyIndex<Group>();
             RelatedKeyIndex<CompositeContext>();

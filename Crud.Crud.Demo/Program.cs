@@ -1,67 +1,38 @@
 ﻿using System;
-using System.Linq;
-using Csud.Crud.Models.Rules;
+using System.Threading;
+using Csud.Crud.DBTool.Promt;
 using Microsoft.Extensions.Configuration;
 
-namespace Csud.Crud.Demo
+namespace Csud.Crud.DBTool
 {
-    internal class Program
+    public static class Program
     {
         private static ICsud _csud;
+        public static Config Cfg;
 
         private static void Main()
         {
             var builder = new ConfigurationBuilder()
-                .AddJsonFile($"appsettings.json", true, true);
-            var config = builder.Build();
+                .AddJsonFile($"appsettings.json", true, true); 
+            var cfg = builder.Build();
+            Cfg = new Config(cfg);
 
-            CsudService.StartUp(config);
-            _csud = CsudService.Csud;
-            var gen = new DataGenerator(_csud);
-            gen.Generate(100);
+            new DemoProgram().Run();
 
-            Test1();
-            Console.WriteLine("Done");
+            Console.WriteLine("Enter to exit");
             Console.ReadKey();
         }
 
-        private static void Test1()
+        public static void BeginGeneration()
         {
-            var n = 0;
-            var g = CsudService.CsudObj.Mongo.Select<Group>().ToList().GroupBy(x => x.Key);
-            foreach (var x in g)
-            {
-                Console.WriteLine($"{x.Key} - {x.Count()}");
-                foreach (var y in x)
-                {
-                    y.Dump();
-                    Console.WriteLine();
-                    n++;
-                    if (n > 20)
-                        break;
-                }
-            }
+            Console.WriteLine("A");
+            Thread.Sleep(1000);
+            CsudService.StartUp(Cfg);
+            _csud = CsudService.Csud;
+
+            //var gen = new DataGenerator(_csud);
+            //gen.Generate(100);
         }
 
-        private static void Test()
-        {
-            Console.WriteLine("getting");
-            var person = _csud.Person.First();
-            var q = _csud.Person.ToList();
-            person = q.First(x => x.Key == 1);
-
-            Console.WriteLine("updating");
-            person = _csud.Person.First();
-            person.FirstName = "Updated";
-            _csud.UpdateEntity(person);
-
-            Console.WriteLine("deleting");
-            person = _csud.Person.First();
-            _csud.DeleteEntity(person);
-
-            Console.WriteLine("cloning");
-            person = _csud.Person.First();
-            _csud.CopyEntity(person);
-        }
     }
 }

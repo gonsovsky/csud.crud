@@ -7,12 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csud.Crud", "Csud.Crud\Csud
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoDB.Entities", "MongoDB.Entities\MongoDB.Entities.csproj", "{992EAE52-971F-4366-81A6-D8C06CEC7E76}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{0D9B9DC4-5B56-4FDF-B37B-13A1209A57B0}"
-	ProjectSection(SolutionItems) = preProject
-		data\scsm.csv = data\scsm.csv
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csud.Crud.Demo", "Crud.Crud.Demo\Csud.Crud.Demo.csproj", "{70F6B6D4-6AC5-4C03-9F61-65BFFB322AE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Csud.Crud.DBTool", "Crud.Crud.Demo\Csud.Crud.DBTool.csproj", "{70F6B6D4-6AC5-4C03-9F61-65BFFB322AE9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crud.Csud.RestApi", "Crud.Csud.RestApi\Crud.Csud.RestApi.csproj", "{109266DC-82D1-4769-A8F0-4A781BC62E3F}"
 EndProject
