@@ -13,12 +13,8 @@ namespace Csud.Crud.Mongo
     {
         private protected static IMongoDatabase Db;
 
-        private Config Config;
-
         public CsudMongo(Config cfg)
         {
-            Config = cfg;
-
             DB.InitAsync(cfg.Mongo.Db, cfg.Mongo.Host, cfg.Mongo.Port).Wait();
             Db = DB.Database(cfg.Mongo.Db);
 
@@ -101,7 +97,5 @@ namespace Csud.Crud.Mongo
         {
             return DB.Queryable<T>().Where(x => x.Status == status);
         }
-
-
     }
 }

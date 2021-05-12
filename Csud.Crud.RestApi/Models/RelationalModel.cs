@@ -4,6 +4,6 @@ namespace Crud.Csud.RestApi.Models
 {
     public class RelationalModel: BaseContext
     {
-        public int?[] RelatedKeys { get; set; }
+        public int[] RelatedKeys { get; set; }
     }
 }

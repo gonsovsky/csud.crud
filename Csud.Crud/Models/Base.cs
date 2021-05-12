@@ -13,10 +13,10 @@ namespace Csud.Crud.Models
 {
     public class Base : Entity, ICloneable
     { 
-        [Key] public virtual int? Key { get; set; }
+        [Key] public virtual int Key { get; set; }
         [NotMapped] [JsonIgnore]
         public override string ID { get; set; }
-        public int? GenerateNewKey()
+        public int GenerateNewKey()
         {
             var col = GetType().Name;
             var q = DB.Collection<Seq>().AsQueryable().Where(x => x.ID == col);

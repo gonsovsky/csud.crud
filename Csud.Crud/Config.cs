@@ -17,14 +17,33 @@ namespace Csud.Crud
 
             public string AdminConnectionString { get; set; }
 
-            public string DbName
+            public string Db
             {
                 get
                 {
-                    DbConnectionStringBuilder x = new DbConnectionStringBuilder();
-                    x.ConnectionString = ConnectionString;
-                    var db = x["Database"].ToString();
-                    return db;
+                    var x = new DbConnectionStringBuilder {ConnectionString = ConnectionString};
+                    var val = x["Database"].ToString();
+                    return val;
+                }
+            }
+
+            public string Host
+            {
+                get
+                {
+                    var x = new DbConnectionStringBuilder { ConnectionString = ConnectionString };
+                    var val = x["Server"].ToString();
+                    return val;
+                }
+            }
+
+            public string Port
+            {
+                get
+                {
+                    var x = new DbConnectionStringBuilder { ConnectionString = ConnectionString };
+                    var val = x["Port"].ToString();
+                    return val;
                 }
             }
         }
@@ -57,15 +76,15 @@ namespace Csud.Crud
                 var result = "";
                 if (Mongo.Enabled)
                     result = "Mongo";
-                if (Postgre.Enabled)
-                    if (result != "")
-                        result += " & Postgre";
-                    else
-                        result = "Postgre";
+                if (!Postgre.Enabled) return result;
+                if (result != "")
+                    result += " & Postgre";
+                else
+                    result = "Postgre";
                 return result;
             }
         }
 
-        public bool IsDebugMode => Environment.MachineName == "SM-SQL" && 1==2;
+        public bool IsDebugMode => Environment.MachineName == "SM-SQL";
     }
 }

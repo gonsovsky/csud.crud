@@ -14,7 +14,7 @@ namespace Csud.Crud
         public static void StartUp(Config config)
         {
             Config = config;
-            CsudObj = new global::Csud.Crud.Csud(config);
+            CsudObj = new Csud(config);
             Csud = CsudObj;
         }
 
@@ -47,9 +47,9 @@ namespace Csud.Crud
 
             Cmd($@"SELECT pg_terminate_backend(pid)
                      FROM pg_stat_activity
-                     WHERE datname = '{Config.Postgre.DbName}';");
+                     WHERE datname = '{Config.Postgre.Db}';");
 
-            Cmd($" DROP DATABASE IF EXISTS {Config.Postgre.DbName};");
+            Cmd($" DROP DATABASE IF EXISTS {Config.Postgre.Db};");
         }
     }
 }

@@ -8,16 +8,12 @@ namespace Csud.Crud.Models
 {
     public interface IRelational
     {
-        public int? RelatedKey { get; set; }
-
-        [NotMapped] [BsonIgnore] [JsonIgnore]
-        public List<int?> RelatedKeys { get; set; }
-
-        [NotMapped] [BsonIgnore] [JsonIgnore]
-        public IEnumerable RelatedEntities { get; set; }
+        public int RelatedKey { get; set; }
+        [NotMapped] [BsonIgnore] [JsonIgnore] public List<int> RelatedKeys { get; set; }
+        [NotMapped] [BsonIgnore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
     }
 
-    internal interface IRelationalAdd: IRelational
+    public interface IRelationalAdd: IRelational
     {
     }
 }

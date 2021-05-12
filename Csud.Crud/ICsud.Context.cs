@@ -18,7 +18,7 @@ namespace Csud.Crud
                     DeleteEntity(TimeContext.First(x => x.Key == key));
                     break;
                 case Const.Context.Attrib:
-                    DeleteEntity(AttribContext.First(x => x.Key == key));
+                    DeleteEntity(AttributeContext.First(x => x.Key == key));
                     break;
                 case Const.Context.Rule:
                     DeleteEntity(RuleContext.First(x => x.Key == key));
@@ -53,7 +53,7 @@ namespace Csud.Crud
                     CopyEntity(time, true);
                     break;
                 case Const.Context.Attrib:
-                    var attrib = AttribContext.First(x => x.Key == key);
+                    var attrib = AttributeContext.First(x => x.Key == key);
                     attrib.Key = co.Key;
                     CopyEntity(attrib, true);
                     break;
@@ -86,12 +86,11 @@ namespace Csud.Crud
         }
         public void AddContext<T>(T entity, bool isTemporary = false) where T : BaseContext
         {
-            if (entity is CompositeContext)
+            if (entity is CompositeContext compositeContext)
             {
-                var composite = entity as CompositeContext;
-                if (composite.RelatedKeys == null || composite.RelatedKeys.Count == 0)
+                if (compositeContext.RelatedKeys == null || compositeContext.RelatedKeys.Count == 0)
                     throw new ArgumentException($"Связанные контексты не найдены");
-                foreach (var rkey in composite.RelatedKeys)
+                foreach (var rkey in compositeContext.RelatedKeys)
                 {
                     if (Context.Any(a => a.Key == rkey) == false)
                         throw new ArgumentException($"Контекст с кодом {rkey} не найден");
@@ -103,12 +102,11 @@ namespace Csud.Crud
             AddEntity(context);
             entity.Key = context.Key;
             entity.ID = context.ID;
-            if (entity is CompositeContext)
+            if (entity is CompositeContext composite)
             {
-                var composite = entity as CompositeContext;
                 foreach (var rkey in composite.RelatedKeys)
                 {
-                    var x = (CompositeContext)entity.Clone();
+                    var x = (CompositeContext)composite.Clone();
                     x.ID = null;
                     x.Key = context.Key;
                     x.RelatedKey = rkey;
@@ -129,7 +127,7 @@ namespace Csud.Crud
                 case Const.Context.Time:
                     return this.Select<TimeContext>(status).First(x => x.Key == key);
                 case Const.Context.Attrib:
-                    return this.Select<AttribContext>(status).First(x => x.Key == key);
+                    return this.Select<AttributeContext>(status).First(x => x.Key == key);
                 case Const.Context.Rule:
                     return this.Select<RuleContext>(status).First(x => x.Key == key);
                 case Const.Context.Struct:
@@ -153,7 +151,7 @@ namespace Csud.Crud
                 q = q.Take(take);
             foreach (var context in q)
             {
-                yield return GetContext((int)context.Key, status);
+                yield return GetContext(context.Key, status);
             }
         }
         private IEnumerable ExpandCompositeContext(int key, string status = Const.Status.Actual)
@@ -161,7 +159,7 @@ namespace Csud.Crud
             var all = Select<CompositeContext>(status)
                 .Where(a => a.Key == key);
             foreach (var context in all)
-                yield return GetContext((int)context.RelatedKey, status);
+                yield return GetContext(context.RelatedKey, status);
         }
         public IQueryable<Context> Context => Select<Context>();
         public IQueryable<TimeContext> TimeContext => Select<TimeContext>();
@@ -169,7 +167,7 @@ namespace Csud.Crud
         public IQueryable<RuleContext> RuleContext => Select<RuleContext>();
         public IQueryable<StructContext> StructContext => Select<StructContext>();
         public IQueryable<CompositeContext> CompositeContext => Select<CompositeContext>();
-        public IQueryable<AttribContext> AttribContext =>
-            throw new NotImplementedException($"{typeof(AttribContext)} is not implemented");
+        public IQueryable<AttributeContext> AttributeContext =>
+            throw new NotImplementedException($"{typeof(AttributeContext)} is not implemented");
     }
 }

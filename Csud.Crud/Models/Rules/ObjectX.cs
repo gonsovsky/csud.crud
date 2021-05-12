@@ -28,7 +28,7 @@ namespace Csud.Crud.Models.Rules
     {
         public string Type { get; set; } = Const.Object.Role;
 
-        public int? ContextKey { get; set; }
+        public int ContextKey { get; set; }
 
         [NotMapped] [BsonIgnore] [JsonIgnore]
         public Context Context

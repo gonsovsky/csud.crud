@@ -2,14 +2,14 @@
 {
     public struct CsudKey
     {
-        private int? peer;
+        private int peer;
 
-        public static implicit operator CsudKey(int? i)
+        public static implicit operator CsudKey(int i)
         {
             return new CsudKey { peer = i };
         }
 
-        public static implicit operator int?(CsudKey p)
+        public static implicit operator int(CsudKey p)
         {
             return p.peer;
         }

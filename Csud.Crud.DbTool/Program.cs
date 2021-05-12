@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Csud.Crud.DBTool.Promt.ConsoleEx;
+using Csud.Crud.DbTool.PromtEx;
 using Microsoft.Extensions.Configuration;
 
-namespace Csud.Crud.DBTool
+namespace Csud.Crud.DbTool
 {
     public static class Program
     {
@@ -18,7 +18,8 @@ namespace Csud.Crud.DBTool
             var cfg = builder.Build();
             Cfg = new Config(cfg);
 
-            var promt = new Promt.Promt();
+
+            var promt = new Promt();
             if (args.Contains("auto"))
                 BeginGeneration();
             else
@@ -34,7 +35,7 @@ namespace Csud.Crud.DBTool
             CsudService.StartUp(Cfg);
             _csud = CsudService.Csud;
             var gen = new DataGenerator(_csud);
-            gen.Generate(X.Stat);
+            gen.Generate(Promt.Result);
         }
 
     }

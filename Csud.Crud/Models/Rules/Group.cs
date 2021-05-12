@@ -48,16 +48,16 @@ namespace Csud.Crud.Models.Rules
     [GroupValidator]
     public class Group: Base, IRelational, IContextable
     {
-        public virtual int? RelatedKey { get; set; }
-        public int? ContextKey { get; set; }
-        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public virtual List<int?> RelatedKeys { get; set; } = new List<int?>();
+        public virtual int RelatedKey { get; set; }
+        public int ContextKey { get; set; }
+        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public virtual List<int> RelatedKeys { get; set; } = new List<int>();
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
     }
 
     public class GroupAdd : Group, IRelationalAdd
     {
-        [JsonIgnore] public override int? Key { get; set; }
-        [JsonIgnore] public override int? RelatedKey { get; set; }
-        public new List<int?> RelatedKeys { get; set; }
+        [JsonIgnore] public override int Key { get; set; }
+        [JsonIgnore] public override int RelatedKey { get; set; }
+        public new List<int> RelatedKeys { get; set; }
     }
 }

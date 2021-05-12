@@ -8,17 +8,17 @@ namespace Csud.Crud.Postgre
 {
     public sealed class CsudPostgre : DbContext, ICsud
     {
-        private Config Config;
+        private Config config;
 
         public CsudPostgre(Config cfg)
         {
-            this.Config = cfg;
+            this.config = cfg;
             Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(Config.Postgre.ConnectionString);
+            optionsBuilder.UseNpgsql(config.Postgre.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

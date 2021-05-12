@@ -25,8 +25,8 @@ namespace Csud.Crud.Models.Contexts
     [CompositeValidator]
     public class CompositeContext : BaseContext, IRelational
     {
-        public int? RelatedKey { get; set; }
-        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public List<int?> RelatedKeys { get; set; } = new List<int?>();
+        public int RelatedKey { get; set; }
+        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public List<int> RelatedKeys { get; set; } = new List<int>();
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
     }
 }

@@ -38,15 +38,15 @@ namespace Csud.Crud.Models.Rules
     [TaskValidator]
     public class TaskX : Base, IRelational
     {
-        public int? RelatedKey { get; set; }
-        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public List<int?> RelatedKeys { get; set; } = new List<int?>();
+        public int RelatedKey { get; set; }
+        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public List<int> RelatedKeys { get; set; } = new List<int>();
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
     }
 
     public class TaskAdd : TaskX, IRelationalAdd
     {
-        [JsonIgnore] protected new int? Key { get; set; }
-        [JsonIgnore] protected new int? RelatedKey { get; set; }
-        public new List<int?> RelatedKeys { get; set; }
+        [JsonIgnore] protected new int Key { get; set; }
+        [JsonIgnore] protected new int RelatedKey { get; set; }
+        public new List<int> RelatedKeys { get; set; }
     }
 }

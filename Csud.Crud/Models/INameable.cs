@@ -9,6 +9,6 @@
 
     internal interface IContextable
     {
-        int? ContextKey { get; set; }
+        int ContextKey { get; set; }
     }
 }

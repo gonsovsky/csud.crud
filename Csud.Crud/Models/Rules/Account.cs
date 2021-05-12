@@ -26,9 +26,9 @@ namespace Csud.Crud.Models.Rules
     [AccountValidation]
     public class Account: Base, INameable
     {
-        public int? AccountProviderKey { get; set; }
-        public int? PersonKey { get; set; }
-        public int? SubjectKey { get; set; }
+        public int AccountProviderKey { get; set; }
+        public int PersonKey { get; set; }
+        public int SubjectKey { get; set; }
 
         [NotMapped] [BsonIgnore] [JsonIgnore] public AccountProvider AccountProvider
         {

@@ -27,7 +27,7 @@ namespace Csud.Crud.Models.Rules
     public class Subject: Base, INameable
     {
         public string SubjectType { get; set; } = Const.Subject.Account;
-        public int? ContextKey { get; set; }
+        public int ContextKey { get; set; }
 
         [NotMapped] [JsonIgnore] [BsonIgnore]
         public Context Context

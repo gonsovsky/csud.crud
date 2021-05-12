@@ -1,38 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Reflection;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Rules;
 
-namespace Csud.Crud.DBTool
+namespace Csud.Crud.DbTool
 {
     public class DataGenerator
     {
         protected ICsud Csud;
-
         public DataGenerator(ICsud csud)
         {
             Csud = csud;
         }
 
-        private Dictionary<string, int> input;
+        private Dictionary<Type, int> input;
 
-        private Dictionary<string, int> result;
+        private Dictionary<Type, int> result;
 
         private int From<T>() where T : Base
         {
-            return result[typeof(T).Name];
+            return result[typeof(T)];
         }
 
         private int To<T>() where T : Base
         {
-            return input[typeof(T).Name];
+            return input[typeof(T)];
         }
         private bool Ready<T>() where T : Base
         {
-            return input[typeof(T).Name] <= result[typeof(T).Name]-1;
+            return input[typeof(T)] <= result[typeof(T)]-1;
         }
 
         private readonly Random r = new Random();
@@ -59,7 +59,7 @@ namespace Csud.Crud.DBTool
         {
             var s = $@"{typeof(T).Name} - {From<T>()}/{To<T>()}";
             Console.WriteLine(s);
-            result[typeof(T).Name] += 1;
+            result[typeof(T)] += 1;
         }
 
         private void Make<T>(Action<T> act = null) where T : Base
@@ -68,7 +68,6 @@ namespace Csud.Crud.DBTool
             if (act != null) act(a);
             Csud.AddEntity(a);
             Log<T>();
-
         }
 
         private void MakeContext<T>(Action<T> act = null) where T : BaseContext
@@ -87,14 +86,14 @@ namespace Csud.Crud.DBTool
 
         private void MakeCompositeContext(CompositeContext a)
         {
-            var list = Csud.Context.Where(x => x.ContextType != Const.Context.Composite)
-                .Select(x => x.Key).ToList();
+            a.RelatedKeys = Csud.Context.Where(x => x.ContextType != Const.Context.Composite)
+                .Select(x => x.Key).OrderBy(x => SqlFunctions.Rand()).Take(5).ToList();
         }
 
-        public void Generate(Dictionary<string, int> dict)
+        public void Generate(Dictionary<Type, int> dict)
         {
             input = dict;
-            result = new Dictionary<string, int>();
+            result = new Dictionary<Type, int>();
             foreach (var p in dict)
                 result[p.Key] = 1;
 
@@ -115,9 +114,6 @@ namespace Csud.Crud.DBTool
 
             while (!Ready<RuleContext>())
                 MakeContext<RuleContext>();
-
-            while (!Ready<CompositeContext>())
-                MakeContext<CompositeContext>();
 
             while (!Ready<CompositeContext>())
                 MakeContext<CompositeContext>(MakeCompositeContext);
