@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.Common;
 using Microsoft.Extensions.Configuration;
 
 namespace Csud.Crud
@@ -18,6 +14,19 @@ namespace Csud.Crud
         public record PostgreClass: DbClass
         {
             public string ConnectionString { get; set; }
+
+            public string AdminConnectionString { get; set; }
+
+            public string DbName
+            {
+                get
+                {
+                    DbConnectionStringBuilder x = new DbConnectionStringBuilder();
+                    x.ConnectionString = ConnectionString;
+                    var db = x["Database"].ToString();
+                    return db;
+                }
+            }
         }
 
         public record MongoClass: DbClass
@@ -32,9 +41,10 @@ namespace Csud.Crud
 
         public Config(IConfiguration cfg)
         {
-            Postgre.Enabled = bool.Parse(cfg["Postgre:Enabled"]);
+            Postgre.Enabled = bool.Parse(cfg["Postgre:Enabled"]) || IsDebugMode;
             Postgre.ConnectionString = cfg["Postgre:ConnectionString"];
-            Mongo.Enabled = bool.Parse(cfg["Mongo:Enabled"]);
+            Postgre.AdminConnectionString = cfg["Postgre:AdminConnectionString"];
+            Mongo.Enabled = bool.Parse(cfg["Mongo:Enabled"]) || IsDebugMode;
             Mongo.Host = cfg["Mongo:Host"];
             Mongo.Port = int.Parse(cfg["Mongo:Port"]);
             Mongo.Db = cfg["Mongo:Db"];
@@ -56,6 +66,6 @@ namespace Csud.Crud
             }
         }
 
-        public bool IsDebugMode => Environment.MachineName == "SM-SQL";
+        public bool IsDebugMode => Environment.MachineName == "SM-SQL" && 1==2;
     }
 }

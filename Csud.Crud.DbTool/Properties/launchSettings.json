@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Csud.Crud.DBTool": {
+      "commandName": "Project",
+      "commandLineArgs": "auto"
+    }
+  }
+}
