@@ -45,7 +45,7 @@ namespace Csud.Crud
             }
         }
 
-        public void InsertRelational<TEntity,TLinked>(TEntity entity, bool generateKey = true) where TEntity : Base, IRelational where TLinked : Base
+        public void AddRelational<TEntity,TLinked>(TEntity entity, bool generateKey = true) where TEntity : Base, IRelational where TLinked : Base
         {
             if (entity.RelatedKeys == null || entity.RelatedKeys.Count == 0)
                 throw new ArgumentException($"Связанные объекты не найдены");

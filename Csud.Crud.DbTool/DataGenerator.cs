@@ -6,11 +6,14 @@ using System.Reflection;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Rules;
+using MongoDB.Driver.Core.WireProtocol.Messages;
 
 namespace Csud.Crud.DbTool
 {
     public class DataGenerator
     {
+        protected int No;
+
         protected ICsud Csud;
         public DataGenerator(ICsud csud)
         {
@@ -35,8 +38,6 @@ namespace Csud.Crud.DbTool
             return input[typeof(T)] <= result[typeof(T)]-1;
         }
 
-        private readonly Random r = new Random();
-
         private T Gen<T>() where T : Base
         {
             var source = Activator.CreateInstance<T>();
@@ -55,11 +56,30 @@ namespace Csud.Crud.DbTool
             return source;
         }
 
+        private Dictionary<Type, int> current;
+
+        private IEnumerable<T> Take<T>(IQueryable<T> q, int number) where T : Base
+        {
+            var result = q.Skip(current[typeof(T)]).Take(number).ToList();
+            var cnt = this.result.Count();
+            var no = result.Count();
+            if (no != number)
+                current[typeof(T)] = 0;
+            else
+            {
+                current[typeof(T)] += no;
+                if (current[typeof(T)] >= cnt)
+                    current[typeof(T)] = 0;
+            }
+            return result;
+        }
+
         private void Log<T>() where T : Base
         {
             var s = $@"{typeof(T).Name} - {From<T>()}/{To<T>()}";
             Console.WriteLine(s);
             result[typeof(T)] += 1;
+            No += 1;
         }
 
         private void Make<T>(Action<T> act = null) where T : Base
@@ -78,24 +98,67 @@ namespace Csud.Crud.DbTool
             Log<T>();
         }
 
+        private void MakeRelative<T,T1>(Action<T> act = null) where T : Base, IRelational where T1 : Base
+        {
+            var a = Gen<T>();
+            act?.Invoke(a);
+            Csud.AddRelational<T,T1>(a);
+            Log<T>();
+        }
+
         private void MakeTimeContext(TimeContext a)
         {
-            a.TimeStart = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)).Ticks;
-            a.TimeEnd = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)).Ticks;
+            a.TimeStart = 1000000 + No * 1000000;
+            a.TimeEnd = 1000000 + (No+1) * 1000000;
         }
 
         private void MakeCompositeContext(CompositeContext a)
         {
-            a.RelatedKeys = Csud.Context.Where(x => x.ContextType != Const.Context.Composite)
-                .Select(x => x.Key).OrderBy(x => SqlFunctions.Rand()).Take(5).ToList();
+            var q = Csud.Context.Where(x => x.ContextType != Const.Context.Composite);
+            a.RelatedKeys = Take(q, 3).Select(a => a.Key).ToList();
+        }
+
+        private void MakeSubject(Subject a)
+        {
+            a.ContextKey = Take(Csud.Context, 1).First().Key;
+            a.SubjectType = Const.Subject.Account;
+        }
+
+        private void MakeAccount(Account a)
+        {
+            a.AccountProviderKey = Take(Csud.AccountProvider, 1).First().Key;
+            a.SubjectKey = Take(Csud.Subject, 1).First().Key;
+            a.Person = Take(Csud.Person, 1).First();
+        }
+        private void MakeObject(ObjectX a)
+        {
+            a.Context = Take(Csud.Context, 1).First();
+            a.ObjectType = Const.Object.Entity;
+        }
+
+        private void MakeTask(TaskX a)
+        {
+            var q = Csud.Object.Where(x => x.ObjectType != Const.Object.Task);
+            a.RelatedKeys = Take(q, 3).Select(a => a.Key).ToList();
+        }
+
+        private void MakeGroup(Group a)
+        {
+            var q = Csud.Subject.Where(x => x.SubjectType != Const.Subject.Group);
+            a.RelatedKeys = Take(q, 3).Select(a => a.Key).ToList();
+            a.Context = Take(Csud.Context, 1).First();
         }
 
         public void Generate(Dictionary<Type, int> dict)
         {
             input = dict;
             result = new Dictionary<Type, int>();
+            current = new Dictionary<Type, int>();
             foreach (var p in dict)
+            {
                 result[p.Key] = 1;
+                current[p.Key] =0;
+            }
 
             while (!Ready<AccountProvider>())
                 Make<AccountProvider>();
@@ -118,133 +181,20 @@ namespace Csud.Crud.DbTool
             while (!Ready<CompositeContext>())
                 MakeContext<CompositeContext>(MakeCompositeContext);
 
-            //while ((currentLine = sr.ReadLine()) != null)
-            //{
-            //    n++;
-            //    var values = Regex.Split(currentLine, ",(?=(?:[^']*'[^']*')*[^']*$)");
-            //    if (fields == null)
-            //    {
-            //        fields = values.Select((value, index) => new {value, index})
-            //            .ToDictionary(pair => pair.value, pair => pair.index.ToString());
-            //        continue;
-            //    }
+            while (!Ready<Subject>())
+                Make<Subject>(MakeSubject);
 
+            while (!Ready<Group>())
+                MakeRelative<Group, Subject>(MakeGroup);
 
-            //    var recType = V(values, fields, "structuralobjectclass");
-            //    if (recType.Contains("user"))
-            //    {
-            //        var p = new Person()
-            //        {
-            //            FirstName = V(values, fields, "name",1),
-            //            LastName = V(values, fields, "name", 0),
-            //        };
-            //        Csud.AddEntity(p);
+            while (!Ready<Account>())
+                Make<Account>(MakeAccount);
 
-            //        var su = new Subject()
-            //        {
-            //            Description = "subject:" + V(values, fields, "useraccountcontrol"),
-            //            Name = "subject:" + V(values, fields, "samaccountname"),
-            //            DisplayName = "subject:" + V(values, fields, "userprincipalname"),
-            //            ContextKey = LastContext.Key
-            //        };
-            //        Csud.AddEntity(su);
+            while (!Ready<ObjectX>())
+                Make<ObjectX>(MakeObject);
 
-            //        var ac = new Account()
-            //        {
-            //            AccountProviderKey = 1,
-            //            Description = V(values, fields, "useraccountcontrol"),
-            //            Name = V(values, fields, "samaccountname"),
-            //            DisplayName = V(values, fields, "userprincipalname"),
-            //            Person = p,
-            //            Subject = su
-            //        };
-            //        Csud.AddEntity(ac);
-
-            //        var gr = (Group)LastGroup.Clone(false);
-            //        gr.Key = LastGroup.Key;
-            //        gr.RelatedKey = su.Key;
-            //        gr.ContextKey = LastGroup.ContextKey;
-            //        Csud.AddEntity(gr, false);
-
-            //        Console.WriteLine(ac.Key);
-            //    }
-            //    else
-            //    {
-            //        var timeContext = new TimeContext()
-            //        {
-            //            TimeStart = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)).Ticks,
-            //            TimeEnd = new TimeSpan(r.Next(1, 23), r.Next(1, 59), r.Next(1, 59)).Ticks
-            //        };
-            //        Csud.AddContext(timeContext);
-
-            //        var segmentContext = new SegmentContext()
-            //        {
-            //            SegmentName = "segment N " + n.ToString()
-            //        };
-            //        Csud.AddContext(segmentContext);
-
-            //        var structContext = new StructContext()
-            //        {
-            //            StructCode = n.ToString()
-            //        };
-            //        Csud.AddContext(structContext);
-
-            //        var ruleContext = new RuleContext()
-            //        {
-            //            RuleName = "rule N " + n.ToString()
-            //        };
-            //        Csud.AddContext(ruleContext);
-
-            //        var compositeContext = new CompositeContext()
-            //        {
-            //        };
-
-            //        compositeContext.RelatedKeys.Add(timeContext.Key);
-            //        compositeContext.RelatedKeys.Add(segmentContext.Key);
-            //        compositeContext.RelatedKeys.Add(structContext.Key);
-            //        compositeContext.RelatedKeys.Add(ruleContext.Key);
-
-            //        Csud.AddContext(compositeContext);
-            //        LastContext = compositeContext;
-
-            //        var su = new Subject()
-            //        {
-            //            SubjectType = Const.Subject.Group,
-            //            Description = "subject:" + V(values, fields, "useraccountcontrol"),
-            //            Name = "subject:" + V(values, fields, "samaccountname"),
-            //            DisplayName = "subject:" + V(values, fields, "userprincipalname"),
-            //            ContextKey = LastContext.Key
-            //        };
-            //        Csud.AddEntity(su);
-
-            //        var gr = new Group()
-            //        {
-            //            Key = su.Key,
-            //            ContextKey = LastContext.Key
-            //        };
-            //        LastGroup = gr;
-            //        Console.WriteLine("group:" + gr.Key);
-
-            //        var obj1 = new ObjectX()
-            //        {
-            //            Type = Const.Object.Task,
-            //            Description = "object:" + V(values, fields, "useraccountcontrol"),
-            //            Name = "object:" + V(values, fields, "samaccountname"),
-            //            DisplayName = "object:" + V(values, fields, "userprincipalname"),
-            //            ContextKey = LastContext.Key
-            //        };
-            //        Csud.AddEntity(obj1);
-            //        var obj2 = (ObjectX)obj1.Clone();
-            //        Csud.AddEntity(obj2);
-
-            //        var task = new TaskX()
-            //        {
-            //            Key = obj1.Key,
-            //            RelatedKey = obj2.Key
-            //        };
-            //        Csud.AddEntity(task);
-            //    }
-            //}
+            while (!Ready<TaskX>())
+                MakeRelative<TaskX, ObjectX>(MakeTask);
         }
     }
 }

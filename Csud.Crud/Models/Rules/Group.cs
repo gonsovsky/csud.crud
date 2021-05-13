@@ -50,6 +50,12 @@ namespace Csud.Crud.Models.Rules
     {
         public virtual int RelatedKey { get; set; }
         public int ContextKey { get; set; }
+
+        [NotMapped] [BsonIgnore] [JsonIgnore]
+        public Context Context
+        {
+            set => ContextKey = value.Key;
+        }
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public virtual List<int> RelatedKeys { get; set; } = new List<int>();
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
     }

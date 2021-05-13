@@ -91,7 +91,7 @@ namespace Csud.Crud.RestApi.Controllers
                 }
                 var p = Activator.CreateInstance<TEntity>();
                 entity.CopyTo(p,false);
-                Csud.InsertRelational<TEntity,TLinked>(p);
+                Csud.AddRelational<TEntity,TLinked>(p);
                 return Ok(entity);
             }
             catch (Exception ex)

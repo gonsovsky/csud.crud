@@ -15,7 +15,7 @@ namespace Csud.Crud.Models.Rules
             {
                 Error("Неверный код контекста.");
             }
-            if (obj.Type != Const.Object.Role && obj.Type != Const.Object.Task && obj.Type != Const.Object.Entity)
+            if (obj.ObjectType != Const.Object.Role && obj.ObjectType != Const.Object.Task && obj.ObjectType != Const.Object.Entity)
             {
                 Error("Неверный тип объекта.");
             }
@@ -26,7 +26,7 @@ namespace Csud.Crud.Models.Rules
     [ObjectValidation]
     public class ObjectX : Base, INameable
     {
-        public string Type { get; set; } = Const.Object.Role;
+        public string ObjectType { get; set; } = Const.Object.Role;
 
         public int ContextKey { get; set; }
 

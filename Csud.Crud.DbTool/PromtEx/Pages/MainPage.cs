@@ -15,7 +15,7 @@ namespace Csud.Crud.DbTool.PromtEx.Pages
                 Promt.Program.AddPage(p);
                 var op = new Option(type.Name, p,() => Promt.Program.NavigateTo(p));
                 opts.Add(op);
-                Promt.Result.Add(type,50);
+                Promt.Result.Add(type,20);
             }
             var pgGen  = new StartDataBaseGeneration(null, "Generate database");
             Promt.Program.AddPage(pgGen);
