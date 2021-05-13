@@ -47,7 +47,7 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                Csud.DeleteRelational<TEntity>(key);
+                Csud.DeleteRelational<TEntity, TLinked>(key);
                 return Ok();
             }
             catch (Exception ex)
@@ -68,7 +68,7 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.CopyRelational<TEntity>(key);
+                Csud.CopyRelational<TEntity, TLinked>(key);
                 return Ok();
             }
             catch (Exception ex)

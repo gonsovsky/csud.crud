@@ -11,6 +11,8 @@ namespace Csud.Crud.Models
         public int RelatedKey { get; set; }
         [NotMapped] [BsonIgnore] [JsonIgnore] public List<int> RelatedKeys { get; set; }
         [NotMapped] [BsonIgnore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
+
+        void Link(Base linked);
     }
 
     public interface IRelationalAdd: IRelational

@@ -28,5 +28,9 @@ namespace Csud.Crud.Models.Contexts
         public int RelatedKey { get; set; }
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public List<int> RelatedKeys { get; set; } = new List<int>();
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
+        public void Link(Base linked)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

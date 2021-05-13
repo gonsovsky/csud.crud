@@ -58,6 +58,10 @@ namespace Csud.Crud.Models.Rules
         }
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public virtual List<int> RelatedKeys { get; set; } = new List<int>();
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
+        public void Link(Base linked)
+        {
+            ((Subject) linked).SubjectType = Const.Subject.Group;
+        }
     }
 
     public class GroupAdd : Group, IRelationalAdd

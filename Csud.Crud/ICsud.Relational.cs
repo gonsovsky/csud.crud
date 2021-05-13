@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.Models;
+using Csud.Crud.Models.Rules;
 
 namespace Csud.Crud
 {
@@ -54,19 +55,23 @@ namespace Csud.Crud
                 if (Select<TLinked>().Any(a => a.Key == rkey) == false)
                     throw new ArgumentException($"Связанный объект с кодом {rkey} не найден");
             }
-            int rootKey = 0;
+            var linked = Activator.CreateInstance<TLinked>();
+            entity.CopyTo(linked, false);
+            entity.Link(linked);
+            AddEntity(linked);
+            entity.Key = linked.Key;
+            entity.ID = linked.ID;
             foreach (var rkey in entity.RelatedKeys)
             {
                 var x = (TEntity) entity.Clone();
+                x.ID = null;
+                x.Key = linked.Key;
                 x.RelatedKey = rkey;
-                x.Key = rootKey;
-                AddEntity(x, rootKey == 0);
-                if (rootKey == 0)
-                    rootKey = x.Key;
+                AddEntity(x, false);
             }
         }
 
-        public void DeleteRelational<TEntity>(int key) where TEntity : Base, IRelational
+        public void DeleteRelational<TEntity, TLinked>(int key) where TEntity : Base, IRelational where TLinked : Base
         {
             if (Select<TEntity>().Any(a => a.Key == key) == false)
                 throw new ArgumentException($"Объекты с ключем {key} не найдены");
@@ -75,22 +80,22 @@ namespace Csud.Crud
             {
                 DeleteEntity(item);
             }
+            DeleteEntity(Select<TLinked>().First(a=> a.Key==key));
         }
 
-        public void CopyRelational<TEntity>(int key, bool keepKey = false) where TEntity : Base, IRelational
+        public void CopyRelational<TEntity, TLinked>(int key, bool keepKey = false) where TEntity : Base, IRelational where TLinked : Base
         {
             if (Select<TEntity>().Any(a => a.Key == key) == false)
                 throw new ArgumentException($"Объекты с ключем {key} не найдены");
 
+            var co = this.Select<TLinked>().First(a => a.Key == key);
+            co = CopyEntity(co);
+
             var all = Select<TEntity>().Where(a => a.Key == key);
-            int rootKey = 0;
             foreach (var item in all)
             {
-                item.ID = null;
-                item.Key = rootKey;
-                var add = CopyEntity(item,rootKey!=0);
-                if (rootKey == 0)
-                    rootKey = add.Key;
+                item.Key = co.Key;
+                CopyEntity(item, true);
             }
         }
 

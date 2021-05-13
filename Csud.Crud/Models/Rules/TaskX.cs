@@ -41,6 +41,10 @@ namespace Csud.Crud.Models.Rules
         public int RelatedKey { get; set; }
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public List<int> RelatedKeys { get; set; } = new List<int>();
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
+        public void Link(Base linked)
+        {
+            ((ObjectX)linked).ObjectType = Const.Object.Task;
+        }
     }
 
     public class TaskAdd : TaskX, IRelationalAdd
