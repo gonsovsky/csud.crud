@@ -4,11 +4,13 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Models.Rules
 {
-    //public class Relation: Base, INameable
+    //public class Relation : Base, INameable
     //{
     //    public int ContextKey { get; set; }
 
-    //    [NotMapped] [BsonIgnore] [JsonIgnore]
+    //    [NotMapped]
+    //    [BsonIgnore]
+    //    [JsonIgnore]
     //    public Context Context
     //    {
     //        set => ContextKey = value.Key;

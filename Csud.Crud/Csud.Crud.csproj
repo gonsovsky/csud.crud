@@ -37,8 +37,4 @@
     <ProjectReference Include="..\MongoDB.Entities\MongoDB.Entities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\App\" />
-  </ItemGroup>
-
 </Project>

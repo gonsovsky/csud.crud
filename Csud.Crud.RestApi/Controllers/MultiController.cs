@@ -15,6 +15,12 @@ namespace Csud.Crud.RestApi.Controllers
     {
     }
 
+    //[Route("api/relation")]
+    //[ApiController]
+    //public class RelationController : RelationalController<RelationDetails, RelationDetailsAdd, Relation>
+    //{
+    //}
+
     [Route("api/person")]
     [ApiController]
     public class PersonController : BaseController<Person>
