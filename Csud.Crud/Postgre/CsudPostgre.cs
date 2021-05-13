@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Csud.Crud.Postgre
 {
-    public sealed class CsudPostgre : DbContext, ICsud
+    public partial class CsudPostgre : DbContext, ICsud
     {
         private Config config;
 
@@ -14,6 +14,7 @@ namespace Csud.Crud.Postgre
         {
             this.config = cfg;
             Database.EnsureCreated();
+            AppCsudPostgre(cfg);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -41,6 +42,8 @@ namespace Csud.Crud.Postgre
 
             modelBuilder.Entity<Person>()
                 .HasIndex(x => new { x.FirstName, x.LastName });
+
+            AppOnModelCreating(modelBuilder);
         }
 
         public DbSet<Person> Person { get; set; }

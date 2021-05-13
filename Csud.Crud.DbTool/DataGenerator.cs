@@ -4,6 +4,7 @@ using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Reflection;
 using Csud.Crud.Models;
+using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Rules;
 using MongoDB.Driver.Core.WireProtocol.Messages;
@@ -50,7 +51,7 @@ namespace Csud.Crud.DbTool
                 .Select(srcProp => new {sourceProperty = srcProp});
             foreach (var props in results)
             {
-                props.sourceProperty.SetValue(source, $"{props.sourceProperty.Name} - {From<T>()}");
+                props.sourceProperty.SetValue(source, $"{props.sourceProperty.Name} - {No} / {From<T>()}");
             }
             source.Status = Const.Status.Actual;
             return source;
@@ -60,18 +61,15 @@ namespace Csud.Crud.DbTool
 
         private IEnumerable<T> Take<T>(IQueryable<T> q, int number) where T : Base
         {
-            var result = q.Skip(current[typeof(T)]).Take(number).ToList();
-            var cnt = this.result.Count();
-            var no = result.Count();
-            if (no != number)
+            var z = current[typeof(T)];
+            var r = q.Skip(z).Take(number).ToList();
+            var no = r.Count();
+            var cnt = q.Count();
+            current[typeof(T)] += no;
+            if (current[typeof(T)] >= cnt)
                 current[typeof(T)] = 0;
-            else
-            {
-                current[typeof(T)] += no;
-                if (current[typeof(T)] >= cnt)
-                    current[typeof(T)] = 0;
-            }
-            return result;
+        
+            return r;
         }
 
         private void Log<T>() where T : Base
@@ -82,11 +80,11 @@ namespace Csud.Crud.DbTool
             No += 1;
         }
 
-        private void Make<T>(Action<T> act = null) where T : Base
+        private void Make<T>(Action<T> act = null, bool generateKey=true) where T : Base
         {
             var a = Gen<T>();
             if (act != null) act(a);
-            Csud.AddEntity(a);
+            Csud.AddEntity(a, generateKey);
             Log<T>();
         }
 
@@ -149,6 +147,36 @@ namespace Csud.Crud.DbTool
             a.Context = Take(Csud.Context, 1).First();
         }
 
+        #region App
+        private void AppMakeApp(App a)
+        {
+
+        }
+
+        private void AppMakeAppDistrib(AppDistrib a)
+        {
+            a.AppKey = Take(Csud.App, 1).Select(a => a.AppKey).First();
+            a.LoadDate = No;
+        }
+
+        private void AppMakeRoleApp(AppRole a)
+        {
+            a.DistribKey = Take(Csud.AppDistrib, 1).First().DistribKey;
+        }
+
+        private void AppMakeRoleAppDefinition(AppRoleDefinition a)
+        {
+            a.ObjectKey = Take(Csud.Select<ObjectX>(), 1).First().Key;
+        }
+
+        private void AppMakeEntityDefinition(AppEntityDefinition a)
+        {
+            a.ObjectKey = Take(Csud.Select<ObjectX>(), 1).First().Key;
+        }
+        #endregion
+
+
+
         public void Generate(Dictionary<Type, int> dict)
         {
             input = dict;
@@ -195,6 +223,38 @@ namespace Csud.Crud.DbTool
 
             while (!Ready<TaskX>())
                 MakeRelative<TaskX, ObjectX>(MakeTask);
+
+            #region App
+            if (CsudService.Config.IsDebugMode || 1 == 1)
+            {
+                while (!Ready<App>())
+                    Make<App>(AppMakeApp);
+
+                while (!Ready<AppDistrib>())
+                    Make<AppDistrib>(AppMakeAppDistrib);
+                foreach (var a in Csud.App)
+                {
+                    a.LastDistribKey = Take(Csud.AppDistrib.OrderBy(b => b.LoadDate), 1).First().DistribKey;
+                    Csud.UpdateEntity(a);
+                }
+
+                while (!Ready<AppRole>())
+                    Make<AppRole>(AppMakeRoleApp, false);
+
+                while (!Ready<AppRoleDefinition>())
+                    Make<AppRoleDefinition>(AppMakeRoleAppDefinition);
+                foreach (var a in Csud.AppRole)
+                {
+                    a.RoleKey = Take(Csud.AppRoleDefinition, 1).First().RoleKey;
+                    Csud.UpdateEntity(a);
+                }
+
+                while (!Ready<AppEntityDefinition>())
+                    Make<AppEntityDefinition>(AppMakeEntityDefinition);
+
+
+            }
+            #endregion
         }
     }
 }

@@ -60,10 +60,10 @@ namespace Csud.Crud
 
         public Config(IConfiguration cfg)
         {
-            Postgre.Enabled = bool.Parse(cfg["Postgre:Enabled"]) || IsDebugMode;
+            Postgre.Enabled = bool.Parse(cfg["Postgre:Enabled"]);// || IsDebugMode;
             Postgre.ConnectionString = cfg["Postgre:ConnectionString"];
             Postgre.AdminConnectionString = cfg["Postgre:AdminConnectionString"];
-            Mongo.Enabled = bool.Parse(cfg["Mongo:Enabled"]) || IsDebugMode;
+            Mongo.Enabled = bool.Parse(cfg["Mongo:Enabled"]); //|| IsDebugMode;
             Mongo.Host = cfg["Mongo:Host"];
             Mongo.Port = int.Parse(cfg["Mongo:Port"]);
             Mongo.Db = cfg["Mongo:Db"];

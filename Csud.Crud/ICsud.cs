@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Csud.Crud.Models;
+using Csud.Crud.Models.App;
 using Csud.Crud.Models.Rules;
 
 namespace Csud.Crud
@@ -41,5 +42,12 @@ namespace Csud.Crud
         public IQueryable<ObjectX> Object => Select<ObjectX>();
         public IQueryable<TaskX> Task => Select<TaskX>();
         public IQueryable<Group> Group => Select<Group>();
+
+        public IQueryable<App> App => Select<App>();
+        public IQueryable<AppDistrib> AppDistrib => Select<AppDistrib>();
+        public IQueryable<AppRole> AppRole => Select<AppRole>();
+        public IQueryable<AppRoleDefinition> AppRoleDefinition => Select<AppRoleDefinition>();
+        public IQueryable<AppEntityDefinition> AppEntityDefinition => Select<AppEntityDefinition>();
+        public IQueryable<AppEntity> AppEntity => Select<AppEntity>();
     }
 }

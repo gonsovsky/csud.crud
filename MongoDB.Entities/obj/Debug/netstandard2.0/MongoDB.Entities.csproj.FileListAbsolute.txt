@@ -19,4 +19,3 @@ C:\@job\Csud.Crud\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.csp
 C:\@job\Csud.Crud\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.dll
 C:\@job\Csud.Crud\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.xml
 C:\@job\Csud.Crud\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.pdb
-C:\@job\Csud.Crud\MongoDB.Entities\obj\Debug\netstandard2.0\MongoDB.Entities.csprojAssemblyReference.cache

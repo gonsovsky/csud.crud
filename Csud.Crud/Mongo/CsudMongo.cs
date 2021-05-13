@@ -9,7 +9,7 @@ using MongoDB.Entities;
 
 namespace Csud.Crud.Mongo
 {
-    public class CsudMongo: ICsud
+    public partial class CsudMongo: ICsud
     {
         private protected static IMongoDatabase Db;
 
@@ -47,6 +47,8 @@ namespace Csud.Crud.Mongo
                 .Key(a => a.Key, KeyType.Text)
                 .Key(a => a.AccountProviderKey, KeyType.Text)
                 .CreateAsync().Wait();
+
+            AppCsudMongo(cfg);
         }
 
         protected void KeyIndex<T>() where T: Base
@@ -84,7 +86,7 @@ namespace Csud.Crud.Mongo
         {
             entity.ID = null;
             if (generateKey)
-                entity.Key = entity.GenerateNewKey();
+                entity.UseKey = entity.GenerateNewKey();
             entity.SaveAsync().Wait();
         }
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
@@ -74,6 +75,16 @@ namespace Csud.Crud.Models
             return x;
         }
 
+        [NotMapped]
+        [JsonIgnore]
+        [BsonIgnore]
+        [Ignore]
+        public virtual int UseKey
+        {
+            get => Key;
+            set => Key = value;
+        }
+
         public  void Dump()
         {
             string json = JsonSerializer.Serialize(this,new JsonSerializerOptions(){WriteIndented = true});
@@ -93,7 +104,8 @@ namespace Csud.Crud.Models
             var err =  string.Join(' ', results.Select(x => x.ErrorMessage));
             throw new ArgumentException(err);
         }
-    }
 
-  
+        public virtual bool Look(Base en) => en.UseKey == this.UseKey;
+
+    }
 }
