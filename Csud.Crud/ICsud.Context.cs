@@ -142,9 +142,14 @@ namespace Csud.Crud
                     throw new ArgumentException("Недопустимый код контекста");
             }
         }
-        public IEnumerable ListContext(string status = Const.Status.Actual, int skip = 0, int take = 0)
+        public IEnumerable ListContext(string type, string status = Const.Status.Actual, int skip = 0, int take = 0)
         {
+            if (!string.IsNullOrEmpty(type) && !Const.Context.Has(type))
+                throw new ArgumentException("Недопустимый код контекста");
+
             var q = Select<Context>(status);
+            if (!string.IsNullOrEmpty(type))
+                q = q.Where(a => a.ContextType == type);
             if (skip != 0)
                 q = q.Skip(skip);
             if (take != 0)

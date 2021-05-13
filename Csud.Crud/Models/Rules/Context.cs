@@ -11,13 +11,7 @@ namespace Csud.Crud.Models.Rules
         {
             Reset();
             var context = (Context)value;
-
-            if (context.ContextType != Const.Context.Composite 
-                && context.ContextType != Const.Context.Attrib
-                && context.ContextType != Const.Context.Rule
-                && context.ContextType != Const.Context.Segment
-                && context.ContextType != Const.Context.Struct
-                )
+            if (!Const.Context.Has(context.ContextType))
             {
                 Error("Неверный тип контекста.");
             }

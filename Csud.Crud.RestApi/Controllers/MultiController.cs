@@ -1,7 +1,7 @@
 ﻿using Csud.Crud.Models.Rules;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Crud.Csud.RestApi.Controllers
+namespace Csud.Crud.RestApi.Controllers
 {
     [Route("api/group")]
     [ApiController]

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Crud.Csud.RestApi
+namespace Csud.Crud.RestApi
 {
     public class Program
     {

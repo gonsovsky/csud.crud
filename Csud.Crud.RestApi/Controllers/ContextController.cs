@@ -1,11 +1,10 @@
 ﻿using System;
-using Crud.Csud.RestApi.Models;
-using Csud.Crud;
 using Csud.Crud.Models;
-using Microsoft.AspNetCore.Mvc;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.RestApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Crud.Csud.RestApi.Controllers
+namespace Csud.Crud.RestApi.Controllers
 {
     [Route("api/context")]
     [ApiController]
@@ -14,11 +13,11 @@ namespace Crud.Csud.RestApi.Controllers
         protected static ICsud Csud => CsudService.Csud;
 
         [HttpGet("list")]
-        public virtual IActionResult List(int skip = 0, int take = 0, string status = Const.Status.Actual)
+        public virtual IActionResult List(string type, int skip = 0, int take = 0, string status = Const.Status.Actual)
         {
             try
             {
-                var q = Csud.ListContext(status, skip, take);
+                var q = Csud.ListContext(type, status, skip, take);
                 return Ok(q);
             }
             catch (Exception ex)

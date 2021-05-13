@@ -1,6 +1,6 @@
 ﻿using Csud.Crud.Models.Contexts;
 
-namespace Crud.Csud.RestApi.Models
+namespace Csud.Crud.RestApi.Models
 {
     public class RelationalModel: BaseContext
     {

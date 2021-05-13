@@ -13,7 +13,6 @@ namespace Csud.Crud
         public CsudMongo Mongo;
 
         public CsudPostgre Postgre;
-
         public Csud(Config cfg)
         {
             if (cfg.Mongo.Enabled)
@@ -50,7 +49,6 @@ namespace Csud.Crud
                 x.UpdateEntity(entity);
             });
         }
-
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
         {
             return Db.First().Select<T>(status);

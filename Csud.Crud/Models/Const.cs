@@ -37,6 +37,16 @@
             public const string Struct= "struct";
             public const string Segment = "segment";
             public const string Composite = "composite";
+
+            public static bool Has(string type)
+            {
+                return type == Composite
+                        || type == Attrib
+                        || type == Rule
+                        || type == Segment
+                        || type == Time
+                        || type == Struct;
+            }
         }
 
         public static class Object

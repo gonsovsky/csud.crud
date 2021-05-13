@@ -1,9 +1,8 @@
 ﻿using System;
-using Csud.Crud;
 using Csud.Crud.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Crud.Csud.RestApi.Controllers
+namespace Csud.Crud.RestApi.Controllers
 {
     [Route("api/context")]
     [ApiController]

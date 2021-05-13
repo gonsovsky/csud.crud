@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Csud.Crud;
 using Csud.Crud.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Crud.Csud.RestApi.Controllers
+namespace Csud.Crud.RestApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -49,7 +48,7 @@ namespace Crud.Csud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Post(int key, T entity)
+        public virtual IActionResult Post(T entity)
         {
             try
             {
@@ -58,7 +57,7 @@ namespace Crud.Csud.RestApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var existing = Csud.Select<T>().First(a => a.Key == key);
+                var existing = Csud.Select<T>().First(a => a.Key == entity.Key);
                 if (entity == null)
                 {
                     return NotFound();
