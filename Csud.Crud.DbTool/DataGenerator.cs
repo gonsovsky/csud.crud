@@ -6,6 +6,7 @@ using System.Reflection;
 using Csud.Crud.Models;
 using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 using MongoDB.Driver.Core.WireProtocol.Messages;
 
@@ -169,7 +170,42 @@ namespace Csud.Crud.DbTool
             a.ObjectKey = Take(Csud.Select<ObjectX>(), 1).First().Key;
         }
 
+        private void AppMakeRoleAppRoleDetails(AppRoleDetails a)
+        {
+            a.RoleKey = Take(Csud.Select<AppRoleDefinition>(), 1).First().RoleKey;
+            a.OperationKey = Take(Csud.Select<AppOperationDefinition>(), 1).First().OperationKey;
+        }
+
+
         private void AppMakeEntityDefinition(AppEntityDefinition a)
+        {
+            a.ObjectKey = Take(Csud.Select<ObjectX>(), 1).First().Key;
+        }
+
+        private void AppMakeEntity(AppEntity a)
+        {
+            a.DistribKey = Take(Csud.AppDistrib, 1).First().DistribKey;
+            a.EntityKey = Take(Csud.AppEntityDefinition, 1).First().EntityKey;
+        }
+
+        private void AppMakeAttributeDefinition(AppAttributeDefinition a)
+        {
+            a.ObjectKey = Take(Csud.Select<ObjectX>(), 1).First().Key;
+        }
+
+        private void AppMakeAttribute(AppAttribute a)
+        {
+            a.DistribKey = Take(Csud.AppDistrib, 1).First().DistribKey;
+            a.AttributeKey = Take(Csud.AppAttributeDefinition, 1).First().AttributeKey;
+        }
+
+        private void AppMakeOperation(AppOperation a)
+        {
+            a.DistribKey = Take(Csud.AppDistrib, 1).First().DistribKey;
+            a.OperationKey = Take(Csud.AppOperationDefinition, 1).First().OperationKey;
+        }
+
+        private void AppMakeOperationDefinition(AppOperationDefinition a)
         {
             a.ObjectKey = Take(Csud.Select<ObjectX>(), 1).First().Key;
         }
@@ -252,7 +288,26 @@ namespace Csud.Crud.DbTool
                 while (!Ready<AppEntityDefinition>())
                     Make<AppEntityDefinition>(AppMakeEntityDefinition);
 
+                while (!Ready<AppEntity>())
+                    Make<AppEntity>(AppMakeEntity, false);
 
+                while (!Ready<AppAttributeDefinition>())
+                    Make<AppAttributeDefinition>(AppMakeAttributeDefinition);
+
+                while (!Ready<AppAttribute>())
+                    Make<AppAttribute>(AppMakeAttribute, false);
+
+                while (!Ready<AppOperationDefinition>())
+                    Make<AppOperationDefinition>(AppMakeOperationDefinition);
+
+                while (!Ready<AppOperation>())
+                    Make<AppOperation>(AppMakeOperation, false);
+
+                while (!Ready<AppRoleDetails>())
+                    Make<AppRoleDetails>(AppMakeRoleAppRoleDetails, false);
+
+                while (!Ready<AppImport>())
+                    Make<AppImport>();
             }
             #endregion
         }

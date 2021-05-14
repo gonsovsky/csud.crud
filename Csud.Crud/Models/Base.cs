@@ -59,6 +59,8 @@ namespace Csud.Crud.Models
                         continue;
                     }
                 }
+                if (props.sourceProperty.Name==nameof(Base.UseKey))
+                    continue;
                 props.targetProperty.SetValue(destination, props.sourceProperty.GetValue(source, null), null);
             }
         }

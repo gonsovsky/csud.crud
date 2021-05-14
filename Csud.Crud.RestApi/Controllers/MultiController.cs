@@ -1,8 +1,10 @@
-﻿using Csud.Crud.Models.Rules;
+﻿using Csud.Crud.Models.Maintenance;
+using Csud.Crud.Models.Rules;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
 {
+   
     [Route("api/group")]
     [ApiController]
     public class GroupController : RelationalController<Group, GroupAdd, Subject>
@@ -48,6 +50,12 @@ namespace Csud.Crud.RestApi.Controllers
     [Route("api/subject")]
     [ApiController]
     public class SubjectController : BaseController<Subject>
+    {
+    }
+
+    [Route("api/maintenance")]
+    [ApiController]
+    public partial class MaintenanceController : BaseController<AppImport>
     {
     }
 

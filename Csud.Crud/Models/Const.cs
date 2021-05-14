@@ -55,5 +55,15 @@
             public const string Entity = "entity";
             public const string Task = "task";
         }
+
+        public static class Import
+        {
+            public const string Undefined = "undefined";
+            public const string Uploading = "uploading";
+            public const string Uploaded = "uploaded";
+            public const string Pending = "pending";
+            public const string Success = "success";
+            public const string Failure = "failure";
+        }
     }
 }

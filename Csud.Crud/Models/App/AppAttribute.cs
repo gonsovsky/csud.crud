@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Csud.Crud.Models.App
 {
-    public class AppRoleDetails: AppBase
+    public class AppAttribute: AppBase
     {
-        public int RoleKey { get; set; }
+        public int DistribKey { get; set; }
 
-        public int OperationKey { get; set; }
+        public string AttributeType { get; set; }
+
+        public int AttributeKey { get; set; }
 
         public override int UseKey
         {

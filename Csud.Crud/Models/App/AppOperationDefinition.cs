@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace Csud.Crud.Models.App
 {
-    public class AppRoleDetails: AppBase
+    public class AppOperationDefinition: AppBase
     {
-        public int RoleKey { get; set; }
-
         public int OperationKey { get; set; }
+
+        public int ObjectKey { get; set; }
+
+        public string OperationName { get; set; }
 
         public override int UseKey
         {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
+            get => OperationKey;
+            set => OperationKey = value;
         }
     }
 }

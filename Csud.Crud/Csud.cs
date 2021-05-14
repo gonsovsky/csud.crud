@@ -49,6 +49,7 @@ namespace Csud.Crud
                 x.UpdateEntity(entity);
             });
         }
+
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
         {
             return Db.First().Select<T>(status);
