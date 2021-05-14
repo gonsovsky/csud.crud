@@ -6,6 +6,11 @@ namespace Csud.Crud
 {
     public record Config
     {
+        public record ImportClass
+        {
+            public string Folder { get; set; }
+        }
+
         public abstract record DbClass
         {
             public bool Enabled { get; set; }
@@ -55,6 +60,7 @@ namespace Csud.Crud
             public string Db { get; set; }
         }
 
+        public ImportClass Import { get; set; } = new ImportClass();
         public PostgreClass Postgre { get; set; } = new PostgreClass();
         public MongoClass Mongo { get; set; } = new MongoClass();
 
@@ -67,6 +73,7 @@ namespace Csud.Crud
             Mongo.Host = cfg["Mongo:Host"];
             Mongo.Port = int.Parse(cfg["Mongo:Port"]);
             Mongo.Db = cfg["Mongo:Db"];
+            Import.Folder = cfg["Import:Folder"];
         }
 
         public string UseDataBase

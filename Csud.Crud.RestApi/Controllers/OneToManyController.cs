@@ -1,21 +1,27 @@
 ﻿using System;
 using Csud.Crud.Models;
+using Csud.Crud.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
 {
     [Route("api/context")]
     [ApiController]
-    public class RelationalController<TEntity, TModelAdd, TLinked> : Controller where TEntity: Base,IRelational where TModelAdd: Base, IRelational where TLinked : Base
+    public class OneToManyController<TEntity, TModelAdd, TLinked> : Controller where TEntity: Base,IOneToMany where TModelAdd: Base, IOneToMany where TLinked : Base
     {
-        protected static ICsud Csud => CsudService.Csud;
+        protected readonly IOneToManyService<TEntity, TModelAdd, TLinked> Svc;
+
+        public OneToManyController(IOneToManyService<TEntity, TModelAdd, TLinked> svc)
+        {
+            Svc = svc;
+        }
 
         [HttpGet("list")]
         public virtual IActionResult List(int skip = 0, int take = 0, string status = Const.Status.Actual)
         {
             try
             {
-                var q = Csud.ListRelational<TEntity,TLinked>(0, status, skip, take);
+                var q = Svc.List(0, status, skip, take);
                 return Ok(q);
             }
             catch (Exception ex)
@@ -29,7 +35,7 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                var entity = Csud.GetRelational<TEntity,TLinked>(key);
+                var entity = Svc.Get(key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -47,7 +53,7 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                Csud.DeleteRelational<TEntity, TLinked>(key);
+                Svc.Delete(key);
                 return Ok();
             }
             catch (Exception ex)
@@ -68,7 +74,7 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.CopyRelational<TEntity, TLinked>(key);
+                Svc.Copy(key);
                 return Ok();
             }
             catch (Exception ex)
@@ -91,7 +97,7 @@ namespace Csud.Crud.RestApi.Controllers
                 }
                 var p = Activator.CreateInstance<TEntity>();
                 entity.CopyTo(p,false);
-                Csud.AddRelational<TEntity,TLinked>(p);
+                Svc.Add(p);
                 return Ok(entity);
             }
             catch (Exception ex)

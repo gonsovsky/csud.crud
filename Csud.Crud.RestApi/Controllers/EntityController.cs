@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Linq;
 using Csud.Crud.Models;
+using Csud.Crud.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public abstract class BaseController<T>: ControllerBase where T : Base
+    public abstract class EntityController<T>: ControllerBase where T : Base
     {
-        protected static ICsud Csud => CsudService.Csud;
+        protected readonly IEntityService<T> Svc;
+
+        protected EntityController(IEntityService<T> svc)
+        {
+            Svc = svc;
+        }
 
         [HttpGet("list")]
         public virtual IActionResult List(int skip=0, int take=0, string status = Const.Status.Actual)
         {
             try
             {
-                var q = Csud.List<T>(status, skip, take);
+                var q = Svc.List(status, skip, take);
                 return Ok(q);
 
             }
@@ -31,7 +37,7 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                var entity = Csud.Select<T>().First(a=> a.Key == key);
+                var entity = Svc.Select().First(a=> a.Key == key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -57,13 +63,13 @@ namespace Csud.Crud.RestApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var existing = Csud.Select<T>().First(a => a.Key == entity.Key);
+                var existing = Svc.Select().First(a => a.Key == entity.Key);
                 if (entity == null)
                 {
                     return NotFound();
                 }
                 entity.CopyTo(existing, false);
-                Csud.UpdateEntity(existing);
+                Svc.Update(existing);
                 return Ok(existing);
             }
             catch (Exception ex)
@@ -84,7 +90,7 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.AddEntity(entity);
+                Svc.Add(entity);
                 return Ok(entity);
             }
             catch (Exception ex)
@@ -98,7 +104,7 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                Csud.DeleteEntity(Csud.Select<T>().First(a => a.Key == key));
+                Svc.Delete(Svc.Select().First(a => a.Key == key));
                 return Ok();
             }
             catch (Exception ex)
@@ -119,7 +125,7 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.CopyEntity(Csud.Select<T>().First(a => a.Key == key));
+                Svc.Copy(Svc.Select().First(a => a.Key == key));
                 return Ok();
             }
             catch (Exception ex)

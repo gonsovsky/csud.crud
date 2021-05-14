@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Entities;
 
@@ -21,10 +22,10 @@ namespace Csud.Crud.Models.Rules
                 }
             }
 
-            if (value is IRelational group)
+            if (value is IOneToMany group)
             {
 
-                if (value is IRelationalAdd)
+                if (value is IOneToManyAdd)
                 {
                     foreach (var rkey in group.RelatedKeys)
                     {
@@ -46,7 +47,7 @@ namespace Csud.Crud.Models.Rules
     }
 
     [GroupValidator]
-    public class Group: Base, IRelational, IContextable
+    public class Group: Base, IOneToMany, IContextable
     {
         public virtual int RelatedKey { get; set; }
         public int ContextKey { get; set; }
@@ -64,7 +65,7 @@ namespace Csud.Crud.Models.Rules
         }
     }
 
-    public class GroupAdd : Group, IRelationalAdd
+    public class GroupAdd : Group, IOneToManyAdd
     {
         [JsonIgnore] public override int Key { get; set; }
         [JsonIgnore] public override int RelatedKey { get; set; }

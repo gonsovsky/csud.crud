@@ -4,6 +4,7 @@ using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Rules;
+using Csud.Crud.Services;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
@@ -63,7 +64,7 @@ namespace Csud.Crud.Mongo
                 .CreateAsync().Wait();
         }
 
-        protected void RelatedKeyIndex<T>() where T : Base, IRelational
+        protected void RelatedKeyIndex<T>() where T : Base, IOneToMany
         {
             DB.Index<T>()
                 .Option(o =>

@@ -15,7 +15,7 @@ namespace Csud.Crud.Models.Rules
     //        Reset();
     //        if (value is RelationDetails group)
     //        {
-    //            if (value is IRelationalAdd)
+    //            if (value is IOneToManyAdd)
     //            {
     //                foreach (var rkey in group.RelatedKeys)
     //                {
@@ -45,7 +45,7 @@ namespace Csud.Crud.Models.Rules
     //}
 
     //[RelationDetailsValidator]
-    //public class RelationDetails : Base, IRelational, INameable
+    //public class RelationDetails : Base, IOneToMany, INameable
     //{
     //    public int SubjectKey { get; set; }
     //    public int ObjectKey { get; set; }
@@ -78,7 +78,7 @@ namespace Csud.Crud.Models.Rules
     //    }
     //}
 
-    //public class RelationDetailsAdd : RelationDetails, IRelationalAdd
+    //public class RelationDetailsAdd : RelationDetails, IOneToManyAdd
     //{
     //    [JsonIgnore] protected new int Key { get; set; }
     //    [JsonIgnore] protected new int RelatedKey { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Entities;
 
@@ -23,7 +24,7 @@ namespace Csud.Crud.Models.Contexts
     }
 
     [CompositeValidator]
-    public class CompositeContext : BaseContext, IRelational
+    public class CompositeContext : BaseContext, IOneToMany
     {
         public int RelatedKey { get; set; }
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public List<int> RelatedKeys { get; set; } = new List<int>();
