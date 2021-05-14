@@ -11,13 +11,16 @@ namespace Csud.Crud.Services
 {
     public interface IEntityService<T> where T : Base
     {
-        public void Add(T entity, bool generateKey = true);
-        public void Update(T entity);
+        public T Add(T entity, bool generateKey = true);
+        public T Update(T entity);
         public void Delete(T entity);
+        public void Delete(int key);
         public T Copy(T entity, bool keepKey = false);
         public void Restore(T entity);
         public IQueryable<T> Select(string status = Const.Status.Actual);
         public IQueryable<T> List(string status = Const.Status.Actual, int skip = 0, int take = 0);
+
+        public T Look(int key);
     }
 
     public class EntityService<T> : IEntityService<T> where T : Base
@@ -43,15 +46,24 @@ namespace Csud.Crud.Services
             }
         }
 
-        public void Add(T entity, bool generateKey = true)
+        public T Look(int key)
+        {
+            return Select().First(x => x.Key == key);
+        }
+
+        public T Add(T entity, bool generateKey = true)
         {
             foreach (var x in Db)
             {
+                if (x is CsudPostgre)
+                    entity = (T) entity.Clone(!generateKey);
                 x.AddEntity(entity, generateKey);
             }
+
+            return entity;
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             Db.ForEach(x =>
             {
@@ -64,12 +76,19 @@ namespace Csud.Crud.Services
                 }
                 x.UpdateEntity(entity);
             });
+            return entity;
         }
 
         public void Delete(T entity)
         {
             entity.Status = Const.Status.Removed;
             Update(entity);
+        }
+
+        public void Delete(int key)
+        {
+            var entity = Db.First().Select<T>().First(x => x.Key == key);
+            Delete(entity);
         }
 
         public T Copy(T entity, bool keepKey = false)

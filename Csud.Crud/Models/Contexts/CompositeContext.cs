@@ -33,5 +33,7 @@ namespace Csud.Crud.Models.Contexts
         {
             throw new System.NotImplementedException();
         }
+
+        public override string ContextType => Const.Context.Composite;
     }
 }

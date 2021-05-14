@@ -7,7 +7,7 @@ using Csud.Crud.Models;
 
 namespace Csud.Crud.Services
 {
-    public interface IOneToManyService<TEntity, TModelAdd, TLinked> where TEntity : Base, IOneToMany where TModelAdd : Base, IOneToMany where TLinked : Base
+    public interface IOneToManyService<TEntity, TModelAdd, TLinked> where TEntity : Base,IOneToMany where TModelAdd : Base where TLinked : Base
     {
         public IQueryable<TEntity> Select(string status = Const.Status.Actual);
 
@@ -25,15 +25,12 @@ namespace Csud.Crud.Services
         public void Include(int key, int relatedKey);
     }
 
-    public class OneToManyService<TEntity, TModelAdd, TLinked> : IOneToManyService<TEntity, TModelAdd, TLinked> where TEntity : Base, IOneToMany where TModelAdd : Base, IOneToMany where TLinked : Base
+    public class OneToManyService<TEntity, TModelAdd, TLinked> : OneToAnyService<TEntity, TLinked>,
+        IOneToManyService<TEntity, TModelAdd, TLinked> 
+        where TEntity : Base, IOneToMany where TModelAdd : Base where TLinked : Base
     {
-        protected readonly IEntityService<TEntity> EntitySvc;
-        protected readonly IEntityService<TLinked> LinkedSvc;
-
-        protected OneToManyService(IEntityService<TEntity> entitySvc, IEntityService<TLinked> linkedSvc)
+        public OneToManyService(IEntityService<TEntity> entitySvc, IEntityService<TLinked> linkedSvc) : base(entitySvc, linkedSvc)
         {
-            EntitySvc = entitySvc;
-            LinkedSvc = linkedSvc;
         }
 
         public IQueryable<TEntity> Select(string status = Const.Status.Actual)
@@ -74,6 +71,7 @@ namespace Csud.Crud.Services
                 yield return result;
             }
         }
+
         public void Add(TEntity entity, bool generateKey = true)
         {
             if (entity.RelatedKeys == null || entity.RelatedKeys.Count == 0)

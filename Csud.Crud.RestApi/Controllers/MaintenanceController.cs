@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Maintenance;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Csud.Crud.RestApi.Controllers
 {
@@ -34,7 +29,9 @@ namespace Csud.Crud.RestApi.Controllers
                     Email = email,
                     FileName = formFile.FileName
                 };
-                //Csud.ImportApp(entity);
+                entity.Step = Const.Import.Uploaded;
+                entity.Submitted = DateTime.Now;
+                Svc.Add(entity);
                 return Ok();
             }
             catch (Exception ex)

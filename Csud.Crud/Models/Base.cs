@@ -6,13 +6,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
 namespace Csud.Crud.Models
 {
-    public class Base : Entity, ICloneable
+    public class Base : Entity, ICloneable, IBase
     { 
         [Key] public virtual int Key { get; set; }
         [NotMapped] [JsonIgnore]
@@ -35,6 +36,20 @@ namespace Csud.Crud.Models
                 return sq.Key;
             }
         }
+
+        public virtual T CloneTo<T>(bool withKey) where T: Base
+        {
+            var p = Activator.CreateInstance<T>();
+            this.CopyTo(p, withKey);
+            return p;
+        }
+
+        public virtual Base Combine(Base linked)
+        {
+            linked.CopyTo(this,false);
+            return this;
+        }
+
         public virtual void CopyTo(Base destination, bool withKey)
         {
             var source = this;

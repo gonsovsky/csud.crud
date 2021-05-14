@@ -1,15 +1,14 @@
 using System;
+using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 using Csud.Crud.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace Csud.Crud.RestApi
@@ -62,11 +61,52 @@ namespace Csud.Crud.RestApi
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<AppImport>),
                 typeof(EntityService<AppImport>)));
 
-            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<Group, GroupAdd, Subject>), 
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<TaskX>),
+                typeof(EntityService<TaskX>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<ObjectX>),
+                typeof(EntityService<ObjectX>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<Group>),
+                typeof(EntityService<Group>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<Context>),
+                typeof(EntityService<Context>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<TimeContext>),
+                typeof(EntityService<TimeContext>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<StructContext>),
+                typeof(EntityService<StructContext>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<RuleContext>),
+                typeof(EntityService<RuleContext>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<SegmentContext>),
+                typeof(EntityService<SegmentContext>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<CompositeContext>),
+                typeof(EntityService<CompositeContext>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<Group, GroupAdd, Subject>),
                 typeof(OneToManyService<Group, GroupAdd, Subject>)));
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<TaskX, TaskAdd, ObjectX>),
                 typeof(OneToManyService<TaskX, TaskAdd, ObjectX>)));
+
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<Relation>),
+                typeof(EntityService<Relation>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<RelationDetails>),
+                typeof(EntityService<RelationDetails>)));
+
+            //services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<Relation, RelationDetailsAdd, RelationDetailsEdit, RelationDetails>),
+            //    typeof(OneToOneService<Relation, RelationDetailsAdd, RelationDetailsEdit, RelationDetails>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context>),
+                typeof(OneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context>)));
+
 
             services.AddControllers();
         }

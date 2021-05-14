@@ -7,7 +7,25 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Services
 {
-    public interface IOneToMany
+    public interface IBase
+    {
+        public int Key { get; set; }
+    }
+
+    public interface IOneToAny: IBase
+    {
+
+    }
+
+    public interface IOneToOne: IOneToAny
+    {
+        public virtual void Link(Base linked)
+        {
+            this.Key = linked.Key;
+        }
+    }
+
+    public interface IOneToMany: IOneToAny
     {
         public int RelatedKey { get; set; }
         [NotMapped] [BsonIgnore] [JsonIgnore] public List<int> RelatedKeys { get; set; }
@@ -24,7 +42,6 @@ namespace Csud.Crud.Services
     {
         public TEntity Group { get; set; }
         public IEnumerable<TEntity> Index { get; set; } = new List<TEntity>();
-
         public TLinked Subject { get; set; }
         public IEnumerable<TLinked> Relations { get; set; } = new List<TLinked>();
     }

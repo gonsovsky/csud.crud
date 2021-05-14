@@ -1,11 +1,20 @@
-﻿using Csud.Crud.Models.Maintenance;
+﻿using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 using Csud.Crud.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
 {
-   
+    [Route("api/aaa")]
+    [ApiController]
+    public class QController : OneToOneController<TimeContext, TimeContextAdd, TimeContextEdit, Context>
+    {
+        public QController(IOneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context> svc) : base(svc)
+        {
+        }
+    }
+
     [Route("api/group")]
     [ApiController]
     public class GroupController : OneToManyController<Group, GroupAdd, Subject>
@@ -26,8 +35,11 @@ namespace Csud.Crud.RestApi.Controllers
 
     //[Route("api/relation")]
     //[ApiController]
-    //public class RelationController : OneToManyController<RelationDetails, RelationDetailsAdd, Relation>
+    //public class RelationController : OneToOneController<RelationDetails, RelationDetailsAdd, RelationDetailsEdit, Relation>
     //{
+    //    public RelationController(IOneToOneService<RelationDetails, RelationDetailsAdd, RelationDetailsEdit, Relation> svc) : base(svc)
+    //    {
+    //    }
     //}
 
     [Route("api/person")]
@@ -83,17 +95,4 @@ namespace Csud.Crud.RestApi.Controllers
         {
         }
     }
-
-
-    //[Route("api/relation")]
-    //[ApiController]
-    //public class OneToManyController : EntityController<Relation>
-    //{
-    //}
-
-    //[Route("api/relationDetail")]
-    //[ApiController]
-    //public class RelationDetailController : EntityController<RelationDetails>
-    //{
-    //}
 }

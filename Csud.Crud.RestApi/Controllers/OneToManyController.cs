@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
 {
-    [Route("api/context")]
-    [ApiController]
     public class OneToManyController<TEntity, TModelAdd, TLinked> : Controller where TEntity: Base,IOneToMany where TModelAdd: Base, IOneToMany where TLinked : Base
     {
         protected readonly IOneToManyService<TEntity, TModelAdd, TLinked> Svc;

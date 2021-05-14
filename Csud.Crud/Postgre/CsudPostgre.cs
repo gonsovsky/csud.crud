@@ -43,6 +43,9 @@ namespace Csud.Crud.Postgre
             modelBuilder.Entity<Person>()
                 .HasIndex(x => new { x.FirstName, x.LastName });
 
+            modelBuilder.Entity<RelationDetails>()
+                .HasKey(x => new { x.RelatedKey, x.ObjectKey, x.SubjectKey });
+
             AppOnModelCreating(modelBuilder);
         }
 
@@ -58,9 +61,13 @@ namespace Csud.Crud.Postgre
         public DbSet<SegmentContext> SegmentContext { get; set; }
         public DbSet<StructContext> StructContext { get; set; }
         public DbSet<TimeContext> TimeContext { get; set; }
+        public DbSet<RelationDetails> RelationDetails { get; set; }
+        public DbSet<Relation> Relation { get; set; }
 
         public void AddEntity<T>(T entity, bool generateKey = true) where T : Base
         {
+            if (generateKey)
+                entity.Key = 0;
             Set<T>().Add(entity);
             SaveChanges();
         }
