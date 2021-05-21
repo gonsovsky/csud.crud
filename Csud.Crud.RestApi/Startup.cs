@@ -1,8 +1,10 @@
 using System;
+using System.Threading.Tasks.Dataflow;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 using Csud.Crud.Services;
+using Csud.Crud.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -42,9 +44,13 @@ namespace Csud.Crud.RestApi
                     });
                   
                 }
+
             );
             services.TryAdd(ServiceDescriptor.Singleton(typeof(Config),
                 typeof(Config)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IDbService),
+                typeof(DbService)));
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<Account>), 
                 typeof(EntityService<Account>)));

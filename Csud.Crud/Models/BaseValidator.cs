@@ -4,7 +4,6 @@ namespace Csud.Crud.Models
 {
     internal class BaseValidator : ValidationAttribute
     {
-        internal ICsud Csud => CsudService.Csud;
         protected void Error(string err)
         {
             this.ErrorMessage ??= "";

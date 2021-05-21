@@ -110,7 +110,6 @@ namespace Csud.Crud.Models
 
         [JsonIgnore]
         public virtual string Status { get; set; } = Const.Status.Actual;
-        internal ICsud Csud => CsudService.Csud;
         public virtual void Validate()
         {
             if (Status != Const.Status.Actual && Status != Const.Status.Removed)
@@ -121,7 +120,6 @@ namespace Csud.Crud.Models
             var err =  string.Join(' ', results.Select(x => x.ErrorMessage));
             throw new ArgumentException(err);
         }
-
         public virtual bool Look(Base en) => en.UseKey == this.UseKey;
 
     }

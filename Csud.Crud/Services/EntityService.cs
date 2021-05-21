@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.Models;
-using Csud.Crud.Mongo;
-using Csud.Crud.Postgre;
+using Csud.Crud.Storage;
 
 namespace Csud.Crud.Services
 {
@@ -22,25 +21,11 @@ namespace Csud.Crud.Services
 
     public class EntityService<T> : IEntityService<T> where T : Base
     {
-        public List<ICsud> Db = new();
+        public IDbService Db;
 
-        public CsudMongo Mongo;
-
-        public CsudPostgre Postgre;
-
-        public EntityService()
+        public EntityService(IDbService dbSvc)
         {
-            var cfg = CsudService.Config;
-            if (cfg.Mongo.Enabled)
-            {
-                Mongo = new CsudMongo(cfg);
-                Db.Add(Mongo);
-            }
-            if (cfg.Postgre.Enabled)
-            {
-                Postgre = new CsudPostgre(cfg);
-                Db.Add(Postgre);
-            }
+            Db = dbSvc;
         }
 
         public T Look(int key)
@@ -50,29 +35,13 @@ namespace Csud.Crud.Services
 
         public virtual T Add(T entity, bool generateKey = true)
         {
-            foreach (var x in Db)
-            {
-                if (x is CsudPostgre)
-                    entity = (T) entity.Clone(!generateKey);
-                x.AddEntity(entity, generateKey);
-            }
-
+            Db.Add(entity, generateKey);
             return entity;
         }
 
         public T Update(T entity)
         {
-            Db.ForEach(x =>
-            {
-                if (x is CsudPostgre)
-                {
-                    var y = x.Select<T>().First(a => a.Key == entity.Key);
-                    entity.CopyTo(y, false);
-                    x.UpdateEntity(y);
-                    return;
-                }
-                x.UpdateEntity(entity);
-            });
+            Db.Update(entity);
             return entity;
         }
 
@@ -84,7 +53,7 @@ namespace Csud.Crud.Services
 
         public void Delete(int key)
         {
-            var entity = Db.First().Select<T>().First(x => x.Key == key);
+            var entity = Db.Select<T>().First(x => x.Key == key);
             Delete(entity);
         }
 
@@ -103,7 +72,7 @@ namespace Csud.Crud.Services
 
         public IQueryable<T> Select(string status = Const.Status.Actual)
         {
-            return Db.First().Select<T>(status);
+            return Db.Select<T>(status);
         }
 
         public IQueryable<T> List(string status = Const.Status.Actual, int skip = 0, int take = 0)
