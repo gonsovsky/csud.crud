@@ -86,13 +86,4 @@ namespace Csud.Crud.RestApi.Controllers
         {
         }
     }
-
-    [Route("api/maintenance")]
-    [ApiController]
-    public partial class MaintenanceController : EntityController<AppImport>
-    {
-        public MaintenanceController(IEntityService<AppImport> svc) : base(svc)
-        {
-        }
-    }
 }

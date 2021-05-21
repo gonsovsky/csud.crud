@@ -43,6 +43,9 @@ namespace Csud.Crud.RestApi
                   
                 }
             );
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(Config),
+                typeof(Config)));
+
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<Account>), 
                 typeof(EntityService<Account>)));
 
@@ -107,6 +110,14 @@ namespace Csud.Crud.RestApi
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context>),
                 typeof(OneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context>)));
 
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<RuleContext>),
+                typeof(EntityService<RuleContext>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IMaintenanceService),
+                typeof(MaintenanceService)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IContextService),
+                typeof(ContextService)));
 
             services.AddControllers();
         }

@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using Csud.Crud.Models;
-using Csud.Crud.Models.App;
-using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 
 namespace Csud.Crud

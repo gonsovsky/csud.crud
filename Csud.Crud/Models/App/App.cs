@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace Csud.Crud.Models.App
+﻿namespace Csud.Crud.Models.App
 {
     public class App: AppBase
     {

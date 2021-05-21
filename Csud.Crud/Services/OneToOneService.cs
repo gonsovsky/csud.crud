@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Csud.Crud.Models;
 
 namespace Csud.Crud.Services
@@ -11,17 +8,11 @@ namespace Csud.Crud.Services
         where TEntity : Base, IOneToOne where TModelAdd : Base where TModelEdit : Base where TLinked : Base
     {
         public IEnumerable<TEntity> Select();
-
         public IEnumerable<TEntity> List(string status = Const.Status.Actual, int skip = 0, int take = 0);
-
         public TEntity Get(int key);
-
         public TEntity Add(TModelAdd addEntity, bool generateKey = true);
-
         public TEntity Update(TModelEdit editEntity);
-
         public void Delete(int key);
-
         public TEntity Copy(int key, bool keepKey = false);
     }
 
@@ -32,7 +23,6 @@ namespace Csud.Crud.Services
         public OneToOneService(IEntityService<TEntity> entitySvc, IEntityService<TLinked> linkedSvc) : base(entitySvc, linkedSvc)
         {
         }
-
 
         public IEnumerable<TEntity> Select()
         {
@@ -66,7 +56,6 @@ namespace Csud.Crud.Services
             EntitySvc.Add(entity, false);
             return entity;
         }
-
         public TEntity Update(TModelEdit editEntity)
         {
             var entity = editEntity.CloneTo<TEntity>(true);
@@ -85,7 +74,6 @@ namespace Csud.Crud.Services
             EntitySvc.Delete(key);
             LinkedSvc.Delete(key);
         }
-
         public TEntity Copy(int key, bool keepKey = false)
         {
             var linked = LinkedSvc.Look(key);

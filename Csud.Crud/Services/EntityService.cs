@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Csud.Crud.Models;
 using Csud.Crud.Mongo;
 using Csud.Crud.Postgre;
@@ -51,7 +48,7 @@ namespace Csud.Crud.Services
             return Select().First(x => x.Key == key);
         }
 
-        public T Add(T entity, bool generateKey = true)
+        public virtual T Add(T entity, bool generateKey = true)
         {
             foreach (var x in Db)
             {

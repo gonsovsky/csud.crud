@@ -22,7 +22,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
             catch (Exception ex)
             {
-                return this.Problem(ex.Message);
+                return Problem(ex.Message);
             }
         }
 
@@ -40,7 +40,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
             catch (Exception ex)
             {
-                return this.Problem(ex.Message);
+                return Problem(ex.Message);
             }
         }
 
@@ -54,7 +54,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
             catch (Exception ex)
             {
-                return this.Problem(ex.Message);
+                return Problem(ex.Message);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
             catch (Exception ex)
             {
-                return this.Problem(ex.Message);
+                return Problem(ex.Message);
             }
         }
 
@@ -96,7 +96,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
             catch (Exception ex)
             {
-                return this.Problem(ex.Message);
+                return Problem(ex.Message);
             }
         }
 

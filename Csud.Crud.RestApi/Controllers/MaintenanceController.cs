@@ -2,13 +2,23 @@
 using System.IO;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Maintenance;
+using Csud.Crud.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
 {
-    public partial class MaintenanceController: EntityController<AppImport>
+    [Route("api/maintenance")]
+    [ApiController]
+    public class MaintenanceController: EntityController<AppImport>
     {
+        protected new IMaintenanceService Svc;
+
+        public MaintenanceController(IMaintenanceService svc): base(svc)
+        {
+            Svc = svc;
+        }
+
         [HttpPut]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -17,7 +27,7 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                var filePath = Path.Combine(CsudService.Config.Import.Folder, formFile.FileName);
+                var filePath = Svc.GetPath(formFile.FileName);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     formFile.CopyToAsync(stream).Wait();
