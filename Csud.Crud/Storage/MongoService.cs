@@ -15,7 +15,7 @@ namespace Csud.Crud.Storage
     {
         private protected static IMongoDatabase Db;
 
-        public MongoService(Config cfg, IDbService dbSvc): base()
+        public MongoService(Config cfg): base()
         {
             DB.InitAsync(cfg.Mongo.Db, cfg.Mongo.Host, cfg.Mongo.Port).Wait();
             Db = DB.Database(cfg.Mongo.Db);
@@ -48,6 +48,27 @@ namespace Csud.Crud.Storage
                 })
                 .Key(a => a.Key, KeyType.Text)
                 .Key(a => a.AccountProviderKey, KeyType.Text)
+                .CreateAsync().Wait();
+
+
+            DB.Index<Relation>()
+                .Option(o =>
+                {
+                    o.Background = false;
+                    o.Unique = true;
+                })
+                .Key(a => a.Key, KeyType.Text)
+                .CreateAsync().Wait();
+
+            DB.Index<RelationDetails>()
+                .Option(o =>
+                {
+                    o.Background = false;
+                    o.Unique = true;
+                })
+                .Key(a => a.RelatedKey, KeyType.Text)
+                .Key(a => a.ObjectKey, KeyType.Text)
+                .Key(a => a.SubjectKey, KeyType.Text)
                 .CreateAsync().Wait();
 
             DB.Index<App>().Option(o => { o.Background = false; o.Unique = true; })

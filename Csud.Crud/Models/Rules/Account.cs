@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
-using System.Linq;
 
 namespace Csud.Crud.Models.Rules
 {
@@ -10,15 +9,15 @@ namespace Csud.Crud.Models.Rules
         public override bool IsValid(object value)
         {
             Reset();
-            var account = (Account)value;
-            if (!Csud.AccountProvider.Any(x => x.Key == account.AccountProviderKey))
-            {
-                Error("Неверный код поставщика учетных записей.");
-            }
-            if (!Csud.Person.Any(x => x.Key == account.PersonKey))
-            {
-                Error("Неверный код персоны.");
-            }
+            //var account = (Account)value;
+            //if (!Csud.AccountProvider.Any(x => x.Key == account.AccountProviderKey))
+            //{
+            //    Error("Неверный код поставщика учетных записей.");
+            //}
+            //if (!Csud.Person.Any(x => x.Key == account.PersonKey))
+            //{
+            //    Error("Неверный код персоны.");
+            //}
             return Validated;
         }
     }

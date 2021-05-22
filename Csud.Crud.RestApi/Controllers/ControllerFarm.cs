@@ -6,41 +6,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
 {
-    [Route("api/aaa")]
-    [ApiController]
-    public class QController : OneToOneController<TimeContext, TimeContextAdd, TimeContextEdit, Context>
-    {
-        public QController(IOneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context> svc) : base(svc)
-        {
-        }
-    }
-
     [Route("api/group")]
     [ApiController]
-    public class GroupController : OneToManyController<Group, GroupAdd, Subject>
+    public class GroupController : OneToManyController<Group, GroupAdd, GroupEdit, Subject>
     {
-        public GroupController(IOneToManyService<Group, GroupAdd, Subject> svc) : base(svc)
+        public GroupController(IOneToManyService<Group, GroupAdd, GroupEdit, Subject> svc) : base(svc)
         {
         }
     }
 
     [Route("api/task")]
     [ApiController]
-    public class TaskController : OneToManyController<TaskX, TaskAdd, ObjectX>
+    public class TaskController : OneToManyController<TaskX, TaskAdd, TaskEdit, ObjectX>
     {
-        public TaskController(IOneToManyService<TaskX, TaskAdd, ObjectX> svc) : base(svc)
+        public TaskController(IOneToManyService<TaskX, TaskAdd, TaskEdit, ObjectX> svc) : base(svc)
         {
         }
     }
 
-    //[Route("api/relation")]
-    //[ApiController]
-    //public class RelationController : OneToOneController<RelationDetails, RelationDetailsAdd, RelationDetailsEdit, Relation>
-    //{
-    //    public RelationController(IOneToOneService<RelationDetails, RelationDetailsAdd, RelationDetailsEdit, Relation> svc) : base(svc)
-    //    {
-    //    }
-    //}
+    [Route("api/relation")]
+    [ApiController]
+    public class RelationController : OneToManyController<RelationDetails, RelationDetailsAdd, RelationDetailsEdit, Relation>
+    {
+        public RelationController(IOneToManyService<RelationDetails, RelationDetailsAdd, RelationDetailsEdit, Relation> svc) : base(svc)
+        {
+        }
+    }
 
     [Route("api/person")]
     [ApiController]

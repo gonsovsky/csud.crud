@@ -16,6 +16,7 @@ namespace Csud.Crud.Models
     public class Base : Entity, ICloneable, IBase
     { 
         [Key] public virtual int Key { get; set; }
+
         [NotMapped] [JsonIgnore]
         public override string ID { get; set; }
         public int GenerateNewKey()
@@ -77,6 +78,12 @@ namespace Csud.Crud.Models
                 if (props.sourceProperty.Name==nameof(Base.UseKey))
                     continue;
                 props.targetProperty.SetValue(destination, props.sourceProperty.GetValue(source, null), null);
+            }
+
+            if (destination is IOneToManyEdit && source is IOneToManyEdit)
+            {
+                ((IOneToManyEdit) destination).RelatedKeys = new List<int>();
+                (destination as IOneToManyEdit).RelatedKeys.AddRange(((IOneToManyEdit) source).RelatedKeys);
             }
         }
         public object Clone()

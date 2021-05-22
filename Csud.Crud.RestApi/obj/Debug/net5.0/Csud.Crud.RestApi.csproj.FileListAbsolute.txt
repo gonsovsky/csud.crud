@@ -1,6 +1,7 @@
 C:\@job\Csud.Crud\Csud.Crud.RestApi\bin\Debug\net5.0\appsettings.Development.json
 C:\@job\Csud.Crud\Csud.Crud.RestApi\bin\Debug\net5.0\appsettings.json
 C:\@job\Csud.Crud\Csud.Crud.RestApi\bin\Debug\net5.0\Csud.Crud.RestApi.exe
+C:\@job\Csud.Crud\Csud.Crud.RestApi\bin\Debug\net5.0\Csud.Crud.RestApi.xml
 C:\@job\Csud.Crud\Csud.Crud.RestApi\bin\Debug\net5.0\Csud.Crud.RestApi.deps.json
 C:\@job\Csud.Crud\Csud.Crud.RestApi\bin\Debug\net5.0\Csud.Crud.RestApi.runtimeconfig.json
 C:\@job\Csud.Crud\Csud.Crud.RestApi\bin\Debug\net5.0\Csud.Crud.RestApi.runtimeconfig.dev.json
@@ -150,7 +151,6 @@ C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.Generated
 C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.AssemblyInfoInputs.cache
 C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.AssemblyInfo.cs
 C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.csproj.CoreCompileInputs.cache
-C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.MvcApplicationPartsAssemblyInfo.cs
 C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.MvcApplicationPartsAssemblyInfo.cache
 C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\staticwebassets\Csud.Crud.RestApi.StaticWebAssets.Manifest.cache
 C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\staticwebassets\Csud.Crud.RestApi.StaticWebAssets.xml
@@ -161,4 +161,4 @@ C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.dll
 C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\ref\Csud.Crud.RestApi.dll
 C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.pdb
 C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.genruntimeconfig.cache
-C:\@job\Csud.Crud\Csud.Crud.RestApi\bin\Debug\net5.0\Csud.Crud.RestApi.xml
+C:\@job\Csud.Crud\Csud.Crud.RestApi\obj\Debug\net5.0\Csud.Crud.RestApi.MvcApplicationPartsAssemblyInfo.cs

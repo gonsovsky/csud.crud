@@ -2,6 +2,7 @@
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.RestApi.Models;
+using Csud.Crud.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
@@ -10,14 +11,18 @@ namespace Csud.Crud.RestApi.Controllers
     [ApiController]
     public class ContextController: Controller
     {
-        protected static ICsud Csud => CsudService.Csud;
+        protected IContextService Svc;
+        public ContextController(IContextService svc)
+        {
+            Svc = svc;
+        }
 
         [HttpGet("list")]
         public virtual IActionResult List(string type, int skip = 0, int take = 0, string status = Const.Status.Actual)
         {
             try
             {
-                var q = Csud.ListContext(type, status, skip, take);
+                var q = Svc.List(type, status, skip, take);
                 return Ok(q);
             }
             catch (Exception ex)
@@ -31,7 +36,7 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                var entity = Csud.GetContext(key);
+                var entity = Svc.Get(key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -49,7 +54,7 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                Csud.DeleteContext(key);
+                Svc.Delete(key);
                 return Ok();
             }
             catch (Exception ex)
@@ -58,7 +63,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost("{key}/copy")]
+        [HttpPost("copy/{key}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
@@ -70,8 +75,8 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.CopyContext(key);
-                return Ok();
+                var result = Svc.Copy(key);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -79,11 +84,12 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPut]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPost("{key}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        protected virtual IActionResult Put<T>(bool isTemporary, T entity) where T: BaseContext
+        protected virtual IActionResult Post<T>(int key, T entity) where T : BaseContext
         {
             try
             {
@@ -91,8 +97,31 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Csud.AddContext<T>(entity,isTemporary);
-                return Ok(entity);
+                entity.Key = key;
+                var result = Svc.Update<T>(entity);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpPut]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        protected virtual IActionResult Put<T>(T entity) where T: BaseContext
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var result = Svc.Add(entity);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -104,40 +133,126 @@ namespace Csud.Crud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(bool isTemporary, TimeContext entity)
-            => Put<TimeContext>(isTemporary, (TimeContext)entity);
+        public virtual IActionResult Put(TimeContextAdd entity)
+            => Put<TimeContextAdd>(entity);
 
         [HttpPut("rule")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(bool isTemporary, RuleContext entity)
-            => Put<RuleContext>(isTemporary, (RuleContext)entity);
+        public virtual IActionResult Put(RuleContextAdd entity)
+            => Put<RuleContextAdd>(entity);
 
         [HttpPut("segment")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(bool isTemporary, SegmentContext entity)
-            => Put<SegmentContext>(isTemporary, (SegmentContext)entity);
+        public virtual IActionResult Put(SegmentContextAdd entity)
+            => Put<SegmentContextAdd>(entity);
 
         [HttpPut("struct")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(bool isTemporary, StructContext entity)
-            => Put<StructContext>(isTemporary, (StructContext)entity);
+        public virtual IActionResult Put(StructContextAdd entity)
+            => Put<StructContextAdd>(entity);
+
+        [HttpPut("attribute")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Put(AttributeContextAdd entity)
+            => Put<AttributeContextAdd>(entity);
 
         [HttpPut("composite")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Put(bool isTemporary, RelationalModel entity)
+        public virtual IActionResult Put(CompositeContextAdd entity)
+            => Put<CompositeContextAdd>(entity);
+
+        [HttpPost("time/{key}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Post(int key, TimeContextEdit entity)
+            => Post<TimeContextEdit>(key, entity);
+
+        [HttpPost("rule/{key}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Post(int key, RuleContextEdit entity)
+            => Post<RuleContextEdit>(key, entity);
+
+        [HttpPost("segment/{key}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Post(int key, SegmentContextEdit entity)
+            => Post<SegmentContextEdit>(key, entity);
+
+        [HttpPost("struct/{key}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Post(int key, StructContextEdit entity)
+            => Post<StructContextEdit>(key, entity);
+
+        [HttpPost("attribute/{key}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Post(int key, AttributeContextEdit entity)
+            => Post<AttributeContextEdit>(key, entity);
+
+        [HttpPost("composite/{key}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Post(int key, CompositeContextEdit entity)
+            => Post<CompositeContextEdit>(key, entity);
+
+        [HttpPost("composite/include/{key}/{relatedKey}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Include(int key, int relatedKey)
         {
-            var compositeResult = new CompositeContext();
-            entity.CopyTo(compositeResult, false);
-            compositeResult.RelatedKeys.AddRange(entity.RelatedKeys);
-            return Put<CompositeContext>(isTemporary, (CompositeContext)compositeResult);
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var result = Svc.Include(key, relatedKey);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpPost("composite/exclude/{key}/{relatedKey}")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
+        public virtual IActionResult Exclude(int key, int relatedKey)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var result = Svc.Exclude(key, relatedKey);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
     }
 }

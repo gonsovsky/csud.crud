@@ -11,7 +11,6 @@ namespace Csud.Crud.RestApi.Controllers
     public abstract class EntityController<TEntity>: ControllerBase where TEntity : Base
     {
         protected readonly IEntityService<TEntity> Svc;
-
         protected EntityController(IEntityService<TEntity> svc)
         {
             Svc = svc;
@@ -50,11 +49,11 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("{key}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Post(TEntity entity)
+        public virtual IActionResult Post(int key, TEntity entity)
         {
             try
             {
@@ -62,7 +61,7 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
+                entity.Key = key;
                 var result = Svc.Update(entity);
                 return Ok(result);
             }
@@ -107,7 +106,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost("{key}/copy")]
+        [HttpPost("copy/{key}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]

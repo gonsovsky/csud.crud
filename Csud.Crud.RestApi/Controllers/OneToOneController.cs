@@ -8,7 +8,7 @@ namespace Csud.Crud.RestApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class OneToOneController<TEntity, TModelAdd, TModelEdit, TLinked>: Controller  where TEntity : Base, IOneToOne where TModelAdd : Base where TModelEdit : Base where TLinked : Base
+    public class OneToOneController<TEntity, TModelAdd, TModelEdit, TLinked>: Controller  where TEntity : Base, IOneToOne where TModelAdd : TEntity where TModelEdit : TEntity where TLinked : Base
     {
         protected readonly IOneToOneService<TEntity, TModelAdd, TModelEdit, TLinked> Svc;
 
@@ -64,7 +64,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost("{key}/copy")]
+        [HttpPost("copy/{key}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]

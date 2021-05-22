@@ -50,7 +50,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [ApiExplorerSettings(IgnoreApi = true)] public override IActionResult Post(AppImport entity) => throw new NotImplementedException();
+        [ApiExplorerSettings(IgnoreApi = true)] public override IActionResult Post(int key, AppImport entity) => throw new NotImplementedException();
         [HttpPost("somewhere")]
         [ApiExplorerSettings(IgnoreApi = true)] public override IActionResult Put(AppImport entity) => throw new NotImplementedException();
         [ApiExplorerSettings(IgnoreApi = true)] public override IActionResult Copy(int key) => throw new NotImplementedException();

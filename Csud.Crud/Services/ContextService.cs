@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Rules;
@@ -13,197 +10,161 @@ namespace Csud.Crud.Services
     public interface IContextService
     {
         public void Delete(int key);
-
-        public void Copy(int key);
-
-        public void Add<T>(T entity, bool isTemporary = false) where T : BaseContext;
-        public BaseContext Get(int key, string status = Const.Status.Actual);
-
+        public object Copy(int key);
+        public object Add(BaseContext entity);
+        public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Context;
+        public object Get(int key, string status = Const.Status.Actual);
         public IEnumerable List(string type, string status = Const.Status.Actual, int skip = 0, int take = 0);
-
-        public IEnumerable Expand(int key, string status = Const.Status.Actual);
+        public T Update<T>(T entity) where T : BaseContext;
+        public object Include(int key, int relatedKey);
+        public object Exclude(int key, int relatedKey);
     }
 
-    public class ContextService : IContextService
+    public class ContextService: IContextService
     {
-        protected IEntityService<Context> Context;
-        protected IEntityService<TimeContext> TimeContext;
-        protected IEntityService<SegmentContext> SegmentContext;
-        protected IEntityService<RuleContext> RuleContext;
-        protected IEntityService<StructContext> StructContext;
-        protected IEntityService<CompositeContext> CompositeContext;
-        protected IEntityService<AttributeContext> AttributeContext;
+        protected IEntityService<Context> CommonService;
+        protected IOneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context> TimeService;
+        protected IOneToOneService<SegmentContext, SegmentContextAdd, SegmentContextEdit, Context> SegmentService;
+        protected IOneToOneService<RuleContext, RuleContextAdd, RuleContextEdit, Context>  RuleService;
+        protected IOneToOneService<StructContext, StructContextAdd, StructContextEdit, Context> StructService;
+        protected IOneToOneService<AttributeContext, AttributeContextAdd, AttributeContextEdit, Context> AttributeService;
+        protected IOneToManyService<CompositeContext, CompositeContextAdd, CompositeContextEdit, Context> CompositeService;
 
-        protected ContextService(IEntityService<Context> context, IEntityService<TimeContext> timeContext,
-            IEntityService<SegmentContext> segmentContext, IEntityService<RuleContext> ruleContext,
-            IEntityService<StructContext> structContext,
-            IEntityService<CompositeContext> compositeContext,
-            IEntityService<AttributeContext> attributeContext
+        public ContextService(IEntityService<Context> contextService, 
+            IOneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context> timeService,
+            IOneToOneService<SegmentContext, SegmentContextAdd, SegmentContextEdit, Context> segmentService,
+            IOneToOneService<RuleContext, RuleContextAdd, RuleContextEdit, Context> ruleService,
+            IOneToOneService<StructContext, StructContextAdd, StructContextEdit, Context> structService,
+            IOneToOneService<AttributeContext, AttributeContextAdd, AttributeContextEdit, Context> attributeService,
+            IOneToManyService<CompositeContext, CompositeContextAdd, CompositeContextEdit, Context> compositeService
             )
         {
-            Context= context;
-            TimeContext = timeContext;
-            SegmentContext = segmentContext;
-            RuleContext = ruleContext;
-            StructContext = structContext;
-            CompositeContext = compositeContext;
-            AttributeContext = attributeContext;
+            CommonService = contextService;
+            TimeService = timeService;
+            SegmentService = segmentService;
+            RuleService = ruleService;
+            StructService = structService;
+            AttributeService = attributeService;
+            CompositeService = compositeService;
         }
 
         public void Delete(int key)
         {
-            var co = this.Context.Look(key);
+            var co = this.CommonService.Look(key);
             switch (co.ContextType)
             {
                 case Const.Context.Time:
-                    TimeContext.Delete(key);
+                    TimeService.Delete(key);
                     break;
                 case Const.Context.Attrib:
-                    AttributeContext.Delete(key);
+                    AttributeService.Delete(key);
                     break;
                 case Const.Context.Rule:
-                    RuleContext.Delete(key);
+                    RuleService.Delete(key);
                     break;
                 case Const.Context.Struct:
-                    StructContext.Delete(key);
+                    StructService.Delete(key);
                     break;
                 case Const.Context.Segment:
-                    SegmentContext.Delete(key);
+                    SegmentService.Delete(key);
                     break;
                 case Const.Context.Composite:
-                    CompositeContext.Delete(key);
-                    var compositeAll = CompositeContext.Select().Where(x => x.Key == key);
-                    foreach (var composite in compositeAll)
-                    {
-                        CompositeContext.Delete(composite);
-                    }
+                    CompositeService.Delete(key);
                     break;
                 default:
                     throw new ArgumentException("Недопустимый код контекста");
             }
-            Context.Delete(co);
+            CommonService.Delete(co);
         }
-        public void Copy(int key)
+
+        public object Add(BaseContext entity)
         {
-            var co = this.Context.Select().First(a => a.Key == key);
-            co = Context.Copy(co);
+            return entity.ContextType switch
+            {
+                Const.Context.Time => TimeService.Add(entity as TimeContextAdd),
+                Const.Context.Attrib => AttributeService.Add(entity as AttributeContextAdd),
+                Const.Context.Rule => RuleService.Add(entity as RuleContextAdd),
+                Const.Context.Struct => StructService.Add(entity as StructContextAdd),
+                Const.Context.Segment => SegmentService.Add(entity as SegmentContextAdd),
+                Const.Context.Composite => CompositeService.Add(entity as CompositeContextAdd),
+                _ => throw new NotImplementedException()
+            };
+        }
+
+
+        public T Update<T>(T entity) where T : BaseContext
+        {
+            switch (entity.ContextType)
+            {
+                case Const.Context.Time:
+                    TimeService.Update(entity as TimeContextEdit);
+                    break;
+                case Const.Context.Attrib:
+                    AttributeService.Update(entity as AttributeContextEdit);
+                    break;
+                case Const.Context.Rule:
+                    RuleService.Update(entity as RuleContextEdit);
+                    break;
+                case Const.Context.Struct:
+                    StructService.Update(entity as StructContextEdit);
+                    break;
+                case Const.Context.Segment:
+                    SegmentService.Update(entity as SegmentContextEdit);
+                    break;
+                case Const.Context.Composite:
+                    CompositeService.Update(entity as CompositeContextEdit);
+                    break;
+            }
+            return entity;
+        }
+
+        public object Include(int key, int relatedKey)
+        {
+            return CompositeService.Include(key, relatedKey);
+        }
+
+        public object Exclude(int key, int relatedKey)
+        {
+            return CompositeService.Exclude(key, relatedKey);
+        }
+
+        public object Copy(int key)
+        {
+            var context = this.CommonService.Look(key);
+            return context.ContextType switch
+            {
+                Const.Context.Time => TimeService.Copy(key, true),
+                Const.Context.Attrib => AttributeService.Copy(key, true),
+                Const.Context.Rule => RuleService.Copy(key, true),
+                Const.Context.Struct => StructService.Copy(key, true),
+                Const.Context.Segment => SegmentService.Copy(key, true),
+                Const.Context.Composite => CompositeService.Copy(key, true),
+                _ => throw new ArgumentException("Недопустимый код контекста")
+            };
+        }
+
+        public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Context
+        {
+            return CommonService.Select(status).OfType<T>();
+        }
+
+        public object Get(int key, string status = Const.Status.Actual)
+        {
+            var co = CommonService.Select(status).First(a => a.Key == key);
             switch (co.ContextType)
             {
                 case Const.Context.Time:
-                    var time = TimeContext.Select().First(x => x.Key == key);
-                    time.Key = co.Key;
-                    TimeContext.Copy(time, true);
-                    break;
+                    return TimeService.Get(key);
                 case Const.Context.Attrib:
-                    var attrib = AttributeContext.Select().First(x => x.Key == key);
-                    attrib.Key = co.Key;
-                    AttributeContext.Copy(attrib, true);
-                    break;
+                    return AttributeService.Get(key);
                 case Const.Context.Rule:
-                    var rule = RuleContext.Select().First(x => x.Key == key);
-                    rule.Key = co.Key;
-                    RuleContext.Copy(rule, true);
-                    break;
+                    return RuleService.Get(key);
                 case Const.Context.Struct:
-                    var structX = StructContext.Select().First(x => x.Key == key);
-                    structX.Key = co.Key;
-                    StructContext.Copy(structX, true);
-                    break;
+                    return StructService.Get(key);
                 case Const.Context.Segment:
-                    var segment = SegmentContext.Select().First(x => x.Key == key);
-                    segment.Key = co.Key;
-                    SegmentContext.Copy(segment, true);
-                    break;
+                    return SegmentService.Get(key);
                 case Const.Context.Composite:
-                    var compositeAll = CompositeContext.Select().Where(x => x.Key == key);
-                    foreach (var composite in compositeAll)
-                    {
-                        composite.Key = co.Key;
-                        CompositeContext.Copy(composite,false);
-                    }
-                    break;
-                default:
-                    throw new ArgumentException("Недопустимый код контекста");
-            }
-        }
-
-        public void Add<T>(T entity, bool isTemporary = false) where T : BaseContext
-        {
-            if (entity is CompositeContext compositeContext)
-            {
-                if (compositeContext.RelatedKeys == null || compositeContext.RelatedKeys.Count == 0)
-                    throw new ArgumentException($"Связанные контексты не найдены");
-                foreach (var rkey in compositeContext.RelatedKeys)
-                {
-                    if (Context.Select().Any(a => a.Key == rkey) == false)
-                        throw new ArgumentException($"Контекст с кодом {rkey} не найден");
-                }
-            }
-
-            var context = new Context();
-            entity.CopyTo(context, false);
-            context.Temporary = isTemporary;
-            Context.Add(context);
-            entity.Key = context.Key;
-            entity.ID = context.ID;
-            if (entity is CompositeContext composite)
-            {
-                foreach (var rkey in composite.RelatedKeys)
-                {
-                    var x = (CompositeContext) composite.Clone();
-                    x.ID = null;
-                    x.Key = context.Key;
-                    x.RelatedKey = rkey;
-                    CompositeContext.Add(x, false);
-                }
-            }
-            else
-            {
-                entity.Key = context.Key;
-                switch (entity.ContextType)
-                {
-                    case Const.Context.Time:
-                        var time = entity.CloneTo<TimeContext>(false);
-                        TimeContext.Add(time, true);
-                        break;
-                    case Const.Context.Attrib:
-                        var attrib = entity.CloneTo<AttributeContext>(false);
-                        AttributeContext.Add(attrib, true);
-                        break;
-                    case Const.Context.Rule:
-                        var rule = entity.CloneTo<RuleContext>(false);
-                        RuleContext.Add(rule, true);
-                        break;
-                    case Const.Context.Struct:
-                        var structX = entity.CloneTo<StructContext>(false);
-                        StructContext.Add(structX, true);
-                        break;
-                    case Const.Context.Segment:
-                        var segment = entity.CloneTo<SegmentContext>(false);
-                        SegmentContext.Add(segment, true);
-                        break;
-                }
-            }
-        }
-
-        public BaseContext Get(int key, string status = Const.Status.Actual)
-        {
-            var co = Context.Select(status).First(a => a.Key == key);
-            switch (co.ContextType)
-            {
-                case Const.Context.Time:
-                    return TimeContext.Select(status).First(x => x.Key == key);
-                case Const.Context.Attrib:
-                    return AttributeContext.Select(status).First(x => x.Key == key);
-                case Const.Context.Rule:
-                    return RuleContext.Select(status).First(x => x.Key == key);
-                case Const.Context.Struct:
-                    return StructContext.Select(status).First(x => x.Key == key);
-                case Const.Context.Segment:
-                    return SegmentContext.Select(status).First(x => x.Key == key);
-                case Const.Context.Composite:
-                    var c = CompositeContext.Select(status).First(x => x.Key == key);
-                    c.RelatedEntities = Expand(key);
+                    var c = CompositeService.Get(key, status);
                     return c;
                 default:
                     throw new ArgumentException("Недопустимый код контекста");
@@ -214,7 +175,7 @@ namespace Csud.Crud.Services
             if (!string.IsNullOrEmpty(type) && !Const.Context.Has(type))
                 throw new ArgumentException("Недопустимый код контекста");
 
-            var q = Context.Select(status);
+            var q = CommonService.Select(status);
             if (!string.IsNullOrEmpty(type))
                 q = q.Where(a => a.ContextType == type);
             if (skip != 0)
@@ -225,13 +186,6 @@ namespace Csud.Crud.Services
             {
                 yield return Get(context.Key, status);
             }
-        }
-        public IEnumerable Expand(int key, string status = Const.Status.Actual)
-        {
-            var all = CompositeContext.Select(status)
-                .Where(a => a.Key == key);
-            foreach (var context in all)
-                yield return Get(context.RelatedKey, status);
         }
     }
 }

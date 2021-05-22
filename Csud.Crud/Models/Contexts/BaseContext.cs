@@ -7,9 +7,10 @@ namespace Csud.Crud.Models.Contexts
 {
     public abstract class BaseContext: Base, INameable, IOneToOne
     {
-        [NotMapped] [Ignore] [BsonIgnore]
-        public abstract string ContextType { get; }
-        
+        [NotMapped] [Ignore] [BsonIgnore] public abstract string ContextType { get; }
+
+        [NotMapped] [Ignore] [BsonIgnore] public bool Temporary { get; set; } = false;
+
         [NotMapped] [Ignore] [BsonIgnore] public string Name { get; set; }
         [NotMapped] [Ignore] [BsonIgnore] public string Description { get; set; }
         [NotMapped] [Ignore] [BsonIgnore] public string DisplayName { get; set; }

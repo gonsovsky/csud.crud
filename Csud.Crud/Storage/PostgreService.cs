@@ -44,6 +44,9 @@ namespace Csud.Crud.Storage
             modelBuilder.Entity<Person>()
                 .HasIndex(x => new { x.FirstName, x.LastName });
 
+            modelBuilder.Entity<Relation>()
+                .HasKey(x => new {x.Key});
+
             modelBuilder.Entity<RelationDetails>()
                 .HasKey(x => new { x.RelatedKey, x.ObjectKey, x.SubjectKey });
 
@@ -90,7 +93,6 @@ namespace Csud.Crud.Storage
         public DbSet<TimeContext> TimeContext { get; set; }
         public DbSet<RelationDetails> RelationDetails { get; set; }
         public DbSet<Relation> Relation { get; set; }
-
         public DbSet<App> App { get; set; }
         public DbSet<AppDistrib> AppDistrib { get; set; }
         public DbSet<AppRoleDefinition> AppRoleDefinition { get; set; }
@@ -112,14 +114,12 @@ namespace Csud.Crud.Storage
             SaveChanges();
         }
 
-        public void Update<T>(T entity) where T : Base
+        public new void Update<T>(T entity) where T : Base
         {
-
             Set<T>().Update(entity);
             SaveChanges();
         }
-
-
+        
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
         {
             return Set<T>().AsQueryable().Where(x => x.Status == status);

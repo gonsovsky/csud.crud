@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using Csud.Crud.Services;
 
 namespace Csud.Crud.Models.Contexts
 {
@@ -9,12 +10,12 @@ namespace Csud.Crud.Models.Contexts
         public override string ContextType => Const.Context.Time;
     }
 
-    public class TimeContextAdd : TimeContext
+    public class TimeContextEdit : TimeContext, INoneRepo
     {
         [JsonIgnore] public override int Key { get; set; }
     }
 
-    public class TimeContextEdit : TimeContext
+    public class TimeContextAdd : TimeContextEdit
     {
     }
 }

@@ -1,25 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Models.Rules
 {
     internal class SubjectValidationAttribute : BaseValidator
     {
-        public override bool IsValid(object value)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             Reset();
+            ValidationResult result =null;
             var subject = (Subject)value;
-            if (!Csud.Context.Any (x => x.Key == subject.ContextKey))
+            var service = (IContextService)validationContext
+                .GetService(typeof(IContextService));
+
+            if (!service.Select<Context>().Any (x => x.Key == subject.ContextKey))
             {
-                Error("Неверный код контекста.");
+                result = new ValidationResult("Неверный код контекста.");
             }
             if (subject.SubjectType != Const.Subject.Account && subject.SubjectType != Const.Subject.Group)
             {
-                Error("Неверный тип субъекта.");
+                result = new ValidationResult("Неверный тип субъекта.");
             }
-            return Validated;
+            return result;
         }
     }
 

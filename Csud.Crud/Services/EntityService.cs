@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Storage;
 
@@ -15,7 +14,6 @@ namespace Csud.Crud.Services
         public void Restore(T entity);
         public IQueryable<T> Select(string status = Const.Status.Actual);
         public IQueryable<T> List(string status = Const.Status.Actual, int skip = 0, int take = 0);
-
         public T Look(int key);
     }
 

@@ -4,11 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Csud.Crud.DbTool.PromtEx.ConsoleEx;
 using Csud.Crud.DbTool.PromtEx.Pages;
 using Csud.Crud.Models;
-using MongoDB.Bson.IO;
+using Csud.Crud.Services;
 
 namespace Csud.Crud.DbTool.PromtEx
 {
@@ -79,7 +78,7 @@ namespace Csud.Crud.DbTool.PromtEx
                 {
                     foreach (var theType in a.GetTypes())
                     {
-                        if (theType.IsClass && !theType.GetInterfaces().Contains(typeof(IRelationalAdd)) && !theType.IsAbstract && theType.IsSubclassOf(typeof(Base)))
+                        if (theType.IsClass && !theType.GetInterfaces().Contains(typeof(INoneRepo)) && !theType.IsAbstract && theType.IsSubclassOf(typeof(Base)))
                         {
                             yield return theType;
                         }

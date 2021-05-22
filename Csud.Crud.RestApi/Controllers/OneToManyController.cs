@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
 {
-    public class OneToManyController<TEntity, TModelAdd, TLinked> : Controller where TEntity: Base,IOneToMany where TModelAdd: Base, IOneToMany where TLinked : Base
+    public class OneToManyController<TEntity, TModelAdd, TModelEdit, TLinked> : Controller where TEntity: Base,IOneToMany where TModelAdd: TEntity, IOneToManyAdd where TModelEdit : TEntity, IOneToManyEdit where TLinked : Base
     {
-        protected readonly IOneToManyService<TEntity, TModelAdd, TLinked> Svc;
+        protected readonly IOneToManyService<TEntity, TModelAdd,TModelEdit, TLinked> Svc;
 
-        public OneToManyController(IOneToManyService<TEntity, TModelAdd, TLinked> svc)
+        public OneToManyController(IOneToManyService<TEntity, TModelAdd, TModelEdit, TLinked> svc)
         {
             Svc = svc;
         }
@@ -60,7 +60,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost("{key}/copy")]
+        [HttpPost("copy/{key}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
@@ -72,8 +72,8 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                Svc.Copy(key);
-                return Ok();
+                var result = Svc.Copy(key);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -93,10 +93,8 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var p = Activator.CreateInstance<TEntity>();
-                entity.CopyTo(p,false);
-                Svc.Add(p);
-                return Ok(entity);
+                var result = Svc.Add(entity);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -104,7 +102,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost("include")]
+        [HttpPost("include/{key}/{relatedKey}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
@@ -116,7 +114,8 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                return Ok();
+                var result = Svc.Include(key,relatedKey);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -124,7 +123,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost("exclude")]
+        [HttpPost("exclude/{key}/{relatedKey}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
@@ -136,7 +135,8 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                return Ok();
+                var result = Svc.Exclude(key, relatedKey);
+                return Ok(result);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text.Json.Serialization;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
@@ -14,33 +13,33 @@ namespace Csud.Crud.Models.Rules
         public override bool IsValid(object value)
         {
             Reset();
-            if (value is IContextable context)
-            {
-                if (!Csud.Context.Any(x => x.Key == context.ContextKey))
-                {
-                    Error("Неверный код контекста.");
-                }
-            }
+            //if (value is IContextable context)
+            //{
+            //    if (!Csud.ContextService.Any(x => x.Key == context.ContextKey))
+            //    {
+            //        Error("Неверный код контекста.");
+            //    }
+            //}
 
-            if (value is IOneToMany group)
-            {
+            //if (value is IOneToMany group)
+            //{
 
-                if (value is IOneToManyAdd)
-                {
-                    foreach (var rkey in group.RelatedKeys)
-                    {
-                        if (Csud.Subject.Any(a => a.Key == rkey) == false)
-                            Error($"Связанный объект с кодом {rkey} не найден");
-                    }
-                }
-                else
-                {
-                    if (!Csud.Subject.Any(x => x.Key == group.RelatedKey))
-                    {
-                        Error("Неверный код связанного объекта.");
-                    }
-                }
-            }
+            //    if (value is IOneToManyAdd)
+            //    {
+            //        foreach (var rkey in group.RelatedKeys)
+            //        {
+            //            if (Csud.Subject.Any(a => a.Key == rkey) == false)
+            //                Error($"Связанный объект с кодом {rkey} не найден");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (!Csud.Subject.Any(x => x.Key == group.RelatedKey))
+            //        {
+            //            Error("Неверный код связанного объекта.");
+            //        }
+            //    }
+            //}
 
             return Validated;
         }
@@ -65,10 +64,15 @@ namespace Csud.Crud.Models.Rules
         }
     }
 
-    public class GroupAdd : Group, IOneToManyAdd
+    public class GroupEdit: Group, INoneRepo, IOneToManyEdit
     {
         [JsonIgnore] public override int Key { get; set; }
         [JsonIgnore] public override int RelatedKey { get; set; }
         public new List<int> RelatedKeys { get; set; }
+    }
+
+    public class GroupAdd : GroupEdit, IOneToManyAdd
+    {
+
     }
 }

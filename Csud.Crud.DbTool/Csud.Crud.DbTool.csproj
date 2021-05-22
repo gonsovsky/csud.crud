@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Csud.Crud.RestApi\Csud.Crud.RestApi.csproj" />
     <ProjectReference Include="..\Csud.Crud\Csud.Crud.csproj" />
   </ItemGroup>
 

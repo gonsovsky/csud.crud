@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text.Json.Serialization;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -10,15 +9,15 @@ namespace Csud.Crud.Models.Rules
         public override bool IsValid(object value)
         {
             Reset();
-            var obj = (ObjectX)value;
-            if (!Csud.Context.Any(x => x.Key == obj.ContextKey))
-            {
-                Error("Неверный код контекста.");
-            }
-            if (obj.ObjectType != Const.Object.Role && obj.ObjectType != Const.Object.Task && obj.ObjectType != Const.Object.Entity)
-            {
-                Error("Неверный тип объекта.");
-            }
+            //var obj = (ObjectX)value;
+            //if (!Csud.ContextService.Any(x => x.Key == obj.ContextKey))
+            //{
+            //    Error("Неверный код контекста.");
+            //}
+            //if (obj.ObjectType != Const.Object.Role && obj.ObjectType != Const.Object.Task && obj.ObjectType != Const.Object.Entity)
+            //{
+            //    Error("Неверный тип объекта.");
+            //}
             return Validated;
         }
     }

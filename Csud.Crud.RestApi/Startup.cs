@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Threading.Tasks.Dataflow;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Maintenance;
@@ -25,8 +26,6 @@ namespace Csud.Crud.RestApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            CsudService.StartUp(new Config(Configuration));
-
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo
@@ -46,13 +45,22 @@ namespace Csud.Crud.RestApi
                 }
 
             );
+            services.AddSingleton(typeof(IConfiguration), Configuration);
+
+            ConfigureCsudServices(services);
+
+            services.AddControllers();
+        }
+
+        public static void ConfigureCsudServices(IServiceCollection services)
+        {
             services.TryAdd(ServiceDescriptor.Singleton(typeof(Config),
                 typeof(Config)));
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IDbService),
                 typeof(DbService)));
 
-            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<Account>), 
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<Account>),
                 typeof(EntityService<Account>)));
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<AccountProvider>),
@@ -91,18 +99,38 @@ namespace Csud.Crud.RestApi
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<RuleContext>),
                 typeof(EntityService<RuleContext>)));
 
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<AttributeContext>),
+                typeof(EntityService<AttributeContext>)));
+
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<SegmentContext>),
                 typeof(EntityService<SegmentContext>)));
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<CompositeContext>),
                 typeof(EntityService<CompositeContext>)));
 
-            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<Group, GroupAdd, Subject>),
-                typeof(OneToManyService<Group, GroupAdd, Subject>)));
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<TimeContext,TimeContextAdd,TimeContextEdit,Context>),
+                typeof(OneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context>)));
 
-            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<TaskX, TaskAdd, ObjectX>),
-                typeof(OneToManyService<TaskX, TaskAdd, ObjectX>)));
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<RuleContext, RuleContextAdd, RuleContextEdit, Context>),
+                typeof(OneToOneService<RuleContext, RuleContextAdd, RuleContextEdit, Context>)));
 
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<SegmentContext, SegmentContextAdd, SegmentContextEdit, Context>),
+                typeof(OneToOneService<SegmentContext, SegmentContextAdd, SegmentContextEdit, Context>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<StructContext, StructContextAdd, StructContextEdit, Context>),
+                typeof(OneToOneService<StructContext, StructContextAdd, StructContextEdit, Context>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<AttributeContext, AttributeContextAdd, AttributeContextEdit, Context>),
+                typeof(OneToOneService<AttributeContext, AttributeContextAdd, AttributeContextEdit, Context>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<Group, GroupAdd, GroupEdit, Subject>),
+                typeof(OneToManyService<Group, GroupAdd, GroupEdit, Subject>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<TaskX, TaskAdd, TaskEdit, ObjectX>),
+                typeof(OneToManyService<TaskX, TaskAdd, TaskEdit, ObjectX>)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<CompositeContext, CompositeContextAdd, CompositeContextEdit, Context>),
+                typeof(OneToManyService<CompositeContext, CompositeContextAdd, CompositeContextEdit, Context>)));
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<Relation>),
                 typeof(EntityService<Relation>)));
@@ -110,8 +138,8 @@ namespace Csud.Crud.RestApi
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<RelationDetails>),
                 typeof(EntityService<RelationDetails>)));
 
-            //services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<Relation, RelationDetailsAdd, RelationDetailsEdit, RelationDetails>),
-            //    typeof(OneToOneService<Relation, RelationDetailsAdd, RelationDetailsEdit, RelationDetails>)));
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<RelationDetails, RelationDetailsAdd, RelationDetailsEdit, Relation>),
+                typeof(OneToManyService<RelationDetails, RelationDetailsAdd, RelationDetailsEdit, Relation>)));
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context>),
                 typeof(OneToOneService<TimeContext, TimeContextAdd, TimeContextEdit, Context>)));
@@ -122,12 +150,8 @@ namespace Csud.Crud.RestApi
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IMaintenanceService),
                 typeof(MaintenanceService)));
 
-            services.TryAdd(ServiceDescriptor.Singleton(typeof(IContextService),
-                typeof(ContextService)));
-
-            services.AddControllers();
+            services.AddSingleton(typeof(IContextService), typeof(ContextService));
         }
-
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

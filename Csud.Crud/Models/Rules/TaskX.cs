@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text.Json.Serialization;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
@@ -14,24 +13,24 @@ namespace Csud.Crud.Models.Rules
         public override bool IsValid(object value)
         {
             Reset();
-            if (value is IOneToMany group)
-            {
-                if (value is IOneToManyAdd)
-                {
-                    foreach (var rkey in group.RelatedKeys)
-                    {
-                        if (Csud.Object.Any(a => a.Key == rkey) == false)
-                            Error($"Связанный объект с кодом {rkey} не найден");
-                    }
-                }
-                else
-                {
-                    if (!Csud.Object.Any(x => x.Key == group.RelatedKey))
-                    {
-                        Error("Неверный код связанного объекта.");
-                    }
-                }
-            }
+            //if (value is IOneToMany group)
+            //{
+            //    if (value is IOneToManyAdd)
+            //    {
+            //        foreach (var rkey in group.RelatedKeys)
+            //        {
+            //            if (Csud.Object.Any(a => a.Key == rkey) == false)
+            //                Error($"Связанный объект с кодом {rkey} не найден");
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (!Csud.Object.Any(x => x.Key == group.RelatedKey))
+            //        {
+            //            Error("Неверный код связанного объекта.");
+            //        }
+            //    }
+            //}
             return Validated;
         }
     }
@@ -48,10 +47,15 @@ namespace Csud.Crud.Models.Rules
         }
     }
 
-    public class TaskAdd : TaskX, IOneToManyAdd
+    public class TaskEdit : TaskX, INoneRepo, IOneToManyEdit
     {
         [JsonIgnore] protected new int Key { get; set; }
         [JsonIgnore] protected new int RelatedKey { get; set; }
         public new List<int> RelatedKeys { get; set; }
+    }
+
+    public class TaskAdd : TaskEdit, IOneToManyAdd
+    {
+
     }
 }

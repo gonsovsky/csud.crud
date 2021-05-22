@@ -4,7 +4,7 @@ using Csud.Crud.Models;
 
 namespace Csud.Crud.Services
 {
-    public interface IOneToOneService<TEntity, TModelAdd, TModelEdit, TLinked>: IOneToAnyService<TEntity, TLinked>
+    public interface IOneToOneService<TEntity, in TModelAdd, in TModelEdit, TLinked>: IOneToAnyService<TEntity, TLinked>
         where TEntity : Base, IOneToOne where TModelAdd : Base where TModelEdit : Base where TLinked : Base
     {
         public IEnumerable<TEntity> Select();
@@ -13,6 +13,7 @@ namespace Csud.Crud.Services
         public TEntity Add(TModelAdd addEntity, bool generateKey = true);
         public TEntity Update(TModelEdit editEntity);
         public void Delete(int key);
+        public void Delete(TEntity t);
         public TEntity Copy(int key, bool keepKey = false);
     }
 
@@ -60,9 +61,12 @@ namespace Csud.Crud.Services
         {
             var entity = editEntity.CloneTo<TEntity>(true);
             var linked = editEntity.CloneTo<TLinked>(true);
-            var existing = Look(entity);
-            entity.Key = existing.Key;
-            linked.Key = existing.Key;
+            var existingEntity = EntitySvc.Look(entity.Key);
+            var existingLinked = LinkedSvc.Look(linked.Key);
+            entity.Key = existingEntity.Key;
+            linked.Key = existingLinked.Key;
+            entity.ID = existingEntity.ID;
+            linked.ID = existingLinked.ID;
             LinkedSvc.Update(linked);
             entity.Link(linked);
             EntitySvc.Update(entity);
@@ -74,6 +78,13 @@ namespace Csud.Crud.Services
             EntitySvc.Delete(key);
             LinkedSvc.Delete(key);
         }
+
+        public void Delete(TEntity t)
+        {
+            LinkedSvc.Delete(t.Key);
+            EntitySvc.Delete(t);
+        }
+
         public TEntity Copy(int key, bool keepKey = false)
         {
             var linked = LinkedSvc.Look(key);

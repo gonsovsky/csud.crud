@@ -9,6 +9,7 @@ namespace Csud.Crud.Services
     public interface IMaintenanceService : IEntityService<AppImport>
     {
         public string GetPath(string filename);
+        public void Drop();
     }
 
     public class MaintenanceService : EntityService<AppImport>, IMaintenanceService
