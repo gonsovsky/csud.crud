@@ -6,6 +6,8 @@ namespace Csud.Crud
 {
     public record Config
     {
+        public bool DropOnStart { get; set; }
+
         public record ImportClass
         {
             public string Folder { get; set; }

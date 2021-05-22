@@ -1,4 +1,6 @@
-﻿namespace Csud.Crud.Models.Rules
+﻿using Csud.Crud.Services;
+
+namespace Csud.Crud.Models.Rules
 {
     public class Relation : Base, INameable
     {

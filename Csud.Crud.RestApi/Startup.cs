@@ -47,6 +47,9 @@ namespace Csud.Crud.RestApi
             );
             services.AddSingleton(typeof(IConfiguration), Configuration);
 
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(Config),
+                typeof(Config)));
+
             ConfigureCsudServices(services);
 
             services.AddControllers();
@@ -54,8 +57,12 @@ namespace Csud.Crud.RestApi
 
         public static void ConfigureCsudServices(IServiceCollection services)
         {
-            services.TryAdd(ServiceDescriptor.Singleton(typeof(Config),
-                typeof(Config)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(PostgreService),
+                typeof(PostgreService)));
+
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(MongoService),
+                typeof(MongoService)));
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IDbService),
                 typeof(DbService)));
@@ -146,9 +153,6 @@ namespace Csud.Crud.RestApi
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IEntityService<RuleContext>),
                 typeof(EntityService<RuleContext>)));
-
-            services.TryAdd(ServiceDescriptor.Singleton(typeof(IMaintenanceService),
-                typeof(MaintenanceService)));
 
             services.AddSingleton(typeof(IContextService), typeof(ContextService));
         }

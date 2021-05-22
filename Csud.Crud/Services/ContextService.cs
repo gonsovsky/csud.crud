@@ -81,12 +81,12 @@ namespace Csud.Crud.Services
         {
             return entity.ContextType switch
             {
-                Const.Context.Time => TimeService.Add(entity as TimeContextAdd),
-                Const.Context.Attrib => AttributeService.Add(entity as AttributeContextAdd),
-                Const.Context.Rule => RuleService.Add(entity as RuleContextAdd),
-                Const.Context.Struct => StructService.Add(entity as StructContextAdd),
-                Const.Context.Segment => SegmentService.Add(entity as SegmentContextAdd),
-                Const.Context.Composite => CompositeService.Add(entity as CompositeContextAdd),
+                Const.Context.Time => TimeService.Add(entity.CloneTo<TimeContextAdd>(true)),
+                Const.Context.Attrib => AttributeService.Add(entity.CloneTo<AttributeContextAdd>(true)),
+                Const.Context.Rule => RuleService.Add(entity.CloneTo<RuleContextAdd>(true)),
+                Const.Context.Struct => StructService.Add(entity.CloneTo<StructContextAdd>(true)),
+                Const.Context.Segment => SegmentService.Add(entity.CloneTo<SegmentContextAdd>(true)),
+                Const.Context.Composite => CompositeService.Add(entity.CloneTo<CompositeContextAdd>(true)),
                 _ => throw new NotImplementedException()
             };
         }

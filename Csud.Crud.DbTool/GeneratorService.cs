@@ -205,7 +205,11 @@ namespace Csud.Crud.DbTool
             Log<T>();
         }
 
-        private void MakeOneToMany<TEntity,TModelAdd, TModelEdit, TLinked>(Action<TModelAdd> act = null) where TEntity : Base, IOneToMany where TModelAdd: TEntity, IOneToManyAdd where TModelEdit: TEntity, IOneToManyEdit where TLinked : Base
+        private void MakeOneToMany<TEntity,TModelAdd, TModelEdit, TLinked>(Action<TModelAdd> act = null) 
+            where TEntity : Base, IOneToMany 
+            where TModelAdd: TEntity, IOneToManyAdd 
+            where TModelEdit: TEntity, IOneToManyEdit 
+            where TLinked : Base
         {
             var svc = Program.scope.ServiceProvider.GetRequiredService<IOneToManyService<TEntity, TModelAdd, TModelEdit, TLinked >>();
             var a = Gen<TModelAdd>();
@@ -245,13 +249,13 @@ namespace Csud.Crud.DbTool
             a.ObjectType = Const.Object.Entity;
         }
 
-        private void MakeTask(TaskX a)
+        private void MakeTask(TaskAdd a)
         {
             var q = Svc.Object.Where(x => x.ObjectType != Const.Object.Task);
             a.RelatedKeys = Take(q, 3).Select(a => a.Key).ToList();
         }
 
-        private void MakeGroup(Group a)
+        private void MakeGroup(GroupAdd a)
         {
             var q = Svc.Subject.Where(x => x.SubjectType != Const.Subject.Group);
             a.RelatedKeys = Take(q, 3).Select(a => a.Key).ToList();

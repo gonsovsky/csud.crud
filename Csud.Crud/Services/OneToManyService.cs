@@ -46,7 +46,6 @@ namespace Csud.Crud.Services
         public OneToMany<TEntity, TLinked> Get(int key, string status = Const.Status.Actual, bool recursive = true) 
         {
             var content = List(key).First();
-
             return content;
         }
 
@@ -128,7 +127,7 @@ namespace Csud.Crud.Services
         public OneToMany<TEntity, TLinked> Copy(int key, bool keepKey = false)
         {
             if (Select().Any(a => a.Key == key) == false)
-                throw new ArgumentException($"Объекты с ключем {key} не найдены");
+                throw new ArgumentException($"Объекта с ключем {key} не найдено");
 
             var linked = LinkedSvc.Look(key);
             var copied = LinkedSvc.Copy(linked);
@@ -144,31 +143,38 @@ namespace Csud.Crud.Services
 
         public OneToMany<TEntity, TLinked> Include(int key, int relatedKey)
         {
-            if (Select().Any(a => a.Key == key) == false)
-                throw new ArgumentException($"Объекты с ключем {key} не найдены");
-            if (Select().Any(a => a.Key == key && a.RelatedKey == relatedKey))
+            if (LinkedSvc.Select().Any(a => a.Key == key) == false)
+                throw new ArgumentException($"Объекта с ключем {key} не найдено");
+            if (Select(Const.Status.Actual).Any(a => a.Key == key && a.RelatedKey == relatedKey))
                 throw new ArgumentException($"Пара {key}-{relatedKey} уже существует");
-            var linked = LinkedSvc.Look(key);
-            var entity = Activator.CreateInstance<TEntity>();
-            entity.Key = key;
-            entity.RelatedKey = relatedKey;
-            entity.Link(linked);
-            LinkedSvc.Update(linked);
-            EntitySvc.Add(entity, false);
+
+            if (Select(Const.Status.Any).Any(a => a.Key == key && a.RelatedKey == relatedKey))
+            {
+                var entity = Select(Const.Status.Any).First(a => a.Key == key && a.RelatedKey == relatedKey);
+                EntitySvc.Restore(entity);
+            }
+            else
+            {
+                var entity = Activator.CreateInstance<TEntity>();
+                entity.Key = key;
+                entity.RelatedKey = relatedKey;
+                EntitySvc.Add(entity, false);
+            }
             return Get(key);
         }
 
         public OneToMany<TEntity, TLinked> Exclude(int key, int relatedKey)
         {
-            if (Select().Any(a => a.Key == key) == false)
-                throw new ArgumentException($"Объекты с ключем {key} не найдены");
+            if (LinkedSvc.Select().Any(a => a.Key == key) == false)
+                throw new ArgumentException($"Объекта с ключем {key} не найдено");
             if (Select().Any(a => a.Key == key && a.RelatedKey == relatedKey) == false)
-                throw new ArgumentException($"Пара {key}-{relatedKey} не найдена");
+                throw new ArgumentException($"Пары {key}-{relatedKey} не найдено");
             if (Select().Count(a => a.Key == key) <= 1)
                 throw new ArgumentException($"Нельзя удалить последню пару связи с ключем {key}");
             var entity = EntitySvc.Select().First(x => x.Key == key && x.RelatedKey == relatedKey);
             EntitySvc.Delete(entity);
             return Get(key);
+
         }
     }
 }

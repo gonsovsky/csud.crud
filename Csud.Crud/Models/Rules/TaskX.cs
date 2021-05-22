@@ -1,37 +1,42 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text.Json.Serialization;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Entities;
 
 namespace Csud.Crud.Models.Rules
 {
     internal class TaskValidator : BaseValidator
     {
-        public override bool IsValid(object value)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             Reset();
-            //if (value is IOneToMany group)
-            //{
-            //    if (value is IOneToManyAdd)
-            //    {
-            //        foreach (var rkey in group.RelatedKeys)
-            //        {
-            //            if (Csud.Object.Any(a => a.Key == rkey) == false)
-            //                Error($"Связанный объект с кодом {rkey} не найден");
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (!Csud.Object.Any(x => x.Key == group.RelatedKey))
-            //        {
-            //            Error("Неверный код связанного объекта.");
-            //        }
-            //    }
-            //}
-            return Validated;
+            var service = (IEntityService<ObjectX>) validationContext.GetService(typeof(IEntityService<ObjectX>));
+            if (service == null)
+                throw new ApplicationException($"{nameof(EntityService<ObjectX>)} is not found");
+
+            if (value is IOneToManyAdd groupAdd)
+            {
+                if (!groupAdd.RelatedKeys.Any())
+                    return new ValidationResult($"Не указаны связанные объекты");
+                foreach (var rkey in groupAdd.RelatedKeys
+                    .Where(rkey => !service.Select().Any(a => a.Key == rkey)))
+                {
+                    return new ValidationResult($"Связанный объект с кодом {rkey} не найден");
+                }
+            }
+            else if (value is IOneToManyEdit groupEdit)
+            {
+                if (!service.Select().Any(x => x.Key == groupEdit.RelatedKey))
+                {
+                    return new ValidationResult($"Неверный код {groupEdit.RelatedKey} связанного объекта.");
+                }
+            }
+            return null;
         }
     }
 
@@ -39,19 +44,18 @@ namespace Csud.Crud.Models.Rules
     public class TaskX : Base, IOneToMany
     {
         public int RelatedKey { get; set; }
-        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public List<int> RelatedKeys { get; set; } = new List<int>();
-        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
+        [NotMapped] [BsonIgnore][JsonIgnore] public IEnumerable RelatedEntities { get; set; }
         public void Link(Base linked)
         {
             ((ObjectX)linked).ObjectType = Const.Object.Task;
         }
     }
 
-    public class TaskEdit : TaskX, INoneRepo, IOneToManyEdit
+    public class TaskEdit : TaskX, IOneToManyEdit
     {
         [JsonIgnore] protected new int Key { get; set; }
         [JsonIgnore] protected new int RelatedKey { get; set; }
-        public new List<int> RelatedKeys { get; set; }
+        public virtual List<int> RelatedKeys { get; set; }
     }
 
     public class TaskAdd : TaskEdit, IOneToManyAdd

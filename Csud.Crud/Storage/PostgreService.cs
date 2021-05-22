@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Csud.Crud.Storage
 {
@@ -14,13 +17,24 @@ namespace Csud.Crud.Storage
 
         public PostgreService(Config cfg)
         {
-            this.config = cfg;
-            Database.EnsureCreated();
+            if (cfg.Postgre.Enabled)
+            {
+                this.config = cfg;
+
+                if (cfg.DropOnStart)
+                    Drop();
+
+                this.Database.EnsureCreatedAsync().Wait();
+            }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(config.Postgre.ConnectionString);
+            optionsBuilder.UseNpgsql(config.Postgre.ConnectionString, builder =>
+            {
+                builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+            });
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -85,7 +99,7 @@ namespace Csud.Crud.Storage
         public DbSet<Context> Context { get; set; }
         public DbSet<Subject> Subject { get; set; }
         public DbSet<ObjectX> ObjectX { get; set; }
-        public DbSet<TaskX> Task { get; set; }
+        public DbSet<TaskX> TaskX { get; set; }
         public DbSet<CompositeContext> CompositeContext { get; set; }
         public DbSet<RuleContext> RuleContext { get; set; }
         public DbSet<SegmentContext> SegmentContext { get; set; }
@@ -106,6 +120,30 @@ namespace Csud.Crud.Storage
         public DbSet<AppOperation> AppOperation { get; set; }
         public DbSet<AppImport> AppImport { get; set; }
 
+        public void Drop()
+        {
+            void Cmd(string sql)
+            {
+                using var con = new NpgsqlConnection(this.config.Postgre.AdminConnectionString);
+                con.Open();
+                using var cmd = new NpgsqlCommand(sql, con);
+                cmd.ExecuteNonQuery();
+            }
+
+            Cmd("SELECT version()");
+
+            Cmd($@"SELECT pg_terminate_backend(pid)
+                     FROM pg_stat_activity
+                     WHERE datname = '{config.Postgre.Db}';");
+
+            Cmd($" DROP DATABASE IF EXISTS {config.Postgre.Db};");
+        }
+
+        public string GetPath(string filename)
+        {
+            return Path.Combine(config.Import.Folder, filename);
+        }
+
         public void Add<T>(T entity, bool generateKey = true) where T : Base
         {
             if (generateKey)
@@ -122,7 +160,7 @@ namespace Csud.Crud.Storage
         
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
         {
-            return Set<T>().AsQueryable().Where(x => x.Status == status);
+            return Set<T>().AsQueryable().Where(x => status == Const.Status.Any || x.Status == status);
         }
       
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -12,20 +13,20 @@ namespace Csud.Crud.Models.Rules
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             Reset();
-            ValidationResult result =null;
             var subject = (Subject)value;
-            var service = (IContextService)validationContext
-                .GetService(typeof(IContextService));
+            var service = (IContextService)validationContext.GetService(typeof(IContextService));
+            if (service == null)
+                throw new ApplicationException($"{nameof(IContextService)} is not found");
 
             if (!service.Select<Context>().Any (x => x.Key == subject.ContextKey))
             {
-                result = new ValidationResult("Неверный код контекста.");
+                return new ValidationResult("Неверный код контекста.");
             }
-            if (subject.SubjectType != Const.Subject.Account && subject.SubjectType != Const.Subject.Group)
+            if (!Const.Subject.Has(subject.SubjectType))
             {
-                result = new ValidationResult("Неверный тип субъекта.");
+                return new ValidationResult("Неверный тип субъекта.");
             }
-            return result;
+            return null;
         }
     }
 
@@ -44,5 +45,16 @@ namespace Csud.Crud.Models.Rules
         public string Name { get; set; }
         public string Description { get; set; }
         public string DisplayName { get; set; }
+    }
+
+    public class SubjectEdit : Subject, IEditable
+    {
+        [JsonIgnore]
+        public override int Key { get; set; }
+    }
+
+    public class SubjectAdd : SubjectEdit, IAddable
+    {
+
     }
 }

@@ -7,9 +7,27 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Services
 {
+
     public interface IBase
     {
         public int Key { get; set; }
+    }
+
+    public interface INoneRepo : IBase
+    {
+
+    }
+
+    internal interface INameable
+    {
+        string Name { get; set; }
+        string Description { get; set; }
+        string DisplayName { get; set; }
+    }
+
+    internal interface IContextable
+    {
+        int ContextKey { get; set; }
     }
 
     public interface IOneToAny: IBase
@@ -17,10 +35,16 @@ namespace Csud.Crud.Services
 
     }
 
-    public interface INoneRepo : IBase
+    public interface IEditable : IBase, INoneRepo
     {
 
     }
+
+    public interface IAddable : IEditable
+    {
+
+    }
+
 
     public interface IOneToOne: IOneToAny
     {
@@ -39,12 +63,12 @@ namespace Csud.Crud.Services
         public void Link(Base linked);
     }
 
-    public interface IOneToManyEdit: IOneToMany
+    public interface IOneToManyEdit: IOneToMany, IEditable
     {
         [NotMapped] [BsonIgnore] [JsonIgnore] public List<int> RelatedKeys { get; set; }
     }
 
-    public interface IOneToManyAdd : IOneToManyEdit
+    public interface IOneToManyAdd : IOneToManyEdit, IAddable
     {
 
     }

@@ -21,12 +21,19 @@
         {
             public const string Actual = "actual";
             public const string Removed = "removed";
+            public const string Any = "any";
         }
 
         public static class Subject
         {
             public const string Account = "account";
             public const string Group = "group";
+
+            public static bool Has(string type)
+            {
+                return type == Account
+                       || type == Group;
+            }
         }
 
         public static class Context
@@ -54,6 +61,13 @@
             public const string Role = "role";
             public const string Entity = "entity";
             public const string Task = "task";
+
+            public static bool Has(string type)
+            {
+                return type == Role 
+                     || type == Task
+                       || type == Entity;
+            }
         }
 
         public static class Import

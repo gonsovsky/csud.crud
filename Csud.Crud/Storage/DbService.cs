@@ -1,15 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
+using Csud.Crud.Services;
 
 namespace Csud.Crud.Storage
 {
     public interface IDbService
     {
+        public void Drop();
+        string GetPath(string filename);
+
         public void Add<T>(T entity, bool generateKey = true) where T : Base;
         public void Update<T>(T entity) where T : Base;
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base;
@@ -48,57 +53,83 @@ namespace Csud.Crud.Storage
 
     public class DbService: IDbService
     {
-        public List<IDbService> Db = new();
+        public static List<IDbService> DbX = new();
 
-        public MongoService Mongo;
+        public static MongoService Mongo;
 
-        public PostgreService Postgre;
-        public DbService(Config cfg)
+        public static PostgreService Postgre;
+
+        private Config config;
+
+        public DbService(Config cfg, PostgreService postgre, MongoService mongo)
         {
+            config = cfg;
             if (cfg.Mongo.Enabled)
             {
-                Mongo = new MongoService(cfg);
-                Db.Add(Mongo);
+                Mongo = mongo;
+                DbX.Add(Mongo);
             }
             if (cfg.Postgre.Enabled)
             {
-                Postgre = new PostgreService(cfg);
-                Db.Add(Postgre);
+                Postgre = postgre;
+                DbX.Add(Postgre);
+            }
+        }
+
+        public string GetPath(string filename)
+        {
+            return Path.Combine(config.Import.Folder, filename);
+        }
+
+        public void Drop()
+        {
+            foreach (var db in DbX)
+            {
+                db.Drop();
             }
         }
 
         public void Add<T>(T entity, bool generateKey = true) where T : Base
         {
-            foreach (var x in Db)
+            foreach (var db in DbX)
             {
-                if (x is PostgreService)
+                if (db is PostgreService && DbX.Count()>1)
                 {
                     entity = entity.CloneTo<T>(!generateKey);
                 }
-                x.Add(entity, generateKey);
+                db.Add(entity, generateKey);
             }
         }
 
         public void Update<T>(T entity) where T : Base
         {
-            Db.ForEach(x =>
+            DbX.ForEach(db =>
             {
-                if (x is PostgreService)
+                if (db is PostgreService && DbX.Count() > 1)
                 {
-                    var y = x.Select<T>().First(a => a.Key == entity.Key);
-                    entity.CopyTo(y, false);
-                    x.Update(y);
+
+                    T result = null;
+                    if (entity is IOneToMany)
+                    {
+                        result = db.Select<T>().First(a => a.Key == entity.Key &&
+                                                           ((IOneToMany) a).RelatedKey ==
+                                                           ((IOneToMany) entity).RelatedKey);
+                    }
+                    else
+                    {
+                        result = db.Select<T>().First(a => a.Key == entity.Key);
+                    }
+                    entity.CopyTo(result, false);
+                    db.Update(result);
                     return;
                 }
-                x.Update(entity);
+                db.Update(entity);
             });
         }
 
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
         {
-            return Db.First().Select<T>(status);
+            return DbX.First().Select<T>(status);
         }
-
-     
     }
 }

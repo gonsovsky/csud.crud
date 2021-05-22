@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Models.Rules
@@ -45,5 +46,16 @@ namespace Csud.Crud.Models.Rules
         public string Name { get; set; }
         public string Description { get; set; }
         public string DisplayName { get; set; }
+    }
+
+    public class AccountEdit : Account, IEditable
+    {
+        [JsonIgnore]
+        public override int Key { get; set; }
+    }
+
+    public class AccountAdd : AccountEdit, IAddable
+    {
+
     }
 }

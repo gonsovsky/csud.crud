@@ -3,6 +3,7 @@ using System.IO;
 using Csud.Crud.Models;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Services;
+using Csud.Crud.Storage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,9 @@ namespace Csud.Crud.RestApi.Controllers
     [ApiController]
     public class MaintenanceController: EntityController<AppImport>
     {
-        protected new IMaintenanceService Svc;
+        protected new IDbService Svc;
 
-        public MaintenanceController(IMaintenanceService svc): base(svc)
+        public MaintenanceController(IDbService svc, IEntityService<AppImport> svcTable): base(svcTable)
         {
             Svc = svc;
         }
