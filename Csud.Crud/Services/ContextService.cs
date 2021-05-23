@@ -111,9 +111,6 @@ namespace Csud.Crud.Services
                 case Const.Context.Segment:
                     SegmentService.Update(entity as SegmentContextEdit);
                     break;
-                case Const.Context.Composite:
-                    CompositeService.Update(entity as CompositeContextEdit);
-                    break;
             }
             return entity;
         }

@@ -19,8 +19,6 @@ namespace Csud.Crud.Services
 
         public void Delete(int key);
 
-        public IOneToManyRecord<TEntity, TLinked> Update(TModelEdit editEntity);
-
         public IOneToManyRecord<TEntity, TLinked> Copy(int key, bool keepKey = false);
 
         public IOneToManyRecord<TEntity, TLinked> Include(int key, int relatedKey);
@@ -98,24 +96,6 @@ namespace Csud.Crud.Services
                 EntitySvc.Add(x, false);
             }
             return Get(linked.Key);
-        }
-
-
-        public IOneToManyRecord<TEntity, TLinked> Update(TModelEdit editEntity)
-        {
-            throw new NotImplementedException();
-            //var entity = editEntity.CloneTo<TEntity>(true);
-            //var linked = editEntity.CloneTo<TLinked>(true);
-            //var existingEntity = EntitySvc.Look(entity.Key);
-            //var existingLinked = LinkedSvc.Look(linked.Key);
-            //entity.Key = existingEntity.Key;
-            //linked.Key = existingLinked.Key;
-            //entity.ID = existingEntity.ID;
-            //linked.ID = existingLinked.ID;
-            //LinkedSvc.Update(linked);
-            //entity.Related(linked);
-            //EntitySvc.Update(entity);
-            //return entity;
         }
 
         public void Delete(int key)

@@ -83,28 +83,6 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [ApiExplorerSettings(IgnoreApi = true)]
-        [HttpPost("{key}")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [Produces("application/json")]
-        protected virtual IActionResult Post<T>(int key, T entity) where T : BaseContext
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                entity.Key = key;
-                var result = Svc.Update<T>(entity);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
-            }
-        }
 
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPut]
@@ -170,47 +148,7 @@ namespace Csud.Crud.RestApi.Controllers
         public virtual IActionResult Put(CompositeContextAdd entity)
             => Put<CompositeContextAdd>(entity);
 
-        [HttpPost("time/{key}")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [Produces("application/json")]
-        public virtual IActionResult Post(int key, TimeContextEdit entity)
-            => Post<TimeContextEdit>(key, entity);
-
-        [HttpPost("rule/{key}")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [Produces("application/json")]
-        public virtual IActionResult Post(int key, RuleContextEdit entity)
-            => Post<RuleContextEdit>(key, entity);
-
-        [HttpPost("segment/{key}")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [Produces("application/json")]
-        public virtual IActionResult Post(int key, SegmentContextEdit entity)
-            => Post<SegmentContextEdit>(key, entity);
-
-        [HttpPost("struct/{key}")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [Produces("application/json")]
-        public virtual IActionResult Post(int key, StructContextEdit entity)
-            => Post<StructContextEdit>(key, entity);
-
-        [HttpPost("attribute/{key}")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [Produces("application/json")]
-        public virtual IActionResult Post(int key, AttributeContextEdit entity)
-            => Post<AttributeContextEdit>(key, entity);
-
-        [HttpPost("composite/{key}")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [Produces("application/json")]
-        public virtual IActionResult Post(int key, CompositeContextEdit entity)
-            => Post<CompositeContextEdit>(key, entity);
+       
 
         [HttpPost("composite/include/{key}/{relatedKey}")]
         [ProducesResponseType(201)]
