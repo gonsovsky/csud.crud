@@ -17,6 +17,8 @@ namespace Csud.Crud.Services
 
         public IOneToManyRecord<TEntity, TLinked> Add(TModelAdd entity, bool generateKey = true);
 
+        public IOneToManyRecord<TEntity, TLinked> Update(TModelEdit editEntity);
+
         public void Delete(int key);
 
         public IOneToManyRecord<TEntity, TLinked> Copy(int key, bool keepKey = false);
@@ -96,6 +98,14 @@ namespace Csud.Crud.Services
                 EntitySvc.Add(x, false);
             }
             return Get(linked.Key);
+        }
+
+        public IOneToManyRecord<TEntity, TLinked> Update(TModelEdit editEntity)
+        {
+            var existingLinked = LinkedSvc.Look(editEntity.Key);
+            editEntity.CopyTo(existingLinked,false);
+            LinkedSvc.Update(existingLinked);
+            return Get(existingLinked.Key);
         }
 
         public void Delete(int key)

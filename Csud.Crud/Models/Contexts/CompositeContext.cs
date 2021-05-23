@@ -49,16 +49,18 @@ namespace Csud.Crud.Models.Contexts
     }
 
 
-    [CompositeContextEditValidation]
     public class CompositeContextEdit : CompositeContext, INoneRepo, IOneToManyEdit
     {
         [JsonIgnore] public override int Key { get; set; }
         [JsonIgnore] public override int RelatedKey { get; set; }
-        public List<int> RelatedKeys { get; set; }
+
+        [JsonIgnore] public virtual List<int> RelatedKeys { get; set; }
     }
 
-    public class CompositeContextAdd : CompositeContextEdit, IOneToManyAdd
+    [CompositeContextEditValidation]
+    public class CompositeContextAdd : CompositeContext, IOneToManyAdd
     {
+        public List<int> RelatedKeys { get; set; }
     }
 
     internal class CompositeContextEditValidationAttribute : BaseValidator
@@ -66,6 +68,9 @@ namespace Csud.Crud.Models.Contexts
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             Reset();
+            if (!(value is CompositeContextAdd))
+                return null;
+
             var entity = (CompositeContextAdd)value;
             var service = (IEntityService<Context>)validationContext
                 .GetService(typeof(IEntityService<Context>));

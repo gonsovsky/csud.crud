@@ -74,7 +74,6 @@ namespace Csud.Crud.Services
                 default:
                     throw new ArgumentException("Недопустимый код контекста");
             }
-            CommonService.Delete(co);
         }
 
         public object Add(BaseContext entity)
@@ -110,6 +109,9 @@ namespace Csud.Crud.Services
                     break;
                 case Const.Context.Segment:
                     SegmentService.Update(entity as SegmentContextEdit);
+                    break;
+                case Const.Context.Composite:
+                    CompositeService.Update(entity as CompositeContextEdit);
                     break;
             }
             return entity;

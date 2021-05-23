@@ -103,6 +103,28 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
+        //[HttpPost("{key}")]
+        //[ProducesResponseType(201)]
+        //[ProducesResponseType(400)]
+        //[Produces("application/json")]
+        //public virtual IActionResult Post(int key, TModelEdit entity)
+        //{
+        //    try
+        //    {
+        //        if (!ModelState.IsValid)
+        //        {
+        //            return BadRequest(ModelState);
+        //        }
+        //        entity.Key = key;
+        //        var result = Svc.Update(entity);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Problem(ex.Message);
+        //    }
+        //}
+
         [HttpPost("include/{key}/{relatedKey}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
