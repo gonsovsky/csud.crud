@@ -89,7 +89,7 @@ namespace Csud.Crud.Models.Rules
 
     public class RelationDetailsEdit : RelationDetails, INoneRepo, IOneToManyEdit
     {
-        [JsonIgnore] public override int Key { get; set; }
+        [JsonIgnore] protected new int Key { get; set; }
         public override string Name { get; set; }
         public override string Description { get; set; }
         public override string DisplayName { get; set; }
