@@ -18,7 +18,7 @@ namespace Csud.Crud.Models
     { 
         [Key] public virtual int Key { get; set; }
 
-        [BsonId] [AsObjectId] [NotMapped]
+        [BsonId] [AsObjectId] [NotMapped] [JsonIgnore]
         public virtual string ID { get; set; }
 
         /// <summary>

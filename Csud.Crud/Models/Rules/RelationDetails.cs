@@ -43,6 +43,29 @@ namespace Csud.Crud.Models.Rules
            
         }
 
+        public IOneToManyItem<TEntity, TLinked> MakeOneToManyItem<TEntity, TLinked>(TEntity relation, TLinked related)
+            where TEntity : Base, IOneToMany
+            where TLinked : Base
+        {
+            return new RelationDetailsOneToManyItem<TEntity, TLinked>()
+            {
+                Relation = relation,
+                Related = related
+            };
+        }
+
+        public IOneToManyRecord<TEntity, TLinked> MakeOneToManyRecord<TEntity, TLinked>(TLinked relation,
+            IEnumerable<IOneToManyItem<TEntity, TLinked>> relations)
+            where TEntity : Base, IOneToMany
+            where TLinked : Base
+        {
+            return new RelationDetailsOneToManyRecord<TEntity, TLinked>()
+            {
+                Relation = relation,
+                Relations = relations
+            };
+        }
+
         public int SubjectKey { get; set; }
         public int ObjectKey { get; set; }
         public int JoinMode { get; set; }
@@ -75,5 +98,25 @@ namespace Csud.Crud.Models.Rules
     public class RelationDetailsAdd : RelationDetailsEdit, INoneRepo, IOneToManyAdd
     {
         [JsonIgnore] public override int RelatedKey { get; set; }
+    }
+
+    public class RelationDetailsOneToManyItem<TEntity, TLinked> : IOneToManyItem<TEntity, TLinked>
+        where TEntity : Base, IOneToMany
+        where TLinked : Base
+    {
+        public TEntity Relation { get; set; }
+
+        public TLinked Related { get; set; }
+    }
+
+    public class RelationDetailsOneToManyRecord<TEntity, TLinked> : IOneToManyRecord<TEntity, TLinked>
+        where TEntity : Base, IOneToMany
+        where TLinked : Base
+    {
+        [JsonPropertyName("relation")]
+        public TLinked Relation { get; set; }
+
+        public IEnumerable<IOneToManyItem<TEntity, TLinked>> Relations { get; set; }
+            = new List<GroupOneToManyItem<TEntity, TLinked>>() { };
     }
 }

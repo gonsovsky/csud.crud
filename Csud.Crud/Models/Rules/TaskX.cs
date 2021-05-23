@@ -49,6 +49,29 @@ namespace Csud.Crud.Models.Rules
         {
             ((ObjectX)linked).ObjectType = Const.Object.Task;
         }
+
+        public IOneToManyItem<TEntity, TLinked> MakeOneToManyItem<TEntity, TLinked>(TEntity relation, TLinked related)
+            where TEntity : Base, IOneToMany
+            where TLinked : Base
+        {
+            return new TaskOneToManyItem<TEntity, TLinked>()
+            {
+                Relation = relation,
+                Related = related
+            };
+        }
+
+        public IOneToManyRecord<TEntity, TLinked> MakeOneToManyRecord<TEntity, TLinked>(TLinked relation,
+            IEnumerable<IOneToManyItem<TEntity, TLinked>> relations)
+            where TEntity : Base, IOneToMany
+            where TLinked : Base
+        {
+            return new TaskOneToManyRecord<TEntity, TLinked>()
+            {
+                Relation = relation,
+                Relations = relations
+            };
+        }
     }
 
     public class TaskEdit : TaskX, IOneToManyEdit
@@ -61,5 +84,25 @@ namespace Csud.Crud.Models.Rules
     public class TaskAdd : TaskEdit, IOneToManyAdd
     {
 
+    }
+
+    public class TaskOneToManyItem<TEntity, TLinked> : IOneToManyItem<TEntity, TLinked>
+        where TEntity : Base, IOneToMany
+        where TLinked : Base
+    {
+        public TEntity Relation { get; set; }
+
+        public TLinked Related { get; set; }
+    }
+
+    public class TaskOneToManyRecord<TEntity, TLinked> : IOneToManyRecord<TEntity, TLinked>
+        where TEntity : Base, IOneToMany
+        where TLinked : Base
+    {
+        [JsonPropertyName("object")]
+        public TLinked Relation { get; set; }
+
+        public IEnumerable<IOneToManyItem<TEntity, TLinked>> Relations { get; set; }
+            = new List<GroupOneToManyItem<TEntity, TLinked>>() { };
     }
 }

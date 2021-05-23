@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
@@ -10,44 +14,50 @@ namespace Csud.Crud.Models.Rules
 {
     internal class GroupValidator : BaseValidator
     {
-        public override bool IsValid(object value)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             Reset();
-            //if (value is IContextable context)
-            //{
-            //    if (!Csud.ContextService.Any(x => x.Key == context.ContextKey))
-            //    {
-            //        Error("Неверный код контекста.");
-            //    }
-            //}
+            var service = (IEntityService<Subject>)validationContext.GetService(typeof(IEntityService<Subject>));
+            if (service == null)
+                throw new ApplicationException($"{nameof(EntityService<Subject>)} is not found");
 
-            //if (value is IOneToMany group)
-            //{
+            var serviceCtx = (IContextService)validationContext.GetService(typeof(IContextService));
+            if (serviceCtx == null)
+                throw new ApplicationException($"{nameof(IContextService)} is not found");
 
-            //    if (value is IOneToManyAdd)
-            //    {
-            //        foreach (var rkey in group.RelatedKeys)
-            //        {
-            //            if (Csud.Subject.Any(a => a.Key == rkey) == false)
-            //                Error($"Связанный объект с кодом {rkey} не найден");
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (!Csud.Subject.Any(x => x.Key == group.RelatedKey))
-            //        {
-            //            Error("Неверный код связанного объекта.");
-            //        }
-            //    }
-            //}
+            if (!serviceCtx.Select<Context>().Any(x => x.Key == ((IContextable)value).ContextKey))
+            {
+                return new ValidationResult("Неверный код контекста.");
+            }
 
-            return Validated;
+            if (value is IOneToManyAdd groupAdd)
+            {
+                if (!groupAdd.RelatedKeys.Any())
+                    return new ValidationResult($"Не указаны связанные объекты");
+                foreach (var rkey in groupAdd.RelatedKeys
+                    .Where(rkey => !service.Select().Any(a => a.Key == rkey)))
+                {
+                    return new ValidationResult($"Связанный объект с кодом {rkey} не найден");
+                }
+            }
+            else if (value is IOneToManyEdit groupEdit)
+            {
+                if (!service.Select().Any(x => x.Key == groupEdit.RelatedKey))
+                {
+                    return new ValidationResult($"Неверный код {groupEdit.RelatedKey} связанного объекта.");
+                }
+            }
+            return null;
         }
     }
 
     [GroupValidator]
-    public class Group: Base, IOneToMany, IContextable
+    public class Group: Base, IOneToMany, IContextable, INameable
     {
+        [NotMapped] [Ignore] [BsonIgnore] public string Name { get; set; }
+        [NotMapped] [Ignore] [BsonIgnore] public string Description { get; set; }
+        [NotMapped] [Ignore] [BsonIgnore] public string DisplayName { get; set; }
+
         public virtual int RelatedKey { get; set; }
         public int ContextKey { get; set; }
 
@@ -62,6 +72,30 @@ namespace Csud.Crud.Models.Rules
         {
             ((Subject) linked).SubjectType = Const.Subject.Group;
         }
+
+        public IOneToManyItem<TEntity, TLinked> MakeOneToManyItem<TEntity, TLinked>(TEntity relation, TLinked related)
+            where TEntity : Base, IOneToMany
+            where TLinked : Base
+        {
+            return new GroupOneToManyItem<TEntity, TLinked>()
+            {
+                Relation = relation,
+                Related = related
+            };
+        }
+
+        public IOneToManyRecord<TEntity, TLinked> MakeOneToManyRecord<TEntity, TLinked>(TLinked relation,
+            IEnumerable<IOneToManyItem<TEntity, TLinked>> relations)
+            where TEntity : Base, IOneToMany
+            where TLinked : Base
+        {
+            var result = new GroupOneToManyRecord<TEntity, TLinked>()
+            {
+                Relation = relation,
+                Relations = relations
+            };
+            return result;
+        }
     }
 
     public class GroupEdit: Group, INoneRepo, IOneToManyEdit
@@ -74,5 +108,25 @@ namespace Csud.Crud.Models.Rules
     public class GroupAdd : GroupEdit, IOneToManyAdd
     {
 
+    }
+
+    public class GroupOneToManyItem<TEntity, TLinked> : IOneToManyItem<TEntity, TLinked>
+        where TEntity : Base, IOneToMany
+        where TLinked : Base
+    {
+        public TEntity Relation { get; set; }
+
+        public TLinked Related { get; set; }
+    }
+
+    public class GroupOneToManyRecord<TEntity, TLinked> : IOneToManyRecord<TEntity, TLinked>
+        where TEntity : Base, IOneToMany
+        where TLinked : Base
+    {
+        [JsonPropertyName("subject")]
+        public TLinked Relation { get; set; }
+
+        public IEnumerable<IOneToManyItem<TEntity, TLinked>> Relations { get; set; }
+            = new List<GroupOneToManyItem<TEntity, TLinked>>() { };
     }
 }

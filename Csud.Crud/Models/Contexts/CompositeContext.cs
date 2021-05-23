@@ -22,6 +22,28 @@ namespace Csud.Crud.Models.Contexts
         {
             ((Context) linked).ContextType = ContextType;
         }
+        public IOneToManyItem<TEntity, TLinked> MakeOneToManyItem<TEntity, TLinked>(TEntity relation, TLinked related)
+            where TEntity : Base, IOneToMany
+            where TLinked : Base
+        {
+            return new ContextOneToManyItem<TEntity, TLinked>()
+            {
+                Relation = relation,
+                Related = related
+            };
+        }
+
+        public IOneToManyRecord<TEntity, TLinked> MakeOneToManyRecord<TEntity, TLinked>(TLinked relation,
+            IEnumerable<IOneToManyItem<TEntity, TLinked>> relations)
+            where TEntity : Base, IOneToMany
+            where TLinked : Base
+        {
+            return new ContextOneToManyRecord<TEntity, TLinked>()
+            {
+                Relation = relation,
+                Relations = relations
+            };
+        }
 
         public override string ContextType => Const.Context.Composite;
     }
@@ -57,5 +79,25 @@ namespace Csud.Crud.Models.Contexts
             }
             return null;
         }
+    }
+
+    public class ContextOneToManyItem<TEntity, TLinked> : IOneToManyItem<TEntity, TLinked>
+        where TEntity : Base, IOneToMany
+        where TLinked : Base
+    {
+        public TEntity Relation { get; set; }
+
+        public TLinked Related { get; set; }
+    }
+
+    public class ContextOneToManyRecord<TEntity, TLinked> : IOneToManyRecord<TEntity, TLinked>
+        where TEntity : Base, IOneToMany
+        where TLinked : Base
+    {
+        [JsonPropertyName("context")]
+        public TLinked Relation { get; set; }
+
+        public IEnumerable<IOneToManyItem<TEntity, TLinked>> Relations { get; set; }
+            = new List<GroupOneToManyItem<TEntity, TLinked>>() { };
     }
 }

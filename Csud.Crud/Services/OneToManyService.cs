@@ -10,22 +10,22 @@ namespace Csud.Crud.Services
     {
         public IQueryable<TEntity> Select(string status = Const.Status.Actual);
 
-        public OneToMany<TEntity, TLinked> Get(int key, string status = Const.Status.Actual, bool recursive = true);
+        public IOneToManyRecord<TEntity, TLinked> Get(int key, string status = Const.Status.Actual, bool recursive = true);
 
-        public IEnumerable<OneToMany<TEntity, TLinked>> List(int key = 0, string status = Const.Status.Actual,
+        public IEnumerable<IOneToManyRecord<TEntity, TLinked>> List(int key = 0, string status = Const.Status.Actual,
             int skip = 0, int take = 0);
 
-        public OneToMany<TEntity, TLinked> Add(TModelAdd entity, bool generateKey = true);
+        public IOneToManyRecord<TEntity, TLinked> Add(TModelAdd entity, bool generateKey = true);
 
         public void Delete(int key);
 
-        public OneToMany<TEntity, TLinked> Update(TModelEdit editEntity);
+        public IOneToManyRecord<TEntity, TLinked> Update(TModelEdit editEntity);
 
-        public OneToMany<TEntity, TLinked> Copy(int key, bool keepKey = false);
+        public IOneToManyRecord<TEntity, TLinked> Copy(int key, bool keepKey = false);
 
-        public OneToMany<TEntity, TLinked> Include(int key, int relatedKey);
+        public IOneToManyRecord<TEntity, TLinked> Include(int key, int relatedKey);
 
-        public OneToMany<TEntity, TLinked> Exclude(int key, int relatedKey);
+        public IOneToManyRecord<TEntity, TLinked> Exclude(int key, int relatedKey);
     }
 
     public class OneToManyService<TEntity, TModelAdd, TModelEdit, TLinked> : OneToAnyService<TEntity, TLinked>,
@@ -42,13 +42,13 @@ namespace Csud.Crud.Services
             return x;
         }
 
-        public OneToMany<TEntity, TLinked> Get(int key, string status = Const.Status.Actual, bool recursive = true) 
+        public IOneToManyRecord<TEntity, TLinked> Get(int key, string status = Const.Status.Actual, bool recursive = true) 
         {
             var content = List(key).First();
             return content;
         }
 
-        public IEnumerable<OneToMany<TEntity, TLinked>> List(int key = 0, string status = Const.Status.Actual, int skip = 0, int take = 0)
+        public IEnumerable<IOneToManyRecord<TEntity, TLinked>> List(int key = 0, string status = Const.Status.Actual, int skip = 0, int take = 0)
         {
             var q = Select(status);
             if (skip != 0)
@@ -57,25 +57,32 @@ namespace Csud.Crud.Services
                 q = q.Take(take);
             if (key != 0)
                 q = q.Where(a => a.Key == key);
-            var group = q.ToList().GroupBy(x => x.Key).ToArray();
+            var groups = q.ToList().GroupBy(x => x.Key).ToArray();
 
-            foreach (var x in group)
+            foreach (var groupped in groups)
             {
-                var subject = LinkedSvc.Select(status).First(a => a.Key == x.Key);
-                var relatedKeys = x.Select(a => a.RelatedKey);
-                var relations = LinkedSvc.Select(status).Where(a => relatedKeys.Contains(a.Key));
-                var result = new OneToMany<TEntity, TLinked>()
-                {
-                    Subject = subject,
-                    Relations = relations,
-                    Group = group.First(a => a.Key == x.Key).First(),
-                    Index = x.ToArray()
-                };
+                var group = groupped.ToArray();
+                var keys = group.Select(b => b.RelatedKey).ToList();
+
+                var link = LinkedSvc.Select(status)
+                    .First(a => a.Key == groupped.Key);
+
+                var links = LinkedSvc.Select(status)
+                    .Where(a => keys.Contains(a.Key)).ToArray();
+
+                var relations = group.Join(links,
+                    p => p.RelatedKey,
+                    t => t.Key,
+                    (p, t) => group[0].MakeOneToManyItem(p, t)).ToArray();
+
+
+                var result = group[0].MakeOneToManyRecord(link, relations);
+         
                 yield return result;
             }
         }
 
-        public OneToMany<TEntity, TLinked> Add(TModelAdd entity, bool generateKey = true)
+        public IOneToManyRecord<TEntity, TLinked> Add(TModelAdd entity, bool generateKey = true)
         {
             var linked = entity.CloneTo<TLinked>(false);
             entity.Link(linked);
@@ -94,7 +101,7 @@ namespace Csud.Crud.Services
         }
 
 
-        public OneToMany<TEntity, TLinked> Update(TModelEdit editEntity)
+        public IOneToManyRecord<TEntity, TLinked> Update(TModelEdit editEntity)
         {
             throw new NotImplementedException();
             //var entity = editEntity.CloneTo<TEntity>(true);
@@ -106,7 +113,7 @@ namespace Csud.Crud.Services
             //entity.ID = existingEntity.ID;
             //linked.ID = existingLinked.ID;
             //LinkedSvc.Update(linked);
-            //entity.Link(linked);
+            //entity.Related(linked);
             //EntitySvc.Update(entity);
             //return entity;
         }
@@ -123,7 +130,7 @@ namespace Csud.Crud.Services
             LinkedSvc.Delete(key);
         }
 
-        public OneToMany<TEntity, TLinked> Copy(int key, bool keepKey = false)
+        public IOneToManyRecord<TEntity, TLinked> Copy(int key, bool keepKey = false)
         {
             if (Select().Any(a => a.Key == key) == false)
                 throw new ArgumentException($"Объекта с ключем {key} не найдено");
@@ -140,7 +147,7 @@ namespace Csud.Crud.Services
             return Get(copied.Key);
         }
 
-        public OneToMany<TEntity, TLinked> Include(int key, int relatedKey)
+        public IOneToManyRecord<TEntity, TLinked> Include(int key, int relatedKey)
         {
             if (LinkedSvc.Select().Any(a => a.Key == key) == false)
                 throw new ArgumentException($"Объекта с ключем {key} не найдено");
@@ -162,7 +169,7 @@ namespace Csud.Crud.Services
             return Get(key);
         }
 
-        public OneToMany<TEntity, TLinked> Exclude(int key, int relatedKey)
+        public IOneToManyRecord<TEntity, TLinked> Exclude(int key, int relatedKey)
         {
             if (LinkedSvc.Select().Any(a => a.Key == key) == false)
                 throw new ArgumentException($"Объекта с ключем {key} не найдено");
@@ -173,7 +180,6 @@ namespace Csud.Crud.Services
             var entity = EntitySvc.Select().First(x => x.Key == key && x.RelatedKey == relatedKey);
             EntitySvc.Delete(entity);
             return Get(key);
-
         }
     }
 }
