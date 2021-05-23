@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text.Json.Serialization;
 using Csud.Crud.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -8,7 +9,6 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Services
 {
-
     public interface IBase
     {
         public int Key { get; set; }
@@ -45,7 +45,6 @@ namespace Csud.Crud.Services
     {
 
     }
-
 
     public interface IOneToOne: IOneToAny
     {
@@ -102,5 +101,35 @@ namespace Csud.Crud.Services
 
         [JsonPropertyName("relations")]
         IEnumerable<IOneToManyItem<TEntity, TLinked>> Relations { get; set; }
+    }
+
+    public interface IOneToAnyService<TEntity, TLinked> where TEntity : Base where TLinked : Base
+    {
+        public TEntity Look(int key);
+        public TEntity Look(TEntity entity);
+    }
+
+    public abstract class OneToAnyService<TEntity, TLinked> : IOneToAnyService<TEntity, TLinked> where TEntity : Base where TLinked : Base
+    {
+
+        protected readonly IEntityService<TEntity> EntitySvc;
+
+        protected readonly IEntityService<TLinked> LinkedSvc;
+
+        protected OneToAnyService(IEntityService<TEntity> entitySvc, IEntityService<TLinked> linkedSvc)
+        {
+            EntitySvc = entitySvc;
+            LinkedSvc = linkedSvc;
+        }
+
+        public TEntity Look(int key)
+        {
+            return EntitySvc.Select().First(a => a.Key == key);
+        }
+
+        public virtual TEntity Look(TEntity entity)
+        {
+            return EntitySvc.Select().First(a => a.Key == entity.Key);
+        }
     }
 }

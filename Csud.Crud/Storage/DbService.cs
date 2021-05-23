@@ -103,28 +103,22 @@ namespace Csud.Crud.Storage
 
         public void Update<T>(T entity) where T : Base
         {
-            DbX.ForEach(db =>
+            foreach (var db in DbX)
             {
-                if (db is PostgreService && DbX.Count() > 1)
+                T result = null;
+                if (entity is IOneToMany onetomany)
                 {
-
-                    T result = null;
-                    if (entity is IOneToMany)
-                    {
-                        result = db.Select<T>().First(a => a.Key == entity.Key &&
-                                                           ((IOneToMany) a).RelatedKey ==
-                                                           ((IOneToMany) entity).RelatedKey);
-                    }
-                    else
-                    {
-                        result = db.Select<T>().First(a => a.Key == entity.Key);
-                    }
-                    entity.CopyTo(result, false);
-                    db.Update(result);
-                    return;
+                    result = db.Select<T>().First(a => a.Key == entity.Key &&
+                                                       ((IOneToMany) a).RelatedKey ==
+                                                       onetomany.RelatedKey);
                 }
-                db.Update(entity);
-            });
+                else
+                {
+                    result = db.Select<T>().First(a => a.Key == entity.Key);
+                }
+                entity.CopyTo(result, false);
+                db.Update(result);
+            }
         }
 
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
