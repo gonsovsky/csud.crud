@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.Json;
 using Csud.Crud.DbTool.PromtEx.ConsoleEx;
 using Csud.Crud.DbTool.PromtEx.Pages;
 using Csud.Crud.Models;
-using Csud.Crud.Services;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Csud.Crud.DbTool.PromtEx
 {
@@ -52,11 +51,12 @@ namespace Csud.Crud.DbTool.PromtEx
             {
                 var json = System.IO.File.ReadAllText(Path.Combine(AssemblyDirectory, "q.txt"));
                 var obj = JsonSerializer.Deserialize<List<Q>>(json);
+                var types = Types.ToArray();
                 foreach (var x in obj)
                 {
                     try
                     {
-                        Result[Types.First(a => a.Name == x.Name)] = x.Value;
+                        Result[types.First(a => a.Name == x.Name)] = x.Value;
                     }
                     catch (Exception)
                     {
@@ -78,7 +78,7 @@ namespace Csud.Crud.DbTool.PromtEx
                 {
                     foreach (var theType in a.GetTypes())
                     {
-                        if (theType.IsClass && !theType.GetInterfaces().Contains(typeof(INoneRepo)) && !theType.IsAbstract && theType.IsSubclassOf(typeof(Base)))
+                        if (theType.IsClass  && !theType.IsAbstract && theType.IsSubclassOf(typeof(Base)))
                         {
                             yield return theType;
                         }
@@ -88,6 +88,8 @@ namespace Csud.Crud.DbTool.PromtEx
             }
         }
 
+     
+
         public static string AssemblyDirectory
         {
             get
@@ -96,6 +98,43 @@ namespace Csud.Crud.DbTool.PromtEx
                 var uri = new UriBuilder(codeBase);
                 var path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
+            }
+        }
+    }
+
+    public static class P
+    {
+
+        public static int TypeGet(this Dictionary<Type, int> res, Type type)
+        {
+            var x = res.First(a => TypeName(a.Key) == TypeName(type)).Key;
+            return res[x];
+        }
+
+        public static string TypeName(this Type type)
+        {
+            if (type.Name.EndsWith("Add"))
+                return type.Name.Substring(0, type.Name.LastIndexOf("Add"));
+            if (type.Name.EndsWith("Edit"))
+                return type.Name.Substring(0, type.Name.LastIndexOf("Edit"));
+            return type.Name;
+        }
+
+        public static bool TypeHas(this Dictionary<Type, int> res, Type type)
+        {
+            return res.Any(x => TypeName(x.Key) == TypeName(type));
+        }
+
+        public static void TypeSet(this Dictionary<Type, int> res, Type type, int value)
+        {
+            if (TypeHas(res, type))
+            {
+                var x = res.First(a => TypeName(a.Key) == TypeName(type)).Key;
+                res[x] = value;
+            }
+            else
+            {
+                res.Add(type, value);
             }
         }
     }

@@ -9,8 +9,8 @@ namespace Csud.Crud.DbTool.PromtEx.Pages
         {
             base.Display();
 
-            int cnt = Input.ReadInt($"{PageType.Name} (from 1 to 100.000): ", 1, 10000);
-            Promt.Result[PageType] = cnt;
+            int cnt = Input.ReadInt($"{PageType.TypeName()} (from 1 to 100.000): ", 1, 10000);
+            Promt.Result.TypeSet(PageType, cnt);
             Promt.Save();
             ConsoleProgram.NavigateHome();
         }

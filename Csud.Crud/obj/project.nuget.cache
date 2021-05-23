@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RkD5WuvCU7yQTQ6/VXRfdy29AVof5IaGREffmHCk6+fE9JuyGWi3sghI8ffyzYSHVloq7XUNUZpP+3/eXeVRrw==",
+  "dgSpecHash": "ey3ynlBuyM7m8kuHi5XbUQCXOTVNgtfbZRCmG0ylyY3vqwPYD7VYiAgHtsKcxi7WTeiOqcfdzYJVSpl5Xiqtvw==",
   "success": true,
   "projectFilePath": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj",
   "expectedPackageFiles": [
@@ -26,9 +26,10 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.bson\\2.12.2\\mongodb.bson.2.12.2.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.driver\\2.12.2\\mongodb.driver.2.12.2.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.driver.core\\2.12.2\\mongodb.driver.core.2.12.2.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.bson\\2.12.3\\mongodb.bson.2.12.3.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.driver\\2.12.3\\mongodb.driver.2.12.3.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.driver.core\\2.12.3\\mongodb.driver.core.2.12.3.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.entities\\20.11.2\\mongodb.entities.20.11.2.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.libmongocrypt\\1.2.1\\mongodb.libmongocrypt.1.2.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\npgsql\\5.0.4\\npgsql.5.0.4.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\5.0.5.1\\npgsql.entityframeworkcore.postgresql.5.0.5.1.nupkg.sha512",

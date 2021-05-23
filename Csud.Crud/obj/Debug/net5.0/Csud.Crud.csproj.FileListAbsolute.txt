@@ -9,7 +9,6 @@ C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.GeneratedMSBuildEditorCon
 C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.AssemblyInfoInputs.cache
 C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.AssemblyInfo.cs
 C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.csproj.CoreCompileInputs.cache
-C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.csproj.CopyComplete
 C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.dll
 C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\ref\Csud.Crud.dll
 C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.pdb

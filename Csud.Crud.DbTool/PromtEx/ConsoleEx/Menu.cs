@@ -18,7 +18,7 @@ namespace Csud.Crud.DbTool.PromtEx.ConsoleEx
             for (int i = 0; i < Options.Count; i++)
             {
                 var cnt = 0;
-                if (Options[i].Page is {PageType: { }}) cnt = Promt.Result[Options[i].Page.PageType];
+                if (Options[i].Page is {PageType: { }}) cnt = Promt.Result.TypeGet(Options[i].Page.PageType);
                 if (Options[i].Name.Contains($"Generate database"))
                 {
                     Output.WriteLine("");

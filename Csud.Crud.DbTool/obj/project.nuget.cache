@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sU9Hq13m+GjNmqFE934lFsKJhgXm6DJmMXQ+Tidy3A53DLcVciSlIFYCuH8C4XZSmw9L1XJSwD4UxCN9wuyXag==",
+  "dgSpecHash": "99/YJOsXYJFtpCr1T4vHKYqhttt7QUaBQK9L4IWlbMYkHG92kRx3zKIywJfpD1Cs9gnqlc0j7lrLzwUsuABjoA==",
   "success": true,
   "projectFilePath": "C:\\@job\\Csud.Crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj",
   "expectedPackageFiles": [
@@ -63,9 +63,10 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.bson\\2.12.2\\mongodb.bson.2.12.2.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.driver\\2.12.2\\mongodb.driver.2.12.2.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.driver.core\\2.12.2\\mongodb.driver.core.2.12.2.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.bson\\2.12.3\\mongodb.bson.2.12.3.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.driver\\2.12.3\\mongodb.driver.2.12.3.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.driver.core\\2.12.3\\mongodb.driver.core.2.12.3.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.entities\\20.11.2\\mongodb.entities.20.11.2.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\mongodb.libmongocrypt\\1.2.1\\mongodb.libmongocrypt.1.2.1.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",

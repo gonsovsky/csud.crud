@@ -908,7 +908,7 @@
           }
         }
       },
-      "MongoDB.Bson/2.12.2": {
+      "MongoDB.Bson/2.12.3": {
         "type": "package",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "5.0.0"
@@ -920,11 +920,11 @@
           "lib/netstandard2.1/MongoDB.Bson.dll": {}
         }
       },
-      "MongoDB.Driver/2.12.2": {
+      "MongoDB.Driver/2.12.3": {
         "type": "package",
         "dependencies": {
-          "MongoDB.Bson": "2.12.2",
-          "MongoDB.Driver.Core": "2.12.2",
+          "MongoDB.Bson": "2.12.3",
+          "MongoDB.Driver.Core": "2.12.3",
           "MongoDB.Libmongocrypt": "1.2.1"
         },
         "compile": {
@@ -934,11 +934,11 @@
           "lib/netstandard2.1/MongoDB.Driver.dll": {}
         }
       },
-      "MongoDB.Driver.Core/2.12.2": {
+      "MongoDB.Driver.Core/2.12.3": {
         "type": "package",
         "dependencies": {
           "DnsClient": "1.4.0",
-          "MongoDB.Bson": "2.12.2",
+          "MongoDB.Bson": "2.12.3",
           "MongoDB.Libmongocrypt": "1.2.1",
           "SharpCompress": "0.23.0",
           "System.Buffers": "4.5.1"
@@ -972,6 +972,19 @@
             "assetType": "native",
             "rid": "win"
           }
+        }
+      },
+      "MongoDB.Entities/20.11.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "MongoDB.Driver": "2.12.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/MongoDB.Entities.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/MongoDB.Entities.dll": {}
         }
       },
       "MongoDB.Libmongocrypt/1.2.1": {
@@ -2348,9 +2361,9 @@
         "dependencies": {
           "EntityFramework": "6.4.4",
           "Microsoft.EntityFrameworkCore": "5.0.5",
-          "MongoDB.Bson": "2.12.2",
-          "MongoDB.Driver": "2.12.2",
-          "MongoDB.Entities": "20.10.0",
+          "MongoDB.Bson": "2.12.3",
+          "MongoDB.Driver": "2.12.3",
+          "MongoDB.Entities": "20.11.2",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.5.1"
         },
         "compile": {
@@ -2358,20 +2371,6 @@
         },
         "runtime": {
           "bin/placeholder/Csud.Crud.dll": {}
-        }
-      },
-      "MongoDB.Entities/20.10.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "Microsoft.CSharp": "4.7.0",
-          "MongoDB.Driver": "2.12.2"
-        },
-        "compile": {
-          "bin/placeholder/MongoDB.Entities.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/MongoDB.Entities.dll": {}
         }
       }
     }
@@ -4019,10 +4018,10 @@
         "version.txt"
       ]
     },
-    "MongoDB.Bson/2.12.2": {
-      "sha512": "J6BuU4N9mD780KUI964zQbwuOMPpeRcsx4Lj98LaYd+l6pEEogin+BNFqnandwCqYjPlQGnmuDkqZXoIumAYTQ==",
+    "MongoDB.Bson/2.12.3": {
+      "sha512": "1gkSkX+hlyeNMvrcx4JeeGnTqAmOctoekczmASEzxuQiA15wo2YKm40TVx/pFbZGV57ekguzF8w2nurO5+2IQg==",
       "type": "package",
-      "path": "mongodb.bson/2.12.2",
+      "path": "mongodb.bson/2.12.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4035,15 +4034,15 @@
         "lib/netstandard2.0/MongoDB.Bson.xml",
         "lib/netstandard2.1/MongoDB.Bson.dll",
         "lib/netstandard2.1/MongoDB.Bson.xml",
-        "mongodb.bson.2.12.2.nupkg.sha512",
+        "mongodb.bson.2.12.3.nupkg.sha512",
         "mongodb.bson.nuspec",
         "packageIcon.png"
       ]
     },
-    "MongoDB.Driver/2.12.2": {
-      "sha512": "OWHZmRx9AMtfInSKa9vFjTFOnzik2w9eeA6X5Dw0iHYMfObS6e805v1evi6cp4g/CIllzVdCjW+haKThKwInFQ==",
+    "MongoDB.Driver/2.12.3": {
+      "sha512": "tRjJixeBeA7Gus49kdf3t9uKUwzRTpN8S2OGkrusZw+nwSeFOH0K5VEjBpVgQEekwJLqnUNd1IkhKd5nK2Fz7A==",
       "type": "package",
-      "path": "mongodb.driver/2.12.2",
+      "path": "mongodb.driver/2.12.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4056,15 +4055,15 @@
         "lib/netstandard2.0/MongoDB.Driver.xml",
         "lib/netstandard2.1/MongoDB.Driver.dll",
         "lib/netstandard2.1/MongoDB.Driver.xml",
-        "mongodb.driver.2.12.2.nupkg.sha512",
+        "mongodb.driver.2.12.3.nupkg.sha512",
         "mongodb.driver.nuspec",
         "packageIcon.png"
       ]
     },
-    "MongoDB.Driver.Core/2.12.2": {
-      "sha512": "cU5AOB45bX/kMsnyp8733aaZxbRAumMszlZ5xuy3Lo7G0E9S1Gqqt1KlkyD7etzMyTZSzcWnHTg8LXH9ym/JkA==",
+    "MongoDB.Driver.Core/2.12.3": {
+      "sha512": "wb5F6J5eolHwSLtIlCpENEYY05CvCtWt79ptVdmVTLbFq58dbsu6rEfxEtd9V7lkyPCeUoJuiSkCxceXx9mMgQ==",
       "type": "package",
-      "path": "mongodb.driver.core/2.12.2",
+      "path": "mongodb.driver.core/2.12.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -4094,12 +4093,27 @@
         "lib/netstandard2.0/MongoDB.Driver.Core.xml",
         "lib/netstandard2.1/MongoDB.Driver.Core.dll",
         "lib/netstandard2.1/MongoDB.Driver.Core.xml",
-        "mongodb.driver.core.2.12.2.nupkg.sha512",
+        "mongodb.driver.core.2.12.3.nupkg.sha512",
         "mongodb.driver.core.nuspec",
         "packageIcon.png",
         "runtimes/win/native/libzstd.dll",
         "runtimes/win/native/snappy32.dll",
         "runtimes/win/native/snappy64.dll"
+      ]
+    },
+    "MongoDB.Entities/20.11.2": {
+      "sha512": "Fo9PZ8bpWGUghassrkovzVXIQXEliDQ7zT4yaF/9FT/wJk3o0nCBB+67jALPfq7c+QhLW8U+qBZ/DLbfMFLKRg==",
+      "type": "package",
+      "path": "mongodb.entities/20.11.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "icon.png",
+        "lib/netstandard2.0/MongoDB.Entities.dll",
+        "lib/netstandard2.0/MongoDB.Entities.xml",
+        "mongodb.entities.20.11.2.nupkg.sha512",
+        "mongodb.entities.nuspec"
       ]
     },
     "MongoDB.Libmongocrypt/1.2.1": {
@@ -8062,11 +8076,6 @@
       "type": "project",
       "path": "../Csud.Crud/Csud.Crud.csproj",
       "msbuildProject": "../Csud.Crud/Csud.Crud.csproj"
-    },
-    "MongoDB.Entities/20.10.0": {
-      "type": "project",
-      "path": "../MongoDB.Entities/MongoDB.Entities.csproj",
-      "msbuildProject": "../MongoDB.Entities/MongoDB.Entities.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -8076,7 +8085,6 @@
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.5",
       "Microsoft.Extensions.Logging.Debug >= 5.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 5.0.2",
-      "MongoDB.Entities >= 20.10.0",
       "Swashbuckle.AspNetCore >= 6.1.4"
     ]
   },
@@ -8113,9 +8121,6 @@
           "projectReferences": {
             "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {
               "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj"
-            },
-            "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj": {
-              "projectPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj"
             }
           }
         }

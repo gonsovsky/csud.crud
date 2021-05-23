@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Csud.Crud.DbTool.PromtEx;
-using Csud.Crud.Models.Contexts;
-using Csud.Crud.Models.Maintenance;
-using Csud.Crud.Models.Rules;
 using Csud.Crud.RestApi;
-using Csud.Crud.Services;
-using Csud.Crud.Storage;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
 
 namespace Csud.Crud.DbTool
 {
@@ -28,7 +17,7 @@ namespace Csud.Crud.DbTool
 
         public static IServiceScope scope;
 
-        private static async Task<int> Main(string[] args)
+        private static int Main(string[] args)
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.json", true, true);

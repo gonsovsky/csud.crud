@@ -33,9 +33,6 @@
             "projectReferences": {
               "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {
                 "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj"
-              },
-              "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj": {
-                "projectPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj"
               }
             }
           }
@@ -121,11 +118,7 @@
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
-            "projectReferences": {
-              "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj": {
-                "projectPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj"
-              }
-            }
+            "projectReferences": {}
           }
         },
         "warningProperties": {
@@ -160,11 +153,15 @@
             },
             "MongoDB.Bson": {
               "target": "Package",
-              "version": "[2.12.2, )"
+              "version": "[2.12.3, )"
             },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.12.2, )"
+              "version": "[2.12.3, )"
+            },
+            "MongoDB.Entities": {
+              "target": "Package",
+              "version": "[20.11.2, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
@@ -186,74 +183,6 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj": {
-      "version": "20.10.0",
-      "restore": {
-        "projectUniqueName": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj",
-        "projectName": "MongoDB.Entities",
-        "projectPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\MongoDB.Entities.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\@job\\Csud.Crud\\MongoDB.Entities\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "netstandard2.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "netstandard2.0": {
-            "targetAlias": "netstandard2.0",
-            "projectReferences": {}
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "netstandard2.0": {
-          "targetAlias": "netstandard2.0",
-          "dependencies": {
-            "Microsoft.CSharp": {
-              "target": "Package",
-              "version": "[4.7.0, )"
-            },
-            "MongoDB.Driver": {
-              "target": "Package",
-              "version": "[2.12.2, )"
-            },
-            "NETStandard.Library": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.0.3, )",
-              "autoReferenced": true
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }

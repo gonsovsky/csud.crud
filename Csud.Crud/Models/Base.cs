@@ -7,18 +7,25 @@ using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Csud.Crud.Services;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
 namespace Csud.Crud.Models
 {
-    public class Base : Entity, ICloneable, IBase
+    public class Base : IEntity, ICloneable, IBase
     { 
         [Key] public virtual int Key { get; set; }
 
-        [NotMapped] [JsonIgnore]
-        public override string ID { get; set; }
+        [BsonId] [AsObjectId] [NotMapped]
+        public virtual string ID { get; set; }
+
+        /// <summary>
+        /// Override this method in order to control the generation of IDs for new entities.
+        /// </summary>
+        public virtual string GenerateNewID() => ObjectId.GenerateNewId().ToString();
+
         public int GenerateNewKey()
         {
             var col = GetType().Name;

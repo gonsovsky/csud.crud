@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Csud.Crud\Csud.Crud.csproj" />
-    <ProjectReference Include="..\MongoDB.Entities\MongoDB.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

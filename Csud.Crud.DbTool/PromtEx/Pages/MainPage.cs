@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Csud.Crud.DbTool.PromtEx.ConsoleEx;
+using Csud.Crud.Services;
 
 namespace Csud.Crud.DbTool.PromtEx.Pages
 {
@@ -11,11 +13,15 @@ namespace Csud.Crud.DbTool.PromtEx.Pages
        
             foreach (var type in Promt.Types)
             {
-                var p = new BasePage(type,type.Name);
-                Promt.Program.AddPage(p);
-                var op = new Option(type.Name, p,() => Promt.Program.NavigateTo(p));
-                opts.Add(op);
-                Promt.Result.Add(type,20);
+                if (!type.GetInterfaces().Contains(typeof(INoneRepo)))
+                {
+                    var p = new BasePage(type, type.Name);
+                    Promt.Program.AddPage(p);
+                    var op = new Option(type.Name, p, () => Promt.Program.NavigateTo(p));
+                    opts.Add(op);
+                }
+                if (!Promt.Result.TypeHas(type))
+                    Promt.Result.TypeSet(type, 20);
             }
             var pgGen  = new StartDataBaseGeneration(null, "Generate database");
             Promt.Program.AddPage(pgGen);

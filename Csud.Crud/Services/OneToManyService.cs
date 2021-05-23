@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Csud.Crud.Services
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Csud.Crud.DbTool.PromtEx;
 using Csud.Crud.Models;
 using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
@@ -52,19 +53,19 @@ namespace Csud.Crud.DbTool
             while (!Ready<Person>())
                 Make<Person>();
 
-            while (!Ready<TimeContext>())
-                MakeContext<TimeContext>(MakeTimeContext);
+            while (!Ready<TimeContextAdd>())
+                MakeContext<TimeContextAdd>(MakeTimeContext);
 
-            while (!Ready<SegmentContext>())
-                MakeContext<SegmentContext>();
+            while (!Ready<SegmentContextAdd>())
+                MakeContext<SegmentContextAdd>();
 
-            while (!Ready<StructContext>())
-                MakeContext<StructContext>();
+            while (!Ready<StructContextAdd>())
+                MakeContext<StructContextAdd>();
 
-            while (!Ready<RuleContext>())
-                MakeContext<RuleContext>();
+            while (!Ready<RuleContextAdd>())
+                MakeContext<RuleContextAdd>();
 
-            while (!Ready<CompositeContext>())
+            while (!Ready<CompositeContextAdd>())
                 MakeContext<CompositeContextAdd>(MakeCompositeContext);
 
             while (!Ready<Subject>())
@@ -136,16 +137,16 @@ namespace Csud.Crud.DbTool
 
         private int From<T>() where T : Base
         {
-            return result[typeof(T)];
+            return result.TypeGet(typeof(T));
         }
 
         private int To<T>() where T : Base
         {
-            return input[typeof(T)];
+            return input.TypeGet(typeof(T));
         }
         private bool Ready<T>() where T : Base
         {
-            return input[typeof(T)] <= result[typeof(T)]-1;
+            return input.TypeGet(typeof(T)) <= result.TypeGet(typeof(T)) - 1;
         }
 
         private T Gen<T>() where T : Base
@@ -174,9 +175,9 @@ namespace Csud.Crud.DbTool
             var r = q.Skip(z).Take(number).ToList();
             var no = r.Count();
             var cnt = q.Count();
-            current[typeof(T)] += no;
-            if (current[typeof(T)] >= cnt)
-                current[typeof(T)] = 0;
+            current.TypeSet(typeof(T), current.TypeGet(typeof(T)) + no);
+            if (current.TypeGet(typeof(T)) >= cnt)
+                current.TypeSet(typeof(T),0);
         
             return r;
         }
@@ -185,7 +186,7 @@ namespace Csud.Crud.DbTool
         {
             var s = $@"{typeof(T).Name} - {From<T>()}/{To<T>()}";
             Console.WriteLine(s);
-            result[typeof(T)] += 1;
+            result.TypeSet(typeof(T), result.TypeGet(typeof(T)) + 1);
             No += 1;
         }
 
@@ -219,7 +220,7 @@ namespace Csud.Crud.DbTool
             Log<TEntity>();
         }
 
-        private void MakeTimeContext(TimeContext a)
+        private void MakeTimeContext(TimeContextAdd a)
         {
             a.TimeStart = 1000000 + No * 1000000;
             a.TimeEnd = 1000000 + (No+1) * 1000000;
