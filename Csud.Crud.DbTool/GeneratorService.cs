@@ -71,7 +71,7 @@ namespace Csud.Crud.DbTool
             while (!Ready<Subject>())
                 Make<Subject>(MakeSubject);
 
-            while (!Ready<Group>())
+            while (!Ready<GroupAdd>())
                 MakeOneToMany<Group, GroupAdd, GroupEdit, Subject>(MakeGroup);
 
             while (!Ready<Account>())
@@ -80,8 +80,8 @@ namespace Csud.Crud.DbTool
             while (!Ready<ObjectX>())
                 Make<ObjectX>(MakeObject);
 
-            while (!Ready<TaskX>())
-                MakeOneToMany<TaskX, TaskAdd, TaskEdit, ObjectX>(MakeTask);
+            while (!Ready<TaskXAdd>())
+                MakeOneToMany<TaskX, TaskXAdd, TaskXEdit, ObjectX>(MakeTask);
 
 
             while (!Ready<App>())
@@ -250,7 +250,7 @@ namespace Csud.Crud.DbTool
             a.ObjectType = Const.Object.Entity;
         }
 
-        private void MakeTask(TaskAdd a)
+        private void MakeTask(TaskXAdd a)
         {
             var q = Svc.Object.Where(x => x.ObjectType != Const.Object.Task);
             a.RelatedKeys = Take(q, 3).Select(a => a.Key).ToList();

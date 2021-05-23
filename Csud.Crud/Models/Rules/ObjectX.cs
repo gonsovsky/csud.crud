@@ -49,13 +49,13 @@ namespace Csud.Crud.Models.Rules
         public string DisplayName { get; set; }
     }
 
-    public class ObjectEdit : ObjectX, IEditable
+    public class ObjectXEdit : ObjectX, IEditable
     {
         [JsonIgnore]
         public override int Key { get; set; }
     }
 
-    public class ObjectAdd : ObjectEdit, IAddable
+    public class ObjectXAdd : ObjectXEdit, IAddable
     {
 
     }

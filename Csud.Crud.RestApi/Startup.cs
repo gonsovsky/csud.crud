@@ -131,8 +131,8 @@ namespace Csud.Crud.RestApi
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<Group, GroupAdd, GroupEdit, Subject>),
                 typeof(OneToManyService<Group, GroupAdd, GroupEdit, Subject>)));
 
-            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<TaskX, TaskAdd, TaskEdit, ObjectX>),
-                typeof(OneToManyService<TaskX, TaskAdd, TaskEdit, ObjectX>)));
+            services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<TaskX, TaskXAdd, TaskXEdit, ObjectX>),
+                typeof(OneToManyService<TaskX, TaskXAdd, TaskXEdit, ObjectX>)));
 
             services.TryAdd(ServiceDescriptor.Singleton(typeof(IOneToManyService<CompositeContext, CompositeContextAdd, CompositeContextEdit, Context>),
                 typeof(OneToManyService<CompositeContext, CompositeContextAdd, CompositeContextEdit, Context>)));

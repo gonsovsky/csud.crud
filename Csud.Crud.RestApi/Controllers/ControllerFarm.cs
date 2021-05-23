@@ -15,9 +15,9 @@ namespace Csud.Crud.RestApi.Controllers
 
     [Route("api/task")]
     [ApiController]
-    public class TaskController : OneToManyController<TaskX, TaskAdd, TaskEdit, ObjectX>
+    public class TaskController : OneToManyController<TaskX, TaskXAdd, TaskXEdit, ObjectX>
     {
-        public TaskController(IOneToManyService<TaskX, TaskAdd, TaskEdit, ObjectX> svc) : base(svc)
+        public TaskController(IOneToManyService<TaskX, TaskXAdd, TaskXEdit, ObjectX> svc) : base(svc)
         {
         }
     }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Entities;
 
 namespace Csud.Crud.Models.Rules
 {
@@ -41,8 +42,12 @@ namespace Csud.Crud.Models.Rules
     }
 
     [TaskValidator]
-    public class TaskX : Base, IOneToMany
+    public class TaskX : Base, IOneToMany, INameable
     {
+        [NotMapped] [Ignore] [BsonIgnore] public string Name { get; set; }
+        [NotMapped] [Ignore] [BsonIgnore] public string Description { get; set; }
+        [NotMapped] [Ignore] [BsonIgnore] public string DisplayName { get; set; }
+
         public int RelatedKey { get; set; }
         [NotMapped] [BsonIgnore][JsonIgnore] public IEnumerable RelatedEntities { get; set; }
         public void Link(Base linked)
@@ -74,14 +79,14 @@ namespace Csud.Crud.Models.Rules
         }
     }
 
-    public class TaskEdit : TaskX, IOneToManyEdit
+    public class TaskXEdit : TaskX, IOneToManyEdit
     {
         [JsonIgnore] protected new int Key { get; set; }
         [JsonIgnore] protected new int RelatedKey { get; set; }
         public virtual List<int> RelatedKeys { get; set; }
     }
 
-    public class TaskAdd : TaskEdit, IOneToManyAdd
+    public class TaskXAdd : TaskXEdit, IOneToManyAdd
     {
 
     }
