@@ -89,13 +89,8 @@ namespace Csud.Crud.Models
 
                 if (skipNull)
                 {
-                    if (newval == null)
+                    if (!BaseValidator.FieldDefined(newval))
                         continue;
-                    if (props.sourceProperty.PropertyType == typeof(int))
-                    {
-                        if ((int) newval == 0)
-                            continue;
-                    }
                 }
 
                 props.targetProperty.SetValue(destination, newval, null);

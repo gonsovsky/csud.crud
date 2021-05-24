@@ -51,7 +51,7 @@ namespace Csud.Crud.RestApi.Controllers
 
     [Route("api/accountProvider")]
     [ApiController]
-    public class AccountProviderController : EntityController<AccountProvider>
+    public class AccountProviderController : OneController<AccountProvider, AccountProviderAdd, AccountProviderEdit>
     {
         public AccountProviderController(IEntityService<AccountProvider> svc) : base(svc)
         {
@@ -60,7 +60,7 @@ namespace Csud.Crud.RestApi.Controllers
 
     [Route("api/object")]
     [ApiController]
-    public class ObjectController : EntityController<ObjectX>
+    public class ObjectController : OneController<ObjectX, ObjectXAdd, ObjectXEdit>
     {
         public ObjectController(IEntityService<ObjectX> svc) : base(svc)
         {

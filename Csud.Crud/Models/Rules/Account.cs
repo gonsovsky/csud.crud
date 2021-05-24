@@ -26,7 +26,7 @@ namespace Csud.Crud.Models.Rules
                     return new ValidationResult("Неверный ключ поставщика услуг.");
             }
 
-            if (value is IAddable || account.SubjectKey != 0)
+            if (value is IAddable || FieldDefined(account.SubjectKey))
             {
                 var serviceSubject =
                     (IEntityService<Subject>) validationContext.GetService(typeof(IEntityService<Subject>));
@@ -36,8 +36,7 @@ namespace Csud.Crud.Models.Rules
                     return new ValidationResult("Неверный ключ субъекта");
             }
 
-
-            if (value is IAddable || account.PersonKey != 0)
+            if (value is IAddable || FieldDefined(account.PersonKey))
             {
                 var servicePerson =
                     (IEntityService<Person>) validationContext.GetService(typeof(IEntityService<Person>));

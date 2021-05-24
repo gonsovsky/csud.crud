@@ -18,14 +18,22 @@ namespace Csud.Crud.Models.Rules
             if (service == null)
                 throw new ApplicationException($"{nameof(IContextService)} is not found");
 
-            if (!service.Select<Context>().Any (x => x.Key == subject.ContextKey))
+            if (value is IAddable || FieldDefined(subject.ContextKey))
             {
-                return new ValidationResult("Неверный код контекста.");
+                if (!service.Select<Context>().Any(x => x.Key == subject.ContextKey))
+                {
+                    return new ValidationResult("Неверный код контекста.");
+                }
             }
-            if (!Const.Subject.Has(subject.SubjectType))
+
+            if (value is IAddable || FieldDefined(subject.SubjectType))
             {
-                return new ValidationResult("Неверный тип субъекта.");
+                if (!Const.Subject.Has(subject.SubjectType))
+                {
+                    return new ValidationResult("Неверный тип субъекта.");
+                }
             }
+
             return null;
         }
     }
