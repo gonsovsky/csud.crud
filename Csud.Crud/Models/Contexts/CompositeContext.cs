@@ -60,6 +60,8 @@ namespace Csud.Crud.Models.Contexts
     [CompositeContextEditValidation]
     public class CompositeContextAdd : CompositeContext, IOneToManyAdd
     {
+        [JsonIgnore] public override int Key { get; set; }
+        [JsonIgnore] public override int RelatedKey { get; set; }
         public List<int> RelatedKeys { get; set; }
     }
 
