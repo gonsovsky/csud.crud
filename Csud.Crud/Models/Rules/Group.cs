@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
@@ -66,7 +65,7 @@ namespace Csud.Crud.Models.Rules
         {
             set => ContextKey = value.Key;
         }
-        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public virtual List<int> RelatedKeys { get; set; } = new List<int>();
+        [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public virtual List<int> RelatedKeys { get; set; } = new();
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public IEnumerable RelatedEntities { get; set; }
         public void Link(Base linked)
         {

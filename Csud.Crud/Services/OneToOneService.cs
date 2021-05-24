@@ -28,7 +28,7 @@ namespace Csud.Crud.Services
         public IEnumerable<TEntity> Select()
         {
             foreach (var entity in EntitySvc.Select())
-                yield return (TEntity) entity.Combine(LinkedSvc.Look(entity.Key));
+                yield return (TEntity) entity.Combine(LinkedSvc.Look(entity.Key),true);
         }
 
         public TEntity Get(int key)
@@ -50,17 +50,18 @@ namespace Csud.Crud.Services
 
         public TEntity Add(TModelAdd addEntity, bool generateKey = true)
         {
-            var entity = addEntity.CloneTo<TEntity>(false);
-            var linked = addEntity.CloneTo<TLinked>(false);
-            LinkedSvc.Add(linked);
-            entity.Link(linked);
+            var entity = addEntity.CloneTo<TEntity>(false, false);
+            var linked = addEntity.CloneTo<TLinked>(false, false);
+            var result = LinkedSvc.Add(linked);
+            entity.Link(result);
+            entity.Key = result.Key;
             EntitySvc.Add(entity, false);
             return entity;
         }
         public TEntity Update(TModelEdit editEntity)
         {
-            var entity = editEntity.CloneTo<TEntity>(true);
-            var linked = editEntity.CloneTo<TLinked>(true);
+            var entity = editEntity.CloneTo<TEntity>(true,true);
+            var linked = editEntity.CloneTo<TLinked>(true, true);
             var existingEntity = EntitySvc.Look(entity.Key);
             var existingLinked = LinkedSvc.Look(linked.Key);
             entity.Key = existingEntity.Key;

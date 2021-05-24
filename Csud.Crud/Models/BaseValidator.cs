@@ -6,13 +6,13 @@ namespace Csud.Crud.Models
     {
         protected void Error(string err)
         {
-            this.ErrorMessage ??= "";
-            this.ErrorMessage += @$"{err} ";
+            ErrorMessage ??= "";
+            ErrorMessage += @$"{err} ";
         }
         protected void Reset()
         {
-            this.ErrorMessage = null;
+            ErrorMessage = null;
         }
-        protected bool Validated => string.IsNullOrEmpty(this.ErrorMessage);
+        protected bool Validated => string.IsNullOrEmpty(ErrorMessage);
     }
 }

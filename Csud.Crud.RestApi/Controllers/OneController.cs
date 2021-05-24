@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Csud.Crud.Models;
 using Csud.Crud.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers
 {
-    public class OneToManyController<TEntity, TModelAdd, TModelEdit, TLinked> : Controller where TEntity: Base,IOneToMany where TModelAdd: TEntity, IOneToManyAdd where TModelEdit : TEntity, IOneToManyEdit where TLinked : Base
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class OneController<TEntity, TModelAdd, TModelEdit> : Controller 
+        where TEntity : Base
+        where TModelAdd : TEntity, IAddable
+        where TModelEdit : TEntity, IEditable
     {
-        protected readonly IOneToManyService<TEntity, TModelAdd,TModelEdit, TLinked> Svc;
+        protected readonly IEntityService<TEntity> Svc;
 
-        public OneToManyController(IOneToManyService<TEntity, TModelAdd, TModelEdit, TLinked> svc)
+        public OneController(IEntityService<TEntity> svc)
         {
             Svc = svc;
         }
@@ -19,8 +27,9 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                var q = Svc.List(0, status, skip, take);
-                return Ok(q);
+                var list = Svc.List(status, skip, take);
+                return Ok(list);
+
             }
             catch (Exception ex)
             {
@@ -33,7 +42,7 @@ namespace Csud.Crud.RestApi.Controllers
         {
             try
             {
-                var entity = Svc.Get(key);
+                var entity = Svc.Look(key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -46,25 +55,11 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpDelete("{key}")]
-        public virtual IActionResult Delete(int key)
-        {
-            try
-            {
-                Svc.Delete(key);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
-            }
-        }
-
-        [HttpPost("copy/{key}")]
+        [HttpPost("{key}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Copy(int key)
+        public virtual IActionResult Post(int key, TModelEdit entity)
         {
             try
             {
@@ -72,7 +67,8 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var result = Svc.Copy(key);
+                entity.Key = key;
+                var result = Svc.Update(entity);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -102,42 +98,13 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        //[HttpPost("{key}")]
-        //[ProducesResponseType(201)]
-        //[ProducesResponseType(400)]
-        //[Produces("application/json")]
-        //public virtual IActionResult Post(int key, TModelEdit entity)
-        //{
-        //    try
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-        //        entity.Key = key;
-        //        var result = Svc.Update(entity);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Problem(ex.Message);
-        //    }
-        //}
-
-        [HttpPost("include/{key}/{relatedKey}")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        [Produces("application/json")]
-        public virtual IActionResult Include(int key, int relatedKey)
+        [HttpDelete("{key}")]
+        public virtual IActionResult Delete(int key)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                var result = Svc.Include(key,relatedKey);
-                return Ok(result);
+                Svc.Delete(Svc.Select().First(a => a.Key == key));
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -145,11 +112,11 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost("exclude/{key}/{relatedKey}")]
+        [HttpPost("copy/{key}")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Exclude(int key, int relatedKey)
+        public virtual IActionResult Copy(int key)
         {
             try
             {
@@ -157,7 +124,7 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var result = Svc.Exclude(key, relatedKey);
+                var result = Svc.Copy(Svc.Select().First(a => a.Key == key));
                 return Ok(result);
             }
             catch (Exception ex)

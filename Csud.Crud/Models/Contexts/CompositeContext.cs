@@ -49,7 +49,7 @@ namespace Csud.Crud.Models.Contexts
     }
 
 
-    public class CompositeContextEdit : CompositeContext, INoneRepo, IOneToManyEdit
+    public class CompositeContextEdit : CompositeContext, IOneToManyEdit
     {
         [JsonIgnore] public override int Key { get; set; }
         [JsonIgnore] public override int RelatedKey { get; set; }
@@ -103,6 +103,6 @@ namespace Csud.Crud.Models.Contexts
         public TLinked Relation { get; set; }
 
         public IEnumerable<IOneToManyItem<TEntity, TLinked>> Relations { get; set; }
-            = new List<GroupOneToManyItem<TEntity, TLinked>>() { };
+            = new List<GroupOneToManyItem<TEntity, TLinked>>();
     }
 }

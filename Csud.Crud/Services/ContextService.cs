@@ -50,7 +50,7 @@ namespace Csud.Crud.Services
 
         public void Delete(int key)
         {
-            var co = this.CommonService.Look(key);
+            var co = CommonService.Look(key);
             switch (co.ContextType)
             {
                 case Const.Context.Time:
@@ -129,7 +129,7 @@ namespace Csud.Crud.Services
 
         public object Copy(int key)
         {
-            var context = this.CommonService.Look(key);
+            var context = CommonService.Look(key);
             return context.ContextType switch
             {
                 Const.Context.Time => TimeService.Copy(key, true),

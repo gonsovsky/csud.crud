@@ -22,7 +22,7 @@ namespace Csud.Crud.Storage
         {
             if (cfg.Mongo.Enabled)
             {
-                this.config = cfg;
+                config = cfg;
 
                 if (cfg.DropOnStart)
                     Drop();

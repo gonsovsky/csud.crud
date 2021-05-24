@@ -1,9 +1,9 @@
-C:\@job\Csud.Crud\Output\net5.0\Csud.Crud.RestApi.exe
 C:\@job\Csud.Crud\Output\net5.0\Csud.Crud.RestApi.deps.json
 C:\@job\Csud.Crud\Output\net5.0\Csud.Crud.RestApi.runtimeconfig.json
 C:\@job\Csud.Crud\Output\net5.0\Csud.Crud.RestApi.runtimeconfig.dev.json
 C:\@job\Csud.Crud\Output\net5.0\appsettings.Development.json
 C:\@job\Csud.Crud\Output\net5.0\appsettings.json
+C:\@job\Csud.Crud\Output\net5.0\Csud.Crud.RestApi.exe
 C:\@job\Csud.Crud\Output\net5.0\Csud.Crud.DbTool.exe
 C:\@job\Csud.Crud\Output\net5.0\Csud.Crud.RestApi.xml
 C:\@job\Csud.Crud\Output\net5.0\Csud.Crud.DbTool.deps.json

@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Csud.Crud.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Services
@@ -50,7 +49,7 @@ namespace Csud.Crud.Services
     {
         public virtual void Link(Base linked)
         {
-            this.Key = linked.Key;
+            Key = linked.Key;
         }
     }
 

@@ -6,7 +6,7 @@
 
         public static implicit operator CsudKey(int i)
         {
-            return new CsudKey { peer = i };
+            return new() { peer = i };
         }
 
         public static implicit operator int(CsudKey p)

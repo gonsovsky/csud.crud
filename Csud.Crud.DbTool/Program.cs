@@ -68,9 +68,9 @@ namespace Csud.Crud.DbTool
             {
                 return;
             }
-            if (_serviceProvider is IDisposable)
+            if (_serviceProvider is IDisposable disposable)
             {
-                ((IDisposable)_serviceProvider).Dispose();
+                disposable.Dispose();
             }
         }
     }

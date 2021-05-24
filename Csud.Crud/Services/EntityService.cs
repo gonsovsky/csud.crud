@@ -6,7 +6,7 @@ namespace Csud.Crud.Services
 {
     public interface IEntityService<T> where T : Base
     {
-        public T Add(T entity, bool generateKey = true);
+        public T Add(T addEntity, bool generateKey = true);
         public T Update(T entity);
         public void Delete(T entity);
         public void Delete(int key);
@@ -31,8 +31,9 @@ namespace Csud.Crud.Services
             return Select().First(x => x.Key == key);
         }
 
-        public virtual T Add(T entity, bool generateKey = true)
+        public virtual T Add(T addEntity, bool generateKey = true)
         {
+            var entity = addEntity.CloneTo<T>(!generateKey, false);
             Db.Add(entity, generateKey);
             return entity;
         }
@@ -57,7 +58,7 @@ namespace Csud.Crud.Services
 
         public T Copy(T entity, bool keepKey = false)
         {
-            var a = (T)entity.Clone(keepKey);
+            var a = (T)entity.Clone(keepKey,false);
             Add(a, !keepKey);
             return a;
         }

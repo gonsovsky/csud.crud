@@ -30,7 +30,6 @@ namespace Csud.Crud.DbTool.PromtEx.Pages
             Promt.Load();
 
             return opts.ToArray();
-
         }
         public MainPage()
             : base(Opts())

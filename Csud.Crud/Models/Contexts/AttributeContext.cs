@@ -11,7 +11,7 @@ namespace Csud.Crud.Models.Contexts
     {
         [JsonIgnore] public override int Key { get; set; }
     }
-    public class AttributeContextAdd : AttributeContextEdit, INoneRepo
+    public class AttributeContextAdd : AttributeContextEdit
     {
 
     }

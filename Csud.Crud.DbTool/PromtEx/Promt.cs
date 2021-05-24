@@ -15,15 +15,15 @@ namespace Csud.Crud.DbTool.PromtEx
         public Promt()
             : base("Csud.Crud.DBTool", breadcrumbHeader: true)
         {
-            Promt.Program = this;
+            Program = this;
             var mainPage = new MainPage();
-            Promt.Program.AddPage(mainPage);
+            Program.AddPage(mainPage);
             SetPage(mainPage);
         }
 
         public static ConsoleProgram Program;
 
-        public static Dictionary<Type, int> Result = new Dictionary<Type, int>();
+        public static Dictionary<Type, int> Result = new();
 
         public static void Save()
         {
@@ -31,7 +31,7 @@ namespace Csud.Crud.DbTool.PromtEx
             {
                 var save = Result.Select(x => new {x.Key.Name, x.Value});
                 var json = JsonSerializer.Serialize(save);
-                System.IO.File.WriteAllText(Path.Combine(AssemblyDirectory, "q.txt"), json);
+                File.WriteAllText(Path.Combine(AssemblyDirectory, "q.txt"), json);
             }
             catch
             {
@@ -49,7 +49,7 @@ namespace Csud.Crud.DbTool.PromtEx
         {
             try
             {
-                var json = System.IO.File.ReadAllText(Path.Combine(AssemblyDirectory, "q.txt"));
+                var json = File.ReadAllText(Path.Combine(AssemblyDirectory, "q.txt"));
                 var obj = JsonSerializer.Deserialize<List<Q>>(json);
                 var types = Types.ToArray();
                 foreach (var x in obj)

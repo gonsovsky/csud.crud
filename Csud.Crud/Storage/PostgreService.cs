@@ -11,7 +11,7 @@ using Npgsql;
 
 namespace Csud.Crud.Storage
 {
-    public class PostgreService : DbContext, IDbService
+    public sealed class PostgreService : DbContext, IDbService
     {
         private Config config;
 
@@ -19,12 +19,12 @@ namespace Csud.Crud.Storage
         {
             if (cfg.Postgre.Enabled)
             {
-                this.config = cfg;
+                config = cfg;
 
                 if (cfg.DropOnStart)
                     Drop();
 
-                this.Database.EnsureCreatedAsync().Wait();
+                Database.EnsureCreatedAsync().Wait();
             }
         }
 
@@ -123,7 +123,7 @@ namespace Csud.Crud.Storage
         {
             void Cmd(string sql)
             {
-                using var con = new NpgsqlConnection(this.config.Postgre.AdminConnectionString);
+                using var con = new NpgsqlConnection(config.Postgre.AdminConnectionString);
                 con.Open();
                 using var cmd = new NpgsqlCommand(sql, con);
                 cmd.ExecuteNonQuery();

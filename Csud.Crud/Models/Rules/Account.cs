@@ -15,23 +15,37 @@ namespace Csud.Crud.Models.Rules
             Reset();
             var account = (Account)value;
 
-            var serviceAccProvider = (IEntityService<AccountProvider>)validationContext.GetService(typeof(IEntityService<AccountProvider>));
-            if (serviceAccProvider == null)
-                throw new ApplicationException($"{nameof(IEntityService<AccountProvider>)} is not found");
-            if (!serviceAccProvider.Select().Any(x => x.Key == account.AccountProviderKey))
-                return new ValidationResult("Неверный ключ поставщика услуг.");
+            if (value is IAddable)
+            {
+                var serviceAccProvider =
+                    (IEntityService<AccountProvider>) validationContext.GetService(
+                        typeof(IEntityService<AccountProvider>));
+                if (serviceAccProvider == null)
+                    throw new ApplicationException($"{nameof(IEntityService<AccountProvider>)} is not found");
+                if (!serviceAccProvider.Select().Any(x => x.Key == account.AccountProviderKey))
+                    return new ValidationResult("Неверный ключ поставщика услуг.");
+            }
 
-            var serviceSubject = (IEntityService<Subject>)validationContext.GetService(typeof(IEntityService<Subject>));
-            if (serviceSubject == null)
-                throw new ApplicationException($"{nameof(IEntityService<Subject>)} is not found");
-            if (!serviceSubject.Select().Any(x => x.Key == account.SubjectKey))
-                return new ValidationResult("Неверный ключ субъекта");
+            if (value is IAddable || account.SubjectKey != 0)
+            {
+                var serviceSubject =
+                    (IEntityService<Subject>) validationContext.GetService(typeof(IEntityService<Subject>));
+                if (serviceSubject == null)
+                    throw new ApplicationException($"{nameof(IEntityService<Subject>)} is not found");
+                if (!serviceSubject.Select().Any(x => x.Key == account.SubjectKey))
+                    return new ValidationResult("Неверный ключ субъекта");
+            }
 
-            var servicePerson = (IEntityService<Person>)validationContext.GetService(typeof(IEntityService<Person>));
-            if (servicePerson == null)
-                throw new ApplicationException($"{nameof(IEntityService<Subject>)} is not found");
-            if (!servicePerson.Select().Any(x => x.Key == account.PersonKey))
-                return new ValidationResult("Неверный ключ персоны");
+
+            if (value is IAddable || account.PersonKey != 0)
+            {
+                var servicePerson =
+                    (IEntityService<Person>) validationContext.GetService(typeof(IEntityService<Person>));
+                if (servicePerson == null)
+                    throw new ApplicationException($"{nameof(IEntityService<Subject>)} is not found");
+                if (!servicePerson.Select().Any(x => x.Key == account.PersonKey))
+                    return new ValidationResult("Неверный ключ персоны");
+            }
 
             return null;
         }
@@ -40,7 +54,7 @@ namespace Csud.Crud.Models.Rules
     [AccountValidation]
     public class Account: Base, INameable
     {
-        public int AccountProviderKey { get; set; }
+        public virtual int AccountProviderKey { get; set; }
         public int PersonKey { get; set; }
         public int SubjectKey { get; set; }
 
@@ -64,12 +78,13 @@ namespace Csud.Crud.Models.Rules
 
     public class AccountEdit : Account, IEditable
     {
-        [JsonIgnore]
-        public override int Key { get; set; }
+        [JsonIgnore] public override int Key { get; set; }
+
+        [JsonIgnore] public override int AccountProviderKey { get; set; }
     }
 
-    public class AccountAdd : AccountEdit, IAddable
+    public class AccountAdd : Account, IAddable
     {
-
+        [JsonIgnore] public override int Key { get; set; }
     }
 }

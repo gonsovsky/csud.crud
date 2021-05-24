@@ -95,7 +95,7 @@ namespace Csud.Crud.Storage
             {
                 if (db is PostgreService && DbX.Count()>1)
                 {
-                    entity = entity.CloneTo<T>(!generateKey);
+                    entity = entity.CloneTo<T>(!generateKey, false);
                 }
                 db.Add(entity, generateKey);
             }
@@ -105,7 +105,7 @@ namespace Csud.Crud.Storage
         {
             foreach (var db in DbX)
             {
-                T result = null;
+                T result;
                 if (entity is IOneToMany onetomany)
                 {
                     result = db.Select<T>().First(a => a.Key == entity.Key &&
@@ -116,7 +116,7 @@ namespace Csud.Crud.Storage
                 {
                     result = db.Select<T>().First(a => a.Key == entity.Key);
                 }
-                entity.CopyTo(result, false);
+                entity.CopyTo(result, false, true);
                 db.Update(result);
             }
         }

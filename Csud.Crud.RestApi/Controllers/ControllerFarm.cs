@@ -42,7 +42,7 @@ namespace Csud.Crud.RestApi.Controllers
 
     [Route("api/account")]
     [ApiController]
-    public class AccountController : EntityController<Account>
+    public class AccountController : OneController<Account, AccountAdd, AccountEdit>
     {
         public AccountController(IEntityService<Account> svc) : base(svc)
         {

@@ -14,7 +14,7 @@ using MongoDB.Entities;
 
 namespace Csud.Crud.Models
 {
-    public class Base : IEntity, ICloneable, IBase
+    public class Base : IEntity, IBase
     { 
         [Key] public virtual int Key { get; set; }
 
@@ -45,20 +45,20 @@ namespace Csud.Crud.Models
             }
         }
 
-        public virtual T CloneTo<T>(bool withKey) where T: Base
+        public virtual T CloneTo<T>(bool withKey, bool skipNull) where T: Base
         {
             var p = Activator.CreateInstance<T>();
-            this.CopyTo(p, withKey);
+            CopyTo(p, withKey, skipNull);
             return p;
         }
 
-        public virtual Base Combine(Base linked)
+        public virtual Base Combine(Base linked, bool skipNull)
         {
-            linked.CopyTo(this,false);
+            linked.CopyTo(this,false, true);
             return this;
         }
 
-        public virtual void CopyTo(Base destination, bool withKey)
+        public virtual void CopyTo(Base destination, bool withKey, bool skipNull)
         {
             var source = this;
             if (source == null || destination == null)
@@ -77,32 +77,41 @@ namespace Csud.Crud.Models
             {
                 if (!withKey)
                 {
-                    if (props.sourceProperty.Name == nameof(Base.Key) || props.sourceProperty.Name == nameof(Base.ID))
+                    if (props.sourceProperty.Name == nameof(Key) || props.sourceProperty.Name == nameof(ID))
                     {
                         continue;
                     }
                 }
-                if (props.sourceProperty.Name==nameof(Base.UseKey))
+                if (props.sourceProperty.Name==nameof(UseKey))
                     continue;
-                props.targetProperty.SetValue(destination, props.sourceProperty.GetValue(source, null), null);
+
+                var newval = props.sourceProperty.GetValue(source, null);
+
+                if (skipNull)
+                {
+                    if (newval == null)
+                        continue;
+                    if (props.sourceProperty.PropertyType == typeof(int))
+                    {
+                        if ((int) newval == 0)
+                            continue;
+                    }
+                }
+
+                props.targetProperty.SetValue(destination, newval, null);
             }
 
-            if (destination is IOneToManyEdit && source is IOneToManyEdit)
+            if (destination is IOneToManyEdit edit && source is IOneToManyEdit manyEdit)
             {
-                ((IOneToManyEdit) destination).RelatedKeys = new List<int>();
-                (destination as IOneToManyEdit).RelatedKeys.AddRange(((IOneToManyEdit) source).RelatedKeys);
+                edit.RelatedKeys = new List<int>();
+                edit.RelatedKeys.AddRange(manyEdit.RelatedKeys);
             }
         }
-        public object Clone()
+ 
+        public object Clone(bool keepKey, bool skipnull)
         {
-            var x = (Base)Activator.CreateInstance(this.GetType());
-            this.CopyTo(x, false);
-            return x;
-        }
-        public object Clone(bool keepKey)
-        {
-            var x = (Base)Activator.CreateInstance(this.GetType());
-            this.CopyTo(x, keepKey);
+            var x = (Base)Activator.CreateInstance(GetType());
+            CopyTo(x, keepKey, skipnull);
             return x;
         }
 
@@ -134,7 +143,7 @@ namespace Csud.Crud.Models
             var err =  string.Join(' ', results.Select(x => x.ErrorMessage));
             throw new ArgumentException(err);
         }
-        public virtual bool Look(Base en) => en.UseKey == this.UseKey;
+        public virtual bool Look(Base en) => en.UseKey == UseKey;
 
     }
 }

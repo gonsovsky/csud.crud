@@ -84,14 +84,14 @@ namespace Csud.Crud.Services
 
         public IOneToManyRecord<TEntity, TLinked> Add(TModelAdd entity, bool generateKey = true)
         {
-            var linked = entity.CloneTo<TLinked>(false);
+            var linked = entity.CloneTo<TLinked>(false, false);
             entity.Link(linked);
-            LinkedSvc.Add(linked);
+            linked = LinkedSvc.Add(linked);
             entity.Key = linked.Key;
             entity.ID = linked.ID;
             foreach (var rkey in entity.RelatedKeys)
             {
-                var x = entity.CloneTo<TEntity>(false);
+                var x = entity.CloneTo<TEntity>(false, false);
                 x.ID = null;
                 x.Key = linked.Key;
                 x.RelatedKey = rkey;
@@ -103,7 +103,7 @@ namespace Csud.Crud.Services
         public IOneToManyRecord<TEntity, TLinked> Update(TModelEdit editEntity)
         {
             var existingLinked = LinkedSvc.Look(editEntity.Key);
-            editEntity.CopyTo(existingLinked,false);
+            editEntity.CopyTo(existingLinked,false, true);
             LinkedSvc.Update(existingLinked);
             return Get(existingLinked.Key);
         }

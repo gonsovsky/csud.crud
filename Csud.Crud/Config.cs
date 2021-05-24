@@ -62,9 +62,9 @@ namespace Csud.Crud
             public string Db { get; set; }
         }
 
-        public ImportClass Import { get; set; } = new ImportClass();
-        public PostgreClass Postgre { get; set; } = new PostgreClass();
-        public MongoClass Mongo { get; set; } = new MongoClass();
+        public ImportClass Import { get; set; } = new();
+        public PostgreClass Postgre { get; set; } = new();
+        public MongoClass Mongo { get; set; } = new();
 
         public Config(IConfiguration cfg)
         {
