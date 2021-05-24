@@ -69,7 +69,7 @@ namespace Csud.Crud.RestApi.Controllers
 
     [Route("api/subject")]
     [ApiController]
-    public class SubjectController : EntityController<Subject>
+    public class SubjectController : OneController<Subject, SubjectAdd, SubjectEdit>
     {
         public SubjectController(IEntityService<Subject> svc) : base(svc)
         {
