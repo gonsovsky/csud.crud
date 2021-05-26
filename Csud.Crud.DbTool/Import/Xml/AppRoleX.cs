@@ -5,18 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Csud.Crud.Models.App;
+using MongoDB.Bson;
 
 namespace Csud.Crud.DbTool.Import.Xml
 {
     public class AppRoleX: AppRole
     {
-        public AppRoleX(XElement node, AppDistrib distrib)
+        public AppRoleX(XElement node, AppDistrib distrib, int key)
         {
             XmlGuid = node.Attribute("Guid")?.Value;
             RoleName = node.Attribute("Name")?.Value;
             DisplayName = node.Attribute("Description")?.Value;
             DistribKey = distrib.Key;
-            ImportService.Db.Add((AppRole)this, true);
+            Key = key;
+            if (ImportService.Db.AppRole.Any(x => x.DisplayName == DisplayName && x.DistribKey == DistribKey))
+            {
+                Console.WriteLine($"Dublicate Role: [disp={DisplayName}], [distribkey={DistribKey}]");
+            }
+            else
+            {
+                ImportService.Db.Add((AppRole) this, key == 0);
+            }
         }
     }
 }

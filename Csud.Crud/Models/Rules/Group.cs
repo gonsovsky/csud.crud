@@ -53,6 +53,7 @@ namespace Csud.Crud.Models.Rules
     [GroupValidator]
     public class Group: Base, IOneToMany, IContextable, INameable
     {
+        protected override string QueueName => "Group";
         [NotMapped] [Ignore] [BsonIgnore] public string Name { get; set; }
         [NotMapped] [Ignore] [BsonIgnore] public string Description { get; set; }
         [NotMapped] [Ignore] [BsonIgnore] public string DisplayName { get; set; }

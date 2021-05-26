@@ -10,14 +10,22 @@ namespace Csud.Crud.DbTool.Import.Xml
 {
     public class AppRoleDetailsX: AppRoleDetails
     {
-        public AppRoleDetailsX(XElement node, AppRole role)
+        public AppRoleDetailsX(XElement node, AppRole role, AppOperation op)
         {
             XmlGuid = node.Value;
-            OperationXmlGuid = XmlGuid;
+            OperationXmlGuid = op.XmlGuid;
             RoleXmlGuid = role.XmlGuid;
             RoleKey = role.Key;
-            OperationKey = ImportService.Db.AppOperation.First(x => x.XmlGuid == OperationXmlGuid).Key;
-            ImportService.Db.Add((AppRoleDetails) this, true);
+            OperationKey = op.Key;
+            if (ImportService.Db.AppRoleDetails.Any(x => x.RoleKey == RoleKey 
+                                                         && x.OperationKey == OperationKey))
+            {
+                Console.WriteLine($"Dublicate Role details: [rolekey = {RoleXmlGuid}], [operation key = {OperationXmlGuid}]");
+            }
+            else
+            {
+                ImportService.Db.Add((AppRoleDetails)this, true);
+            }
         }
     }
 }

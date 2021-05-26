@@ -16,17 +16,20 @@ namespace Csud.Crud.DbTool.Import.Xml
         {
             XmlGuid = node.Attribute("Guid")?.Value;
             Name = node.Attribute("Name")?.Value;
-            try
-            {
-                var x = node.Attribute("Description")?.Value;
-                var y = x.Split(';');
-                DisplayName = y[0].Split('=')[1];
-            }
-            catch (Exception e)
-            {
-                DisplayName = "unknown name";
-            }
+            DisplayName = ExtractDisplayName(node.Attribute("Description")?.Value);
+
             ImportService.Db.Add((App)this);
         }
+
+        public static string ExtractDisplayName(string description)
+        {
+            var p = description.Split(';');
+            if (p.Length == 0)
+                return description;
+            var q = p[0];
+            var z = q.Split('=');
+            return z.Length == 0 ? q : z[1];
+        }
+
     }
 }

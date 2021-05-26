@@ -9,5 +9,7 @@ namespace Csud.Crud.Models.App
         public string AttributeType { get; set; }
 
         public int AttributeKey { get; set; }
+
+        protected override string QueueName => nameof(AppAttribute);
     }
 }

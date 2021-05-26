@@ -15,6 +15,8 @@ namespace Csud.Crud.Models.Contexts
 
     public class CompositeContext : BaseContext, IOneToMany
     {
+        protected override string QueueName => "Context";
+
         public virtual int RelatedKey { get; set; }
         [NotMapped] [BsonIgnore] [Ignore] [JsonIgnore] public virtual IEnumerable RelatedEntities { get; set; }
 

@@ -44,6 +44,8 @@ namespace Csud.Crud.Models.Rules
     [TaskValidator]
     public class TaskX : Base, IOneToMany, INameable
     {
+        protected override string QueueName => "Task";
+
         [NotMapped] [Ignore] [BsonIgnore] public string Name { get; set; }
         [NotMapped] [Ignore] [BsonIgnore] public string Description { get; set; }
         [NotMapped] [Ignore] [BsonIgnore] public string DisplayName { get; set; }

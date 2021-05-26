@@ -53,6 +53,7 @@ namespace Csud.Crud.Models.Rules
     [AccountValidation]
     public class Account: Base, INameable
     {
+        protected override string QueueName => "Account";
         public virtual int AccountProviderKey { get; set; }
         public int PersonKey { get; set; }
         public int SubjectKey { get; set; }

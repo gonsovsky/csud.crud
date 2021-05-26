@@ -19,5 +19,7 @@ namespace Csud.Crud.Models.App
 
         [NotMapped] [JsonIgnore] [BsonIgnore] protected new string XmlGuid { get; set; }
 
+        protected override string QueueName => nameof(AppRoleDetails);
+
     }
 }

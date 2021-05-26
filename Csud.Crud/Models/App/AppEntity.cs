@@ -9,5 +9,7 @@ namespace Csud.Crud.Models.App
         public string EntityName { get; set; }
 
         public int EntityKey { get; set; }
+
+        protected override string QueueName => nameof(AppEntity);
     }
 }

@@ -42,6 +42,8 @@ namespace Csud.Crud.Models.Rules
     [ObjectValidation]
     public class ObjectX : Base, INameable
     {
+        protected override string QueueName => "Object";
+
         public string ObjectType { get; set; } = Const.Object.Role;
 
         public int ContextKey { get; set; }

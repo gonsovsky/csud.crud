@@ -6,6 +6,8 @@ namespace Csud.Crud.Models.Rules
 {
     public class Person: Base
     {
+        protected override string QueueName => "Person";
+
         [Required]
         public string FirstName { get; set; }
         public string LastName { get; set; }

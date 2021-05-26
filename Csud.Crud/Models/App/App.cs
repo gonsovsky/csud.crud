@@ -7,5 +7,7 @@
         public int LastDistribKey { get; set; }
 
         public virtual string DisplayName { get; set; }
+
+        protected override string QueueName => nameof(App);
     }
 }

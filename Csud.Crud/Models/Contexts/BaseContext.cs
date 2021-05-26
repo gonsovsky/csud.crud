@@ -7,6 +7,8 @@ namespace Csud.Crud.Models.Contexts
 {
     public abstract class BaseContext: Base, INameable, IOneToOne
     {
+        protected override string QueueName => "Context";
+
         [NotMapped] [Ignore] [BsonIgnore] public abstract string ContextType { get; }
         [NotMapped] [Ignore] [BsonIgnore] public bool Temporary { get; set; } = false;
         [NotMapped] [Ignore] [BsonIgnore] public string Name { get; set; }

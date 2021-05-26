@@ -8,5 +8,7 @@ namespace Csud.Crud.Models.App
         public int DistribKey { get; set; }
 
         public string RoleName { get; set; }
+
+        protected override string QueueName => nameof(AppRole);
     }
 }

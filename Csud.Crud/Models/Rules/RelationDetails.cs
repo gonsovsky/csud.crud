@@ -33,6 +33,7 @@ namespace Csud.Crud.Models.Rules
     [RelationDetailsValidator]
     public class RelationDetails : Base, IOneToMany, INameable
     {
+        protected override string QueueName => "RelationDetails";
         public virtual int RelatedKey { get; set; }
 
         [NotMapped] [Ignore] [BsonIgnore] public List<int> RelatedKeys { get; set; }

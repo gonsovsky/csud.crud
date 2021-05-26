@@ -75,6 +75,10 @@ namespace Csud.Crud.Storage
 
             modelBuilder.Entity<AppRoleDefinition>().HasKey(x => x.Key);
 
+            modelBuilder.Entity<AppRoleDefinition>()
+                .Property(f => f.Key)
+                .ValueGeneratedOnAdd();
+
             modelBuilder.Entity<AppRoleDetails>().HasKey(x => new { x.RoleKey, x.OperationKey });
 
             modelBuilder.Entity<AppEntityDefinition>().HasKey(x => x.EntityKey);

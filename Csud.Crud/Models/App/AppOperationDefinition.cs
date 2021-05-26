@@ -5,5 +5,7 @@
         public int ObjectKey { get; set; }
 
         public string OperationName { get; set; }
+
+        protected override string QueueName => nameof(AppOperationDefinition);
     }
 }

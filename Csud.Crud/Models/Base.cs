@@ -14,8 +14,10 @@ using MongoDB.Entities;
 
 namespace Csud.Crud.Models
 {
-    public class Base : IEntity, IBase
+    public abstract class Base : IEntity, IBase
     {
+        protected abstract string QueueName { get; }
+
         [BsonElement("Key")] [Key] public virtual int Key { get; set; }
 
         [BsonId] [AsObjectId] [NotMapped] [JsonIgnore]
@@ -28,7 +30,7 @@ namespace Csud.Crud.Models
 
         public int GenerateNewKey()
         {
-            var col = GetType().Name;
+            var col = QueueName;
             var q = DB.Collection<Seq>().AsQueryable().Where(x => x.ID == col);
             if (q.Any() == false)
             {

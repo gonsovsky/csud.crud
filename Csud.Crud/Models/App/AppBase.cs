@@ -2,7 +2,7 @@
 
 namespace Csud.Crud.Models.App
 {
-    public partial class AppBase : Base
+    public abstract class AppBase : Base
     {
         public string XmlGuid { get; set; } = Guid.Empty.ToString();
 

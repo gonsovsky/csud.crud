@@ -13,16 +13,13 @@ namespace Csud.Crud.DbTool.Import.Xml
 {
     public class AppRoleDefinitionX: AppRoleDefinition
     {
-        public AppRoleDefinitionX(XElement node, AppRole role, ObjectX obj)
+        public AppRoleDefinitionX(XElement node, ObjectX obj)
         {
-            var def = node.Attribute("RoleDefinition")?.Value;
-            if (def != "True")
-                return;
-            Key = role.Key;
-            RoleName = role.RoleName;
+            XmlGuid = node.Attribute("Guid")?.Value;
+            RoleName = node.Attribute("Name")?.Value;
+            DisplayName = AppX.ExtractDisplayName(node.Attribute("Description")?.Value);
             ObjectKey = obj.Key;
-            DisplayName = role.DisplayName;
-            ImportService.Db.Add((AppRoleDefinition)this, false);
+            ImportService.Db.Add((AppRoleDefinition)this, true);
         }
     }
 }

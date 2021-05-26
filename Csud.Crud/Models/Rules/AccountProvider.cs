@@ -6,6 +6,8 @@ namespace Csud.Crud.Models.Rules
 {
     public class AccountProvider : Base
     {
+        protected override string QueueName => "AccountProvider";
+
         [Required]
         public string Type { get; set; }
     }

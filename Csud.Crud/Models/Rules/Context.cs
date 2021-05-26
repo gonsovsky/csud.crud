@@ -23,6 +23,7 @@ namespace Csud.Crud.Models.Rules
     [ContextValidation]
     public class Context: Base, INameable
     {
+
         public string ContextType { get; set; }
         public bool Temporary { get; set; }
         public int HashCode { get; set; }
@@ -33,5 +34,6 @@ namespace Csud.Crud.Models.Rules
         public string Name { get; set; }
         public string Description { get; set; }
         public string DisplayName { get; set; }
+        protected override string QueueName => "Context";
     }
 }

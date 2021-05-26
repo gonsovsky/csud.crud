@@ -13,5 +13,7 @@ namespace Csud.Crud.Models.App
         public string OperationName { get; set; }
 
         public string DisplayName { get; set; }
+
+        protected override string QueueName => nameof(AppOperation);
     }
 }

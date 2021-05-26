@@ -8095,11 +8095,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj",
+      "projectUniqueName": "C:\\@job\\SoftC\\Csud.Crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj",
       "projectName": "Csud.Crud.RestApi",
-      "projectPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj",
+      "projectPath": "C:\\@job\\SoftC\\Csud.Crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.RestApi\\obj\\",
+      "outputPath": "C:\\@job\\SoftC\\Csud.Crud\\Csud.Crud.RestApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -8119,8 +8119,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj": {
-              "projectPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj"
+            "C:\\@job\\SoftC\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {
+              "projectPath": "C:\\@job\\SoftC\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj"
             }
           }
         }

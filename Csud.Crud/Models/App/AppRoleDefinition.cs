@@ -5,5 +5,7 @@
         public int ObjectKey { get; set; }
         public string RoleName { get; set; }
         public string DisplayName { get; set; }
+
+        protected override string QueueName => nameof(AppRoleDefinition);
     }
 }

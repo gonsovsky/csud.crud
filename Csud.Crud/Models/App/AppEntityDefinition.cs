@@ -7,5 +7,7 @@
         public int ObjectKey { get; set; }
 
         public string EntityName { get; set; }
+
+        protected override string QueueName => nameof(AppEntityDefinition);
     }
 }

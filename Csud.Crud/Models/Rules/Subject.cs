@@ -41,6 +41,7 @@ namespace Csud.Crud.Models.Rules
     [SubjectValidation]
     public class Subject: Base, INameable
     {
+        protected override string QueueName => "Subject";
         public string SubjectType { get; set; } = Const.Subject.Account;
         public int ContextKey { get; set; }
 

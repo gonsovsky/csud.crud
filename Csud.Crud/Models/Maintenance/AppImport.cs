@@ -4,6 +4,7 @@ namespace Csud.Crud.Models.Maintenance
 {
     public class AppImport: Base
     {
+        protected override string QueueName => "AppImport";
         public DateTime Submitted { get; set; }
 
         public DateTime Accomplished { get; set; }
