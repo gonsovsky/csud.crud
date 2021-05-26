@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {}
+    "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj": {}
   },
   "projects": {
-    "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {
+    "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj",
+        "projectUniqueName": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj",
         "projectName": "Csud.Crud",
-        "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj",
+        "projectPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\obj\\",
+        "outputPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

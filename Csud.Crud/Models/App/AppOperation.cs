@@ -1,19 +1,17 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Models.App
 {
     public class AppOperation: AppBase
     {
+        public override int Key { get; set; }
+
         public int DistribKey { get; set; }
 
         public string OperationName { get; set; }
 
-        public int OperationKey { get; set; }
-
-        public override int UseKey
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
+        public string DisplayName { get; set; }
     }
 }

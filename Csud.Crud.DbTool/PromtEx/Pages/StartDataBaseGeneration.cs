@@ -16,7 +16,7 @@ namespace Csud.Crud.DbTool.PromtEx.Pages
 
             Output.WriteLine(ConsoleColor.Green,"Working...");
 
-            Program.BeginGeneration();
+            Program.Generate();
 
             Input.ReadString("Press [Enter] to navigate home");
             ConsoleProgram.NavigateHome();

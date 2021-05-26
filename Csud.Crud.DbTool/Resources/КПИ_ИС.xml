@@ -1,0 +1,530 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AzAdminManager MajorVersion="1" MinorVersion="0" Description="Ролевая матрица инфраструктурной подсистемы КПИ" Guid="5f513018-f40f-4da1-814f-456cd30cfa2d" ApplicationData="">
+  <AzApplication Guid="73de57e7-9f7d-4277-846f-65fed9eff074" Name="CSC" Description="DisplayName=Компоненты прикладной инфраструктуры (КПИ);AppVersion=6.1.0.6" ApplicationData="" ApplicationVersion="">
+    <AzTask Guid="161e4e52-7c21-4f4d-9029-68ac77540613" Name="ApplicationUserRole" Description="DisplayName=Пользователь системы;Context=0;Rule=2;&lt;&lt;Роль предоставляет право пользователю на доступ к системе посредством ЕКП. Данная роль включает в себя базовый набор прав, предоставляемых всем пользователям системы.&gt;&gt;" RoleDefinition="True" ApplicationData="">
+      <TaskLink>b04e9f3e-7cab-45a9-bec3-1e6816b44571</TaskLink>
+      <TaskLink>72b5fcbf-c58e-4d1f-8dac-9bfb7fcfda71</TaskLink>
+    </AzTask>
+    <AzTask Guid="d576ca18-5298-423a-a0e6-07635b6adf63" Name="ManageConfigurationRole" Description="DisplayName=Оператор управления конфигурацией приложений;Context=0;&lt;&lt;Роль предоставляет доступ к функциям по настройке конфигурационных параметров программного обеспечения системы.&gt;&gt;" RoleDefinition="True" ApplicationData="">
+      <TaskLink>5a690620-ead8-4fa8-a7d9-dc03d0c73673</TaskLink>
+      <TaskLink>67fd324d-3eb5-4006-9ac7-db5bc1cd00c1</TaskLink>
+      <TaskLink>80581245-c95a-4325-beba-a59ed93767ce</TaskLink>
+      <TaskLink>f0e2c5ba-a966-4fbb-bb39-d2e5a6baef1b</TaskLink>
+    </AzTask>
+    <AzTask Guid="1580ca56-7f91-465f-af2d-76c9f0704db3" Name="BPM_NotificationsDispatchTask" Description="Рассылка уведомлений" BizRuleImportedPath="">
+      <OperationLink>edcb910b-f83d-4a07-964d-15ad7eb0efb0</OperationLink>
+    </AzTask>
+    <AzOperation Guid="edcb910b-f83d-4a07-964d-15ad7eb0efb0" Name="BPM_NotificationsDispatch" Description="Отправка уведомления">
+      <OperationID>3</OperationID>
+    </AzOperation>
+    <AzOperation Guid="4160b895-84cd-4267-a900-13a840b4fba4" Name="BPM_NotificationsGetting" Description="Получение уведомлений">
+      <OperationID>4</OperationID>
+    </AzOperation>
+    <AzOperation Guid="83b84720-9f5f-4fa3-9dc9-987780254ea5" Name="CFG_CreateNewConfigVersion" Description="Импорт новой версии конфигурационных данных">
+      <OperationID>5</OperationID>
+    </AzOperation>
+    <AzOperation Guid="f9ed5098-80a3-49b0-8ffb-d1314cd9e3f5" Name="CFG_CreateNewSettingsVersion" Description="Создание новой версии конфигурационных настроек">
+      <OperationID>6</OperationID>
+    </AzOperation>
+    <AzOperation Guid="07b125f4-ca36-43c5-9955-be464492cb82" Name="CFG_EditChangeset" Description="Редактирование конфигурационных настроек">
+      <OperationID>7</OperationID>
+    </AzOperation>
+    <AzOperation Guid="f8f9c573-581b-40f4-b2ed-e68417b59e20" Name="CFG_ViewChangeset" Description="Просмотр конфигурационных настроек">
+      <OperationID>8</OperationID>
+    </AzOperation>
+    <AzOperation Guid="3be6e1ad-3cb8-4631-a105-e8b9e519cbd8" Name="CFG_ReadConfiguration" Description="Получение конфигурационных данных">
+      <OperationID>1</OperationID>
+    </AzOperation>
+    <AzTask Guid="67fd324d-3eb5-4006-9ac7-db5bc1cd00c1" Name="CFG_ViewConfigurationSettingsTask" Description="Просмотр конфигурации приложений" BizRuleImportedPath="">
+      <OperationLink>f8f9c573-581b-40f4-b2ed-e68417b59e20</OperationLink>
+      <OperationLink>020ca188-e035-4992-8c66-832b678a11a6</OperationLink>
+    </AzTask>
+    <AzTask Guid="5a690620-ead8-4fa8-a7d9-dc03d0c73673" Name="CFG_EditConfigurationSettingsTask" Description="Редактирование конфигурации приложений" BizRuleImportedPath="">
+      <OperationLink>07b125f4-ca36-43c5-9955-be464492cb82</OperationLink>
+      <OperationLink>83b84720-9f5f-4fa3-9dc9-987780254ea5</OperationLink>
+      <OperationLink>f8f9c573-581b-40f4-b2ed-e68417b59e20</OperationLink>
+      <OperationLink>f9ed5098-80a3-49b0-8ffb-d1314cd9e3f5</OperationLink>
+      <OperationLink>020ca188-e035-4992-8c66-832b678a11a6</OperationLink>
+      <OperationLink>39ef7c20-a69d-4788-9ad9-389e22f2014a</OperationLink>
+      <OperationLink>7e5ae8d3-1748-426a-87c4-631330571b75</OperationLink>
+      <OperationLink>97b8341f-86c0-4f50-a582-84b9bcbb0e1c</OperationLink>
+    </AzTask>
+    <AzTask Guid="b04e9f3e-7cab-45a9-bec3-1e6816b44571" Name="_CommonUserTask" Description="Общесистемные действия пользователей" BizRuleImportedPath="">
+      <OperationLink>3be6e1ad-3cb8-4631-a105-e8b9e519cbd8</OperationLink>
+      <OperationLink>3bbe0505-3021-43e7-815c-7907e78e95c3</OperationLink>
+      <OperationLink>cdc3559d-4b0e-4b86-9b01-10d62e6f9294</OperationLink>
+      <OperationLink>4160b895-84cd-4267-a900-13a840b4fba4</OperationLink>
+      <OperationLink>7b14cbd8-de75-4d78-ba00-ccdbadcfdd24</OperationLink>
+      <OperationLink>e5430ef6-4dc4-4024-a3bd-35a669cccf44</OperationLink>
+      <OperationLink>f59fb701-9025-474d-af67-6fce19eecc3e</OperationLink>
+      <OperationLink>cebb78d5-82b0-4de4-be52-47d98daca3c7</OperationLink>
+    </AzTask>
+    <AzOperation Guid="97b8341f-86c0-4f50-a582-84b9bcbb0e1c" Name="CFG_CreateNewConfigVersion_Action" Description="Импорт новой версии конфигурационных данных (action)">
+      <OperationID>2</OperationID>
+    </AzOperation>
+    <AzOperation Guid="39ef7c20-a69d-4788-9ad9-389e22f2014a" Name="CFG_CreateNewSettingsVersion_Action" Description="Создание новой версии конфигурационных настроек (action)">
+      <OperationID>9</OperationID>
+    </AzOperation>
+    <AzOperation Guid="7e5ae8d3-1748-426a-87c4-631330571b75" Name="CFG_EditChangeset_Action" Description="Редактирование конфигурационных настроек (action)">
+      <OperationID>11</OperationID>
+    </AzOperation>
+    <AzOperation Guid="020ca188-e035-4992-8c66-832b678a11a6" Name="CFG_ViewChangeset_Action" Description="Просмотр конфигурационных настроек (action)">
+      <OperationID>12</OperationID>
+    </AzOperation>
+    <AzOperation Guid="b1e2c106-ad0d-41ff-9faa-e871da0c54db" Name="MT_EditMixedTreeMetadata" Description="Настройка смешанного дерева пользовательских задач">
+      <OperationID>16</OperationID>
+    </AzOperation>
+    <AzOperation Guid="3bbe0505-3021-43e7-815c-7907e78e95c3" Name="MT_ReadMixedTreeMetadata" Description="Получение метаданных смешанного дерева">
+      <OperationID>17</OperationID>
+    </AzOperation>
+    <AzTask Guid="ded76d18-39cf-4140-8dcd-c0eb1a4aee02" Name="MT_EditMixedTreeMetadataTask" Description="Настройка смешанного дерева пользовательских задач" BizRuleImportedPath="">
+      <OperationLink>b1e2c106-ad0d-41ff-9faa-e871da0c54db</OperationLink>
+    </AzTask>
+    <AzTask Guid="6edca926-64a2-4ab7-aa16-932ee69e97f1" Name="MT_ReadMixedTreeMetadataTask" Description="Получение метаднных смешанного дерева пользовательских задач" BizRuleImportedPath="">
+      <OperationLink>3bbe0505-3021-43e7-815c-7907e78e95c3</OperationLink>
+    </AzTask>
+    <AzTask Guid="3d458e6d-0390-4f2c-9eea-5ce1f8f32445" Name="MixedTreeMetadataEditorRole" Description="DisplayName=Оператор настройки смешанного дерева пользовательских задач;Context=0;&lt;&lt;Роль предоставляет доступ к функциям настройки в рамках ЕКП специализированного представления дерева пользовательских задач. Данное представление называется смешанным, т.к. позволяет сгруппировать в нем произвольным образом 
+
+пользовательские задачи различных подсистем.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>ded76d18-39cf-4140-8dcd-c0eb1a4aee02</TaskLink>
+    </AzTask>
+    <AzOperation Guid="cdc3559d-4b0e-4b86-9b01-10d62e6f9294" Name="SL_SecurityLoggerUser" Description="Логирование сообщений о санкционированных действиях пользователя.">
+      <OperationID>18</OperationID>
+    </AzOperation>
+    <AzOperation Guid="f59fb701-9025-474d-af67-6fce19eecc3e" Name="PF_EnqueueModel" Description="Создание модели в инфраструктуре исполнения БП">
+      <OperationID>19</OperationID>
+    </AzOperation>
+    <AzOperation Guid="e5430ef6-4dc4-4024-a3bd-35a669cccf44" Name="PF_EnqueueOperation" Description="Создание операции в инфраструктуре исполнения БП">
+      <OperationID>20</OperationID>
+    </AzOperation>
+    <AzOperation Guid="7b14cbd8-de75-4d78-ba00-ccdbadcfdd24" Name="PF_GetUserOperationList" Description="Получение списка пользовательских заданий">
+      <OperationID>22</OperationID>
+    </AzOperation>
+    <AzOperation Guid="3fa58cd0-d8d8-4912-997a-1e6c2480a227" Name="PF_Monitoring_ViewHost" Description="Просмотр списка хостов в мониторинге БП">
+      <OperationID>23</OperationID>
+    </AzOperation>
+    <AzOperation Guid="0fc9e50e-8f09-4a79-b44f-54d7e07369ce" Name="PF_Monitoring_ViewWorkProcess" Description="Просмотр списка процессов в мониторинге БП">
+      <OperationID>24</OperationID>
+    </AzOperation>
+    <AzOperation Guid="362d1731-c883-4433-87be-f4acd17c5aa1" Name="PF_Monitoring_ViewOperation" Description="Просмотр списка операций в мониторинге БП">
+      <OperationID>25</OperationID>
+    </AzOperation>
+    <AzOperation Guid="be81020b-7b8f-464b-924d-12d669dee474" Name="PF_Monitoring_ManageHost" Description="Управление хостами в мониторинге БП">
+      <OperationID>26</OperationID>
+    </AzOperation>
+    <AzTask Guid="39af3dcb-8a96-4ff9-8116-26ad638280d0" Name="_SystemTask" Description="Cистемные действия" BizRuleImportedPath="">
+      <OperationLink>e5430ef6-4dc4-4024-a3bd-35a669cccf44</OperationLink>
+      <OperationLink>f59fb701-9025-474d-af67-6fce19eecc3e</OperationLink>
+      <OperationLink>3be6e1ad-3cb8-4631-a105-e8b9e519cbd8</OperationLink>
+      <OperationLink>cdc3559d-4b0e-4b86-9b01-10d62e6f9294</OperationLink>
+      <OperationLink>edcb910b-f83d-4a07-964d-15ad7eb0efb0</OperationLink>
+    </AzTask>
+    <AzTask Guid="607b5051-a6fb-491a-8e2b-49076a94a02a" Name="PF_AdmMonitoringTask" Description="Административный мониторинг бизнес-процессов" BizRuleImportedPath="">
+      <OperationLink>0fc9e50e-8f09-4a79-b44f-54d7e07369ce</OperationLink>
+      <OperationLink>362d1731-c883-4433-87be-f4acd17c5aa1</OperationLink>
+      <OperationLink>3fa58cd0-d8d8-4912-997a-1e6c2480a227</OperationLink>
+      <OperationLink>6ebc5f42-8af4-45a4-b9e4-a000aac2c354</OperationLink>
+      <OperationLink>4f9ff7b2-11db-4e0a-a8b0-74f113c33f94</OperationLink>
+      <OperationLink>60a85c56-88a4-421c-8913-2f5a99b218fd</OperationLink>
+      <OperationLink>dd05d808-feb3-40a8-a001-19df64d98f84</OperationLink>
+      <OperationLink>04445b4a-715c-4d22-9297-7716b86f237b</OperationLink>
+      <OperationLink>108f306f-36f6-4ded-b806-25503f6c7833</OperationLink>
+      <OperationLink>1b3bd038-013c-49f4-8693-fa9ca80ccd28</OperationLink>
+      <OperationLink>1cc02ed6-b3bd-4db1-b4b3-01e731dfae15</OperationLink>
+      <OperationLink>273e29d1-2171-4731-a7fc-8b73222dbba6</OperationLink>
+      <OperationLink>312e8ece-ad2b-4211-b5ec-d39da1005540</OperationLink>
+      <OperationLink>33b4c9c3-884c-4777-9a2f-864599afabd2</OperationLink>
+      <OperationLink>3942b6c4-a831-4814-a117-55e743f6219d</OperationLink>
+      <OperationLink>3e680a4d-7ac7-41b0-b342-9d594381ecf9</OperationLink>
+      <OperationLink>40d2fc7d-0610-4051-8ea6-282d5f6d9a39</OperationLink>
+      <OperationLink>42308656-a334-4615-a741-a61b6b56ee0d</OperationLink>
+      <OperationLink>4291f395-e938-4ebf-8038-71a24c41c818</OperationLink>
+      <OperationLink>45e4a0b3-3211-4ec3-b70a-75742290b08c</OperationLink>
+      <OperationLink>4600a554-a187-46a7-a444-e17a7fc7e2f7</OperationLink>
+      <OperationLink>4c47d727-6f1d-4d32-b5bd-907f9b643709</OperationLink>
+      <OperationLink>5061a3b2-1230-4ba8-944f-2200129a909e</OperationLink>
+      <OperationLink>5d06c3d6-0464-4716-a84b-7038d988e1dc</OperationLink>
+      <OperationLink>60340fb8-cd84-4d9a-9312-29a4cdfa575f</OperationLink>
+      <OperationLink>63b0af6b-578b-403e-b86d-98f350f3d1f9</OperationLink>
+      <OperationLink>6a5885f6-206f-4ed6-8ab5-c15616d0783d</OperationLink>
+      <OperationLink>84a21374-26df-42a8-aa38-6ec427e08b7b</OperationLink>
+      <OperationLink>8b92df13-1db9-4e64-ba33-365de600e5cb</OperationLink>
+      <OperationLink>8ff1704d-e82f-4b0d-ad7f-e5f36ecb9ce9</OperationLink>
+      <OperationLink>939d18a8-23f8-4532-9d9d-4c80a5cd8d4d</OperationLink>
+      <OperationLink>a6e940ee-33e7-491b-bcd2-58d7212574c5</OperationLink>
+      <OperationLink>a9167778-eb77-4804-bbce-f58a6b4f4c44</OperationLink>
+      <OperationLink>ad74e47d-7556-4911-aa5b-848fc91786db</OperationLink>
+      <OperationLink>b340f948-bb0f-4c01-bd21-c5dc4cffb1ad</OperationLink>
+      <OperationLink>b5d1eb6e-6962-4025-9da7-ff2efb2bee63</OperationLink>
+      <OperationLink>bc91d381-20f5-4d6c-8717-f04baa900866</OperationLink>
+      <OperationLink>c2c6986b-fe15-4fff-a59d-0dd4f3f118ef</OperationLink>
+      <OperationLink>dba28a77-211d-4bae-b7da-d33706cac0ff</OperationLink>
+      <OperationLink>e642bc55-4a38-4935-a81b-da4023395a86</OperationLink>
+      <OperationLink>e6447e18-95c0-4ea2-a1e0-fbc952aaa2ce</OperationLink>
+      <OperationLink>f584d906-c39a-4e6d-94df-920b03e9f492</OperationLink>
+      <OperationLink>f87be672-2e12-4f19-9b94-71b7a04f3426</OperationLink>
+      <OperationLink>f8f62c2d-be7e-4e14-b939-74a5f02b99eb</OperationLink>
+      <OperationLink>fd519f63-868c-4262-b805-b685c50f852b</OperationLink>
+    </AzTask>
+    <AzTask Guid="ae79f09f-877e-4020-ac0c-14db634d62a3" Name="PF_AdmManagementTask" Description="Административное управление бизнес-процессами" BizRuleImportedPath="">
+      <OperationLink>be81020b-7b8f-464b-924d-12d669dee474</OperationLink>
+      <OperationLink>cce55027-399b-46dd-9656-bad7e4c6a690</OperationLink>
+      <OperationLink>10e25082-b700-47c5-a013-0aebfd0d34f3</OperationLink>
+      <OperationLink>3e9ea94e-b49c-4097-b8bb-93d7c3cdc54a</OperationLink>
+      <OperationLink>86144edc-5812-4e5b-9b5c-ca24c97b6e35</OperationLink>
+      <OperationLink>97d4d900-5a10-48ec-a963-252d12353ac9</OperationLink>
+      <OperationLink>b1f10bee-0991-413d-a01c-984869a9fe1d</OperationLink>
+      <OperationLink>c9a3d293-4fa7-4803-a9f0-a169aae581a6</OperationLink>
+      <OperationLink>d1ede7ae-aa8b-4733-a222-d14107a2e42c</OperationLink>
+      <OperationLink>f5029f5d-c43d-4439-abf4-d64b62523962</OperationLink>
+    </AzTask>
+    <AzTask Guid="8f7bb600-dee3-4eda-beae-4214fee4635b" Name="SystemRole" Description="DisplayName=Служебная роль для системных учетных записей;Context=0;Rule=1;&lt;&lt;Роль предоставляет права на выполнение функций, доступных серверам подсистемы.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>39af3dcb-8a96-4ff9-8116-26ad638280d0</TaskLink>
+    </AzTask>
+    <AzTask Guid="d0d83ba6-a107-4d90-bdec-49bce8ff7edb" Name="ProcessFlowAdministratorRole" Description="DisplayName=Администратор инфраструктуры исполнения бизнес-процессов;Context=0;&lt;&lt;Роль предоставляет полные права доступа к функциям мониторинга и управления элементами инфраструктуры исполнения бизнес-процессов: хосты, автоматические задания, рабочие процессы, операции, метаданные бизнес-процессов. Эта роль 
+
+неструктурная и создана для назначения администраторам ЦОД.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>607b5051-a6fb-491a-8e2b-49076a94a02a</TaskLink>
+      <TaskLink>ae79f09f-877e-4020-ac0c-14db634d62a3</TaskLink>
+    </AzTask>
+    <AzOperation Guid="6ebc5f42-8af4-45a4-b9e4-a000aac2c354" Name="PF_Monitoring_ViewJob" Description="Просмотр списка автоматических заданий в мониторинге БП">
+      <OperationID>29</OperationID>
+    </AzOperation>
+    <AzOperation Guid="60a85c56-88a4-421c-8913-2f5a99b218fd" Name="PF_Monitoring_ViewHealer" Description="Просмотр списка лекарей в мониторинге БП">
+      <OperationID>30</OperationID>
+    </AzOperation>
+    <AzOperation Guid="4f9ff7b2-11db-4e0a-a8b0-74f113c33f94" Name="PF_Monitoring_ViewModel" Description="Просмотр списка моделей в мониторинге БП">
+      <OperationID>31</OperationID>
+    </AzOperation>
+    <AzOperation Guid="cce55027-399b-46dd-9656-bad7e4c6a690" Name="PF_Monitoring_ManageModel" Description="Управление моделями в мониторинге БП">
+      <OperationID>32</OperationID>
+    </AzOperation>
+    <AzOperation Guid="dd05d808-feb3-40a8-a001-19df64d98f84" Name="PF_Monitoring_ViewRegulation" Description="Просмотр списка регламентов в мониторинге БП">
+      <OperationID>33</OperationID>
+    </AzOperation>
+    <AzOperation Guid="039835be-db86-44cd-bc1f-73dd47bccacf" Name="PF_Monitoring_ViewJobProfile" Description="Просмотр списка профилей автоматических заданий в мониторинге БП">
+      <OperationID>35</OperationID>
+    </AzOperation>
+    <AzOperation Guid="ee8e0148-3904-4252-8d81-4159f032da09" Name="PF_RunChangeVersionUtil" Description="Запуск утилиты смены версий из состава инфраструктуры исполнения БП">
+      <OperationID>36</OperationID>
+    </AzOperation>
+    <AzTask Guid="f5fe7287-7a6e-4067-83de-4e4f7c2f69f7" Name="PF_SystemManagementTask" Description="Системное администрирование инфраструктуры исполнения БП" BizRuleImportedPath="">
+      <OperationLink>ee8e0148-3904-4252-8d81-4159f032da09</OperationLink>
+    </AzTask>
+    <AzTask Guid="2b6d2451-7a8e-460c-b4f2-ce3ca61fa5ff" Name="ProcessFlowSystemAdministratorRole" Description="DisplayName=Системный администратор инфраструктуры исполнения бизнес-процессов;Context=0;&lt;&lt;Роль предоставляет доступ к функциям автоматизации процедуры обновления версии системы на контурах эксплуатации.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>f5fe7287-7a6e-4067-83de-4e4f7c2f69f7</TaskLink>
+    </AzTask>
+    <AzOperation Guid="10e25082-b700-47c5-a013-0aebfd0d34f3" Name="PF_Monitoring_ManageRegulation" Description="Управление регламентами в мониторинге БП">
+      <OperationID>37</OperationID>
+    </AzOperation>
+    <AzTask Guid="3834799c-7eb4-4ff3-bc94-b0ece7343fca" Name="ProcessFlowMonitoringRole" Description="DisplayName=Оператор мониторинга инфраструктуры исполнения бизнес-процессов;Context=0;&lt;&lt;Роль предоставляет полные права доступа к функциям мониторинга элементов инфраструктуры исполнения бизнес-процессов: хосты, автоматические задания, рабочие процессы, операции, метаданные бизнес-процессов. Эта роль неструктурная и 
+
+создана для назначения операторам ЕЦУ.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>607b5051-a6fb-491a-8e2b-49076a94a02a</TaskLink>
+    </AzTask>
+    <AzTask Guid="96878b27-ceee-438e-941f-9c24795d5844" Name="PF_TechnologicalMonitoringTask" Description="Технологический мониторинг бизнес-процессов" BizRuleImportedPath="">
+      <OperationLink>0fc9e50e-8f09-4a79-b44f-54d7e07369ce</OperationLink>
+      <OperationLink>362d1731-c883-4433-87be-f4acd17c5aa1</OperationLink>
+      <OperationLink>4f9ff7b2-11db-4e0a-a8b0-74f113c33f94</OperationLink>
+      <OperationLink>6ebc5f42-8af4-45a4-b9e4-a000aac2c354</OperationLink>
+      <OperationLink>dd05d808-feb3-40a8-a001-19df64d98f84</OperationLink>
+      <OperationLink>039835be-db86-44cd-bc1f-73dd47bccacf</OperationLink>
+      <OperationLink>04445b4a-715c-4d22-9297-7716b86f237b</OperationLink>
+      <OperationLink>1b3bd038-013c-49f4-8693-fa9ca80ccd28</OperationLink>
+      <OperationLink>1cc02ed6-b3bd-4db1-b4b3-01e731dfae15</OperationLink>
+      <OperationLink>273e29d1-2171-4731-a7fc-8b73222dbba6</OperationLink>
+      <OperationLink>312e8ece-ad2b-4211-b5ec-d39da1005540</OperationLink>
+      <OperationLink>33b4c9c3-884c-4777-9a2f-864599afabd2</OperationLink>
+      <OperationLink>3942b6c4-a831-4814-a117-55e743f6219d</OperationLink>
+      <OperationLink>3e680a4d-7ac7-41b0-b342-9d594381ecf9</OperationLink>
+      <OperationLink>40d2fc7d-0610-4051-8ea6-282d5f6d9a39</OperationLink>
+      <OperationLink>42308656-a334-4615-a741-a61b6b56ee0d</OperationLink>
+      <OperationLink>4291f395-e938-4ebf-8038-71a24c41c818</OperationLink>
+      <OperationLink>4600a554-a187-46a7-a444-e17a7fc7e2f7</OperationLink>
+      <OperationLink>4c47d727-6f1d-4d32-b5bd-907f9b643709</OperationLink>
+      <OperationLink>5061a3b2-1230-4ba8-944f-2200129a909e</OperationLink>
+      <OperationLink>5d06c3d6-0464-4716-a84b-7038d988e1dc</OperationLink>
+      <OperationLink>63b0af6b-578b-403e-b86d-98f350f3d1f9</OperationLink>
+      <OperationLink>6a5885f6-206f-4ed6-8ab5-c15616d0783d</OperationLink>
+      <OperationLink>8b92df13-1db9-4e64-ba33-365de600e5cb</OperationLink>
+      <OperationLink>8ff1704d-e82f-4b0d-ad7f-e5f36ecb9ce9</OperationLink>
+      <OperationLink>a6e940ee-33e7-491b-bcd2-58d7212574c5</OperationLink>
+      <OperationLink>ad74e47d-7556-4911-aa5b-848fc91786db</OperationLink>
+      <OperationLink>b340f948-bb0f-4c01-bd21-c5dc4cffb1ad</OperationLink>
+      <OperationLink>b5d1eb6e-6962-4025-9da7-ff2efb2bee63</OperationLink>
+      <OperationLink>c2c6986b-fe15-4fff-a59d-0dd4f3f118ef</OperationLink>
+      <OperationLink>dba28a77-211d-4bae-b7da-d33706cac0ff</OperationLink>
+      <OperationLink>e6447e18-95c0-4ea2-a1e0-fbc952aaa2ce</OperationLink>
+      <OperationLink>fd519f63-868c-4262-b805-b685c50f852b</OperationLink>
+    </AzTask>
+    <AzTask Guid="3b4d1462-8b30-4f1e-9802-598e7915ca3c" Name="ProcessFlowTechnologistRole" Description="DisplayName=Технолог инфраструктуры исполнения бизнес-процессов;Context=2;&lt;&lt;Роль предоставляет права доступа к функциям мониторинга и ограниченного управления отдельными элементами инфраструктуры исполнения бизнес-процессов: автоматические задания, рабочие процессы, операции, метаданные. Эта роль структурная и 
+
+создана для назначения технологам/администраторам подразделений налоговых органов.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>96878b27-ceee-438e-941f-9c24795d5844</TaskLink>
+      <TaskLink>b63a7390-06fa-4702-af40-389d45aa0a9d</TaskLink>
+    </AzTask>
+    <AzOperation Guid="108f306f-36f6-4ded-b806-25503f6c7833" Name="PF_Monitoring_ViewHost_Action" Description="Просмотр списка хостов в мониторинге БП (action)">
+      <OperationID>38</OperationID>
+    </AzOperation>
+    <AzOperation Guid="6a5885f6-206f-4ed6-8ab5-c15616d0783d" Name="PF_Monitoring_ViewWorkProcess_Action" Description="Просмотр списка процессов в мониторинге БП (action)">
+      <OperationID>39</OperationID>
+    </AzOperation>
+    <AzOperation Guid="4c47d727-6f1d-4d32-b5bd-907f9b643709" Name="PF_Monitoring_ViewJob_Action" Description="Просмотр списка автоматических заданий в мониторинге БП (action)">
+      <OperationID>40</OperationID>
+    </AzOperation>
+    <AzOperation Guid="f584d906-c39a-4e6d-94df-920b03e9f492" Name="PF_Monitoring_ViewHealer_Action" Description="Просмотр списка лекарей в мониторинге БП (action)">
+      <OperationID>41</OperationID>
+    </AzOperation>
+    <AzOperation Guid="3942b6c4-a831-4814-a117-55e743f6219d" Name="PF_Monitoring_ViewModel_Action" Description="Просмотр списка моделей в мониторинге БП (action)">
+      <OperationID>42</OperationID>
+    </AzOperation>
+    <AzOperation Guid="312e8ece-ad2b-4211-b5ec-d39da1005540" Name="PF_Monitoring_ViewDomain_Action" Description="Просмотр списка доменов в мониторинге БП (action)">
+      <OperationID>43</OperationID>
+    </AzOperation>
+    <AzOperation Guid="a6e940ee-33e7-491b-bcd2-58d7212574c5" Name="PF_Monitoring_ViewOpMetadata_Action" Description="Просмотр списка метаданных операций в мониторинге БП (action)">
+      <OperationID>44</OperationID>
+    </AzOperation>
+    <AzOperation Guid="42308656-a334-4615-a741-a61b6b56ee0d" Name="PF_Monitoring_ViewRegulation_Action" Description="Просмотр списка регламентов в мониторинге БП (action)">
+      <OperationID>45</OperationID>
+    </AzOperation>
+    <AzOperation Guid="4600a554-a187-46a7-a444-e17a7fc7e2f7" Name="PF_Monitoring_ViewJobProfile_Action" Description="Просмотр списка профилей автоматических заданий в мониторинге БП (action)">
+      <OperationID>46</OperationID>
+    </AzOperation>
+    <AzOperation Guid="c2c6986b-fe15-4fff-a59d-0dd4f3f118ef" Name="PF_Monitoring_ViewDomain" Description="Просмотр списка доменов в мониторинге БП">
+      <OperationID>47</OperationID>
+    </AzOperation>
+    <AzOperation Guid="dba28a77-211d-4bae-b7da-d33706cac0ff" Name="PF_Monitoring_ViewOpMetadata" Description="Просмотр списка метаданных операций в мониторинге БП">
+      <OperationID>48</OperationID>
+    </AzOperation>
+    <AzOperation Guid="b340f948-bb0f-4c01-bd21-c5dc4cffb1ad" Name="PF_Monitoring_ViewDomain_Card" Description="Просмотр карточки домена в мониторинге БП">
+      <OperationID>49</OperationID>
+    </AzOperation>
+    <AzOperation Guid="939d18a8-23f8-4532-9d9d-4c80a5cd8d4d" Name="PF_Monitoring_ViewHealer_Card" Description="Просмотр карточки лекаря в мониторинге БП">
+      <OperationID>50</OperationID>
+    </AzOperation>
+    <AzOperation Guid="f8f62c2d-be7e-4e14-b939-74a5f02b99eb" Name="PF_Monitoring_ViewHost_Card" Description="Просмотр карточки хоста в мониторинге БП">
+      <OperationID>51</OperationID>
+    </AzOperation>
+    <AzOperation Guid="60340fb8-cd84-4d9a-9312-29a4cdfa575f" Name="PF_Monitoring_ViewHost_Sessions" Description="Просмотр сессий для хоста в мониторинге БП">
+      <OperationID>52</OperationID>
+    </AzOperation>
+    <AzOperation Guid="84a21374-26df-42a8-aa38-6ec427e08b7b" Name="PF_Monitoring_ViewHost_Operations" Description="Просмотр операций для хоста в мониторинге БП">
+      <OperationID>53</OperationID>
+    </AzOperation>
+    <AzOperation Guid="45e4a0b3-3211-4ec3-b70a-75742290b08c" Name="PF_Monitoring_ViewHost_Jobs" Description="Просмотр автоматических заданий для хоста в мониторинге БП">
+      <OperationID>54</OperationID>
+    </AzOperation>
+    <AzOperation Guid="f87be672-2e12-4f19-9b94-71b7a04f3426" Name="PF_Monitoring_ViewHost_Healers" Description="Просмотр лекарей для хоста в мониторинге БП">
+      <OperationID>55</OperationID>
+    </AzOperation>
+    <AzOperation Guid="bc91d381-20f5-4d6c-8717-f04baa900866" Name="PF_Monitoring_ViewHost_Regulations" Description="Просмотр регламентов для хоста в мониторинге БП">
+      <OperationID>56</OperationID>
+    </AzOperation>
+    <AzOperation Guid="1cc02ed6-b3bd-4db1-b4b3-01e731dfae15" Name="PF_Monitoring_ViewJob_Card" Description="Просмотр карточки автоматического задания в мониторинге БП">
+      <OperationID>57</OperationID>
+    </AzOperation>
+    <AzOperation Guid="04445b4a-715c-4d22-9297-7716b86f237b" Name="PF_Monitoring_ViewJob_WProcesses" Description="Просмотр процессов для автоматического задания в мониторинге БП">
+      <OperationID>58</OperationID>
+    </AzOperation>
+    <AzOperation Guid="5d06c3d6-0464-4716-a84b-7038d988e1dc" Name="PF_Monitoring_ViewModel_Card" Description="Просмотр карточки модели в мониторинге БП">
+      <OperationID>59</OperationID>
+    </AzOperation>
+    <AzOperation Guid="ad74e47d-7556-4911-aa5b-848fc91786db" Name="PF_Monitoring_ViewModel_OperStat" Description="Просмотр операционной статистики для модели в мониторинге БП">
+      <OperationID>60</OperationID>
+    </AzOperation>
+    <AzOperation Guid="b5d1eb6e-6962-4025-9da7-ff2efb2bee63" Name="PF_Monitoring_ViewOpMetadata_Card" Description="Просмотр карточки метаданных операций в мониторинге БП">
+      <OperationID>61</OperationID>
+    </AzOperation>
+    <AzOperation Guid="8b92df13-1db9-4e64-ba33-365de600e5cb" Name="PF_Monitoring_ViewOperation_Card" Description="Просмотр карточки операции в мониторинге БП">
+      <OperationID>62</OperationID>
+    </AzOperation>
+    <AzOperation Guid="1b3bd038-013c-49f4-8693-fa9ca80ccd28" Name="PF_Monitoring_ViewRegulation_Card" Description="Просмотр карточки регламента в мониторинге БП">
+      <OperationID>63</OperationID>
+    </AzOperation>
+    <AzOperation Guid="273e29d1-2171-4731-a7fc-8b73222dbba6" Name="PF_Monitoring_ViewRegulation_WProcesses" Description="Просмотр процессов для регламента в мониторинге БП">
+      <OperationID>64</OperationID>
+    </AzOperation>
+    <AzOperation Guid="e6447e18-95c0-4ea2-a1e0-fbc952aaa2ce" Name="PF_Monitoring_ViewWorkProcess_Card" Description="Просмотр карточки процесса в мониторинге БП">
+      <OperationID>65</OperationID>
+    </AzOperation>
+    <AzOperation Guid="8ff1704d-e82f-4b0d-ad7f-e5f36ecb9ce9" Name="PF_Monitoring_ViewWorkProcess_Operations" Description="Просмотр операций для процесса в мониторинге БП">
+      <OperationID>66</OperationID>
+    </AzOperation>
+    <AzOperation Guid="33b4c9c3-884c-4777-9a2f-864599afabd2" Name="PF_Monitoring_ViewWorkProcess_Jobs" Description="Просмотр автоматических заданий для процесса в мониторинге БП">
+      <OperationID>67</OperationID>
+    </AzOperation>
+    <AzOperation Guid="4291f395-e938-4ebf-8038-71a24c41c818" Name="PF_Monitoring_ViewWorkProcess_Regulations" Description="Просмотр регламентов для процесса в мониторинге БП">
+      <OperationID>68</OperationID>
+    </AzOperation>
+    <AzOperation Guid="e642bc55-4a38-4935-a81b-da4023395a86" Name="PF_Monitoring_ViewSession_Card" Description="Просмотр карточки сессии хоста в мониторинге БП">
+      <OperationID>69</OperationID>
+    </AzOperation>
+    <AzOperation Guid="5061a3b2-1230-4ba8-944f-2200129a909e" Name="PF_Monitoring_ViewObject_Log" Description="Просмотр журнала событий для заданного типа объекта в мониторинге БП">
+      <OperationID>70</OperationID>
+    </AzOperation>
+    <AzOperation Guid="63b0af6b-578b-403e-b86d-98f350f3d1f9" Name="PF_Monitoring_GetData" Description="Получение данных для мониторинга БП">
+      <OperationID>71</OperationID>
+    </AzOperation>
+    <AzOperation Guid="40d2fc7d-0610-4051-8ea6-282d5f6d9a39" Name="PF_Monitoring_ViewJobProfile_Card" Description="Просмотр карточки профиля автоматического задания в мониторинге БП">
+      <OperationID>72</OperationID>
+    </AzOperation>
+    <AzOperation Guid="fd519f63-868c-4262-b805-b685c50f852b" Name="PF_Monitoring_ViewJobProfile_Stat" Description="Просмотр статистики профиля автоматического задания в мониторинге БП">
+      <OperationID>73</OperationID>
+    </AzOperation>
+    <AzOperation Guid="3e680a4d-7ac7-41b0-b342-9d594381ecf9" Name="PF_Monitoring_ViewJobProfile_WProcesses" Description="Просмотр процессов для профиля автоматического задания в мониторинге БП">
+      <OperationID>74</OperationID>
+    </AzOperation>
+    <AzOperation Guid="a9167778-eb77-4804-bbce-f58a6b4f4c44" Name="PF_Monitoring_ViewAllJobProfile" Description="Просмотр списка всех профилей автоматических заданий в мониторинге БП">
+      <OperationID>75</OperationID>
+    </AzOperation>
+    <AzOperation Guid="97d4d900-5a10-48ec-a963-252d12353ac9" Name="PF_Monitoring_ManageDomain" Description="Управление доменами в мониторинге БП">
+      <OperationID>76</OperationID>
+    </AzOperation>
+    <AzOperation Guid="f5029f5d-c43d-4439-abf4-d64b62523962" Name="PF_Monitoring_PauseJob" Description="Приостановка автоматических заданий в мониторинге БП">
+      <OperationID>77</OperationID>
+    </AzOperation>
+    <AzOperation Guid="c9a3d293-4fa7-4803-a9f0-a169aae581a6" Name="PF_Monitoring_RestoreJob" Description="Восстановление автоматических заданий в мониторинге БП">
+      <OperationID>78</OperationID>
+    </AzOperation>
+    <AzOperation Guid="b1f10bee-0991-413d-a01c-984869a9fe1d" Name="PF_Monitoring_PauseWorkProcess" Description="Приостановка процессов в мониторинге БП">
+      <OperationID>79</OperationID>
+    </AzOperation>
+    <AzOperation Guid="3e9ea94e-b49c-4097-b8bb-93d7c3cdc54a" Name="PF_Monitoring_RestoreWorkProcess" Description="Восстановление процессов в мониторинге БП">
+      <OperationID>80</OperationID>
+    </AzOperation>
+    <AzOperation Guid="86144edc-5812-4e5b-9b5c-ca24c97b6e35" Name="PF_Monitoring_EditJobProfile" Description="Создание профилей автоматических заданий в мониторинге БП">
+      <OperationID>81</OperationID>
+    </AzOperation>
+    <AzOperation Guid="d1ede7ae-aa8b-4733-a222-d14107a2e42c" Name="PF_Monitoring_PauseJobProfile" Description="Приостановка профилей автоматических заданий в мониторинге БП">
+      <OperationID>82</OperationID>
+    </AzOperation>
+    <AzTask Guid="b63a7390-06fa-4702-af40-389d45aa0a9d" Name="PF_TechnologicalManagementTask" Description="Технологическое управление бизнес-процессами" BizRuleImportedPath="">
+      <OperationLink>10e25082-b700-47c5-a013-0aebfd0d34f3</OperationLink>
+      <OperationLink>3e9ea94e-b49c-4097-b8bb-93d7c3cdc54a</OperationLink>
+      <OperationLink>86144edc-5812-4e5b-9b5c-ca24c97b6e35</OperationLink>
+      <OperationLink>d1ede7ae-aa8b-4733-a222-d14107a2e42c</OperationLink>
+    </AzTask>
+    <AzTask Guid="72b5fcbf-c58e-4d1f-8dac-9bfb7fcfda71" Name="PF_UserMonitoringTask" Description="Пользовательский мониторинг бизнес-процессов" BizRuleImportedPath="">
+      <OperationLink>1b3bd038-013c-49f4-8693-fa9ca80ccd28</OperationLink>
+      <OperationLink>273e29d1-2171-4731-a7fc-8b73222dbba6</OperationLink>
+      <OperationLink>33b4c9c3-884c-4777-9a2f-864599afabd2</OperationLink>
+      <OperationLink>362d1731-c883-4433-87be-f4acd17c5aa1</OperationLink>
+      <OperationLink>4291f395-e938-4ebf-8038-71a24c41c818</OperationLink>
+      <OperationLink>5061a3b2-1230-4ba8-944f-2200129a909e</OperationLink>
+      <OperationLink>63b0af6b-578b-403e-b86d-98f350f3d1f9</OperationLink>
+      <OperationLink>8b92df13-1db9-4e64-ba33-365de600e5cb</OperationLink>
+      <OperationLink>8ff1704d-e82f-4b0d-ad7f-e5f36ecb9ce9</OperationLink>
+      <OperationLink>e6447e18-95c0-4ea2-a1e0-fbc952aaa2ce</OperationLink>
+    </AzTask>
+    <AzOperation Guid="cebb78d5-82b0-4de4-be52-47d98daca3c7" Name="PF_RegisterClientHost" Description="Регистрация клиентского хоста в инфраструктуре исполнения БП">
+      <OperationID>83</OperationID>
+    </AzOperation>
+    <AzOperation Guid="54dfa7f6-ddf9-4feb-b311-8da4b0747072" Name="PF_EnduranceTest_Activate" Description="Запуск сценария тестирования выносливости">
+      <OperationID>84</OperationID>
+    </AzOperation>
+    <AzTask Guid="c7fa7d58-6df6-45e1-a1b5-d69e1643f3cd" Name="CscDiagnosticsUserRole" Description="DisplayName=Оператор режимов встроенной диагностики КПИ;Context=0;Rule=1;&lt;&lt;Роль является служебной (скрытой) и создана для доступа к режимам встроенной диагностики КПИ.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <OperationLink>54dfa7f6-ddf9-4feb-b311-8da4b0747072</OperationLink>
+    </AzTask>
+    <AzOperation Guid="a43e176c-615a-45a9-982a-6bc6b1cda2ea" Name="NAV_LikePolicy_Enable" Description="Резрешены операторы сравнения Навигатора с использованием Like">
+      <OperationID>85</OperationID>
+    </AzOperation>
+    <AzOperation Guid="a3051dc7-d0bd-42b9-bd88-725974b21e11" Name="NAV_LikePolicy_WithWarning" Description="Резрешены с предупреждением операторы сравнения Навигатора с использованием Like">
+      <OperationID>86</OperationID>
+    </AzOperation>
+    <AzTask Guid="c3046731-8f14-415f-a68e-a0c13ed0cc57" Name="NAV_TrustedSearchTask" Description="Полнофункциональный поиск в Навигаторе" BizRuleImportedPath="">
+      <OperationLink>a43e176c-615a-45a9-982a-6bc6b1cda2ea</OperationLink>
+    </AzTask>
+    <AzTask Guid="6ffabdf7-5a93-40a7-b91c-f95ff39fd896" Name="NAV_LimitedSearchTask" Description="Ограниченный поиск в Навигаторе" BizRuleImportedPath="">
+      <OperationLink>a3051dc7-d0bd-42b9-bd88-725974b21e11</OperationLink>
+    </AzTask>
+    <AzTask Guid="c3aa32b6-733c-4f73-8a02-30b0dee0533a" Name="NavigatorFullTrustedUserRole" Description="DisplayName=Пользователь функций Навигатора с полными правами;Context=0;Rule=1;&lt;&lt;Роль является служебной (скрытой) и создана для регулирования прав доступа пользователей к поисковым функциям Навигатора. Роль предоставляет полные возможности поиска в Навигаторе без ограничений.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>c3046731-8f14-415f-a68e-a0c13ed0cc57</TaskLink>
+    </AzTask>
+    <AzTask Guid="bae2f98f-d1c7-49d4-941b-597a67355086" Name="NavigatorLimitedUserRole" Description="DisplayName=Пользователь функций Навигатора с ограниченными правами;Context=0;Rule=1;&lt;&lt;Роль является служебной (скрытой) и создана для регулирования прав доступа пользователей к поисковым функциям Навигатора. Роль предоставляет полные возможности поиска в Навигаторе, но при этом предупреждает пользователя о тяжести 
+
+предстоящего поиска.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>6ffabdf7-5a93-40a7-b91c-f95ff39fd896</TaskLink>
+    </AzTask>
+    <AzOperation Guid="ab7fb734-869c-4ca9-9321-a64a8d5a7d6e" Name="CFG_ManageBlobStorage" Description="Управление настройками персистентного хранилища">
+      <OperationID>87</OperationID>
+    </AzOperation>
+    <AzTask Guid="80581245-c95a-4325-beba-a59ed93767ce" Name="CFG_ManageBlobStorageTask" Description="Управление настройками персистентного хранилища" BizRuleImportedPath="">
+      <OperationLink>ab7fb734-869c-4ca9-9321-a64a8d5a7d6e</OperationLink>
+    </AzTask>
+    <AzTask Guid="f0e2c5ba-a966-4fbb-bb39-d2e5a6baef1b" Name="CFG_ManageRosiTask" Description="Управление настройками инфраструктуры обслуживания удаленных объектов" BizRuleImportedPath="">
+      <OperationLink>cd35cfba-2825-4171-bb16-40289692e42f</OperationLink>
+    </AzTask>
+    <AzOperation Guid="cd35cfba-2825-4171-bb16-40289692e42f" Name="CFG_ManageRosi" Description="Управление настройками инфраструктуры обслуживания удаленных объектов">
+      <OperationID>88</OperationID>
+    </AzOperation>
+    <AzOperation Guid="0c3dcae9-fbc7-4591-a894-1787002aebeb" Name="MTBD_MtbdTypesWeeklyMonitoring" Description="Просмотр данных статистики передачи заявок по типам информации">
+      <OperationID>89</OperationID>
+    </AzOperation>
+    <AzOperation Guid="c79feef2-114c-4a1d-8e9a-953037f80db3" Name="MTBD_MtbdDirectionWeeklyMonitoring" Description="Просмотр данных статистики передачи заявок по структурным контекстам">
+      <OperationID>90</OperationID>
+    </AzOperation>
+    <AzOperation Guid="80580492-0674-42ec-9ad6-2ddcef6434b7" Name="MTBD_MtbdQueueStatesMonitoring" Description="Просмотр данных о состоянии очереди МТБД">
+      <OperationID>91</OperationID>
+    </AzOperation>
+    <AzTask Guid="caf859ab-f07f-4416-ae82-8c0e4d2672cb" Name="MTBD_TechnologicalMonitoringTask" Description="Технологический мониторинг МТБД" BizRuleImportedPath="">
+      <OperationLink>0c3dcae9-fbc7-4591-a894-1787002aebeb</OperationLink>
+      <OperationLink>80580492-0674-42ec-9ad6-2ddcef6434b7</OperationLink>
+      <OperationLink>c79feef2-114c-4a1d-8e9a-953037f80db3</OperationLink>
+      <OperationLink>d1106100-fead-4d7b-944e-31712f3c3a93</OperationLink>
+      <OperationLink>ed4c791f-8954-4833-aace-66526e74420c</OperationLink>
+    </AzTask>
+    <AzTask Guid="fecef859-f8e9-4cff-95d5-215da077624e" Name="MtbdMonitoringRole" Description="DisplayName=Оператор мониторинга МТБД;Context=0;&lt;&lt;Роль предоставляет полные права доступа к функциям мониторинга МТБД. Эта роль неструктурная и 
+
+создана для назначения операторам ЕЦУ.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>caf859ab-f07f-4416-ae82-8c0e4d2672cb</TaskLink>
+    </AzTask>
+    <AzOperation Guid="ed4c791f-8954-4833-aace-66526e74420c" Name="MTBD_MtbdDataTypes" Description="Просмотр типов данных зарегистрированных в МТБД">
+      <OperationID>92</OperationID>
+    </AzOperation>
+    <AzOperation Guid="d1106100-fead-4d7b-944e-31712f3c3a93" Name="MTBD_MtbdQueue" Description="Просмотр данных заявок находящихся в очереди МТБД">
+      <OperationID>93</OperationID>
+    </AzOperation>
+    <AzOperation Guid="028339ab-c7d5-491d-8523-b0e16f502a6e" Name="MRC_Settings_Read" Description="Чтение настроек технологического мониторинга АИС Налог-3">
+      <OperationID>94</OperationID>
+    </AzOperation>
+    <AzOperation Guid="b6ccc489-2fee-43d1-ae71-2e56f5bc8455" Name="MRC_Settings_Write" Description="Редактирование настроек технологического мониторинга АИС Налог-3">
+      <OperationID>95</OperationID>
+    </AzOperation>
+    <AzOperation Guid="333e5c61-eeac-4da0-b545-79762653bbf0" Name="MRC_Settings_Create" Description="Создание настроек технологического мониторинга АИС Налог-3">
+      <OperationID>96</OperationID>
+    </AzOperation>
+    <AzTask Guid="c1567703-5736-45cb-801f-57d6887565e0" Name="MRC_SettingsReadTask" Description="Чтение настроек технологического мониторинга АИС Налог-3" BizRuleImportedPath="">
+      <OperationLink>028339ab-c7d5-491d-8523-b0e16f502a6e</OperationLink>
+    </AzTask>
+    <AzTask Guid="ccfc70e3-5664-46d3-84b2-8f8c450c6e9d" Name="MRC_SettingsWriteTask" Description="Редактирование настроек технологического мониторинга АИС Налог-3" BizRuleImportedPath="">
+      <OperationLink>b6ccc489-2fee-43d1-ae71-2e56f5bc8455</OperationLink>
+    </AzTask>
+    <AzTask Guid="3929f553-c43c-409a-bd3e-f310742f1b06" Name="MRC_SettingsCreateTask" Description="Создание настроек технологического мониторинга АИС Налог-3" BizRuleImportedPath="">
+      <OperationLink>333e5c61-eeac-4da0-b545-79762653bbf0</OperationLink>
+    </AzTask>
+    <AzTask Guid="2b6d5a98-1c4e-4f44-8104-6696dd09139c" Name="MrcSettingsUserRole" Description="DisplayName=Пользователь настроек технологического мониторинга АИС Налог-3;Context=0;&lt;&lt;Роль предоставляет пользователю право на чтение и просмотр настроек технологического мониторинга АИС Налог-3.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>c1567703-5736-45cb-801f-57d6887565e0</TaskLink>
+    </AzTask>
+    <AzTask Guid="72e7592d-50e8-4bf0-b7f6-e98b0747759d" Name="MrcSettingsEditorRole" Description="DisplayName=Редактор настроек технологического мониторинга АИС Налог-3;Context=0;&lt;&lt;Роль предоставляет права на чтение, просмотр и редактирование настроек технологического мониторинга АИС Налог-3.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>c1567703-5736-45cb-801f-57d6887565e0</TaskLink>
+      <TaskLink>ccfc70e3-5664-46d3-84b2-8f8c450c6e9d</TaskLink>
+    </AzTask>
+    <AzTask Guid="a739d61a-6ed6-4547-b4cc-07b36311c8c9" Name="MrcSettingsManagerRole" Description="DisplayName=Менеджер настроек технологического мониторинга АИС Налог-3;Context=0;&lt;&lt;Роль предоставляет права на чтение, просмотр и изменение настроек технологического мониторинга АИС Налог-3, а так же их обновление при смене версий.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <TaskLink>3929f553-c43c-409a-bd3e-f310742f1b06</TaskLink>
+      <TaskLink>c1567703-5736-45cb-801f-57d6887565e0</TaskLink>
+      <TaskLink>ccfc70e3-5664-46d3-84b2-8f8c450c6e9d</TaskLink>
+    </AzTask>
+    <AzOperation Guid="d9949347-6849-4092-8397-df22bd4520e0" Name="CFG_RegionalMonitoringRosi" Description="Мониторинг транспорта ИРО регионального уровня">
+      <OperationID>1546</OperationID>
+    </AzOperation>
+    <AzTask Guid="1f1b9157-9af7-46ba-9da4-36466d47b6b6" Name="RosiRegionalMonitoringRole" Description="DisplayName=Пользователь регионального мониторинга транспорта ИРО;&lt;&lt;Роль предоставляет права на просмотр данных мониторинга транспорта ИРО в соответствии с заданными структурными контекстами.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <OperationLink>d9949347-6849-4092-8397-df22bd4520e0</OperationLink>
+    </AzTask>
+    <AzOperation Guid="9d047bf5-61a7-4a9c-88d4-cc9b05a87dd3" Name="TEST_WebNavigator_Activate" Description="Тестирование web-навигатора">
+      <OperationID>98</OperationID>
+    </AzOperation>
+    <AzTask Guid="6d2b309f-193b-4d7e-a55a-393440931fcb" Name="CscTestingUserRole" Description="DisplayName=Оператор режимов тестирования КПИ;Context=0;Rule=0;&lt;&lt;Роль предоставляет право пользователю на доступ к режимам тестирования КПИ.&gt;&gt;" BizRuleImportedPath="" RoleDefinition="True">
+      <OperationLink>9d047bf5-61a7-4a9c-88d4-cc9b05a87dd3</OperationLink>
+    </AzTask>
+  </AzApplication>
+</AzAdminManager>

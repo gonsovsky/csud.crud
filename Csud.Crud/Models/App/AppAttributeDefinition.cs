@@ -7,11 +7,5 @@
         public int ObjectKey { get; set; }
 
         public string EntityName { get; set; }
-
-        public override int UseKey
-        {
-            get => AttributeKey;
-            set => AttributeKey = value;
-        }
     }
 }

@@ -63,17 +63,17 @@ namespace Csud.Crud.Storage
             modelBuilder.Entity<RelationDetails>()
                 .HasKey(x => new { x.RelatedKey, x.ObjectKey, x.SubjectKey });
 
-            modelBuilder.Entity<App>().HasKey(x => x.AppKey);
+            modelBuilder.Entity<App>().HasKey(x => x.Key);
 
-            modelBuilder.Entity<AppDistrib>().HasKey(x => new { x.AppKey, x.DistribKey });
+            modelBuilder.Entity<AppDistrib>().HasKey(x => new { x.Key, x.AppKey });
 
             modelBuilder.Entity<AppDistrib>()
-                .Property(f => f.DistribKey)
+                .Property(f => f.Key)
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<AppRole>().HasKey(x => new { x.DistribKey, x.RoleName });
 
-            modelBuilder.Entity<AppRoleDefinition>().HasKey(x => x.RoleKey);
+            modelBuilder.Entity<AppRoleDefinition>().HasKey(x => x.Key);
 
             modelBuilder.Entity<AppRoleDetails>().HasKey(x => new { x.RoleKey, x.OperationKey });
 

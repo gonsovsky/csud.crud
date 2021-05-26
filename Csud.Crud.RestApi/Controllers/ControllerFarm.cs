@@ -49,6 +49,7 @@ namespace Csud.Crud.RestApi.Controllers
         }
     }
 
+    
     [Route("api/accountProvider")]
     [ApiController]
     public class AccountProviderController : OneController<AccountProvider, AccountProviderAdd, AccountProviderEdit>

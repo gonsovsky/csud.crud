@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "96yU4ixGp1EBpmmmT83OPS4qxyee9H5sWb5MNRajVtySIHmYQSHC5fK7HqZlOgziXOv1/NmhzyJdUJE+AM/N3Q==",
+  "dgSpecHash": "/yFsMSR95fG2JAyegwj1G5tgbSH1jrfR3jDRN1kyhaq+tr1CJITfEjMlV+pTeLcOcOg/7Q0cIVmjkHm58P9Fcg==",
   "success": true,
-  "projectFilePath": "C:\\@job\\Csud.Crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj",
+  "projectFilePath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",

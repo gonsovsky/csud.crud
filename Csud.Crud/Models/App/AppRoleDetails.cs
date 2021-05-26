@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Models.App
 {
@@ -8,10 +11,13 @@ namespace Csud.Crud.Models.App
 
         public int OperationKey { get; set; }
 
-        public override int UseKey
-        {
-            get => throw new NotImplementedException();
-            set => throw new NotImplementedException();
-        }
+        public string RoleXmlGuid { get; set; }
+
+        public string OperationXmlGuid { get; set; }
+
+        [NotMapped] [JsonIgnore] [BsonIgnore] protected new int Key { get; set; }
+
+        [NotMapped] [JsonIgnore] [BsonIgnore] protected new string XmlGuid { get; set; }
+
     }
 }

@@ -12,7 +12,7 @@ using Csud.Crud.Services;
 using Csud.Crud.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Csud.Crud.DbTool
+namespace Csud.Crud.DbTool.Generation
 {
     public interface IGeneratorService
     {
@@ -96,7 +96,7 @@ namespace Csud.Crud.DbTool
                 Make<AppDistrib>(AppMakeAppDistrib);
             foreach (var a in Svc.App)
             {
-                a.LastDistribKey = Take(Svc.AppDistrib.OrderBy(b => b.LoadDate), 1).First().DistribKey;
+                a.LastDistribKey = Take(Svc.AppDistrib.OrderBy(b => b.LoadDate), 1).First().Key;
                 Svc.Update(a);
             }
 
@@ -107,7 +107,7 @@ namespace Csud.Crud.DbTool
                 Make<AppRoleDefinition>(AppMakeRoleAppDefinition);
             foreach (var a in Svc.AppRole)
             {
-                a.RoleKey = Take(Svc.AppRoleDefinition, 1).First().RoleKey;
+                a.Key = Take(Svc.AppRoleDefinition, 1).First().Key;
                 Svc.Update(a);
             }
 
@@ -166,7 +166,10 @@ namespace Csud.Crud.DbTool
                 .Select(srcProp => new {sourceProperty = srcProp});
             foreach (var props in results)
             {
-                props.sourceProperty.SetValue(source, $"{props.sourceProperty.Name} - {No} / {From<T>()}");
+                var val = $"{props.sourceProperty.Name} - {No} / {From<T>()}";
+                if (props.sourceProperty.Name == "XMlGuid")
+                    val = Guid.Empty.ToString();
+                props.sourceProperty.SetValue(source, val);
             }
             source.Status = Const.Status.Actual;
             return source;
@@ -217,7 +220,7 @@ namespace Csud.Crud.DbTool
             where TModelEdit: TEntity, IOneToManyEdit 
             where TLinked : Base
         {
-            var svc = Program.scope.ServiceProvider.GetRequiredService<IOneToManyService<TEntity, TModelAdd, TModelEdit, TLinked >>();
+            var svc = X.ServiceProvider.GetRequiredService<IOneToManyService<TEntity, TModelAdd, TModelEdit, TLinked >>();
             var a = Gen<TModelAdd>();
             var b = Gen<TLinked>();
             act?.Invoke(a);
@@ -290,13 +293,13 @@ namespace Csud.Crud.DbTool
 
         private void AppMakeAppDistrib(AppDistrib a)
         {
-            a.AppKey = Take(Svc.App, 1).Select(a => a.AppKey).First();
+            a.AppKey = Take(Svc.App, 1).Select(a => a.Key).First();
             a.LoadDate = No;
         }
 
         private void AppMakeRoleApp(AppRole a)
         {
-            a.DistribKey = Take(Svc.AppDistrib, 1).First().DistribKey;
+            a.DistribKey = Take(Svc.AppDistrib, 1).First().Key;
         }
 
         private void AppMakeRoleAppDefinition(AppRoleDefinition a)
@@ -306,8 +309,8 @@ namespace Csud.Crud.DbTool
 
         private void AppMakeRoleAppRoleDetails(AppRoleDetails a)
         {
-            a.RoleKey = Take(Svc.Select<AppRoleDefinition>(), 1).First().RoleKey;
-            a.OperationKey = Take(Svc.Select<AppOperationDefinition>(), 1).First().OperationKey;
+            a.RoleKey = Take(Svc.Select<AppRoleDefinition>(), 1).First().Key;
+            a.OperationKey = Take(Svc.Select<AppOperationDefinition>(), 1).First().Key;
         }
 
 
@@ -318,7 +321,7 @@ namespace Csud.Crud.DbTool
 
         private void AppMakeEntity(AppEntity a)
         {
-            a.DistribKey = Take(Svc.AppDistrib, 1).First().DistribKey;
+            a.DistribKey = Take(Svc.AppDistrib, 1).First().Key;
             a.EntityKey = Take(Svc.AppEntityDefinition, 1).First().EntityKey;
         }
 
@@ -329,14 +332,14 @@ namespace Csud.Crud.DbTool
 
         private void AppMakeAttribute(AppAttribute a)
         {
-            a.DistribKey = Take(Svc.AppDistrib, 1).First().DistribKey;
+            a.DistribKey = Take(Svc.AppDistrib, 1).First().Key;
             a.AttributeKey = Take(Svc.AppAttributeDefinition, 1).First().AttributeKey;
         }
 
         private void AppMakeOperation(AppOperation a)
         {
-            a.DistribKey = Take(Svc.AppDistrib, 1).First().DistribKey;
-            a.OperationKey = Take(Svc.AppOperationDefinition, 1).First().OperationKey;
+            a.DistribKey = Take(Svc.AppDistrib, 1).First().Key;
+            a.Key = Take(Svc.AppOperationDefinition, 1).First().Key;
         }
 
         private void AppMakeOperationDefinition(AppOperationDefinition a)

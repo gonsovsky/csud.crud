@@ -15,8 +15,8 @@ using MongoDB.Entities;
 namespace Csud.Crud.Models
 {
     public class Base : IEntity, IBase
-    { 
-        [Key] public virtual int Key { get; set; }
+    {
+        [BsonElement("Key")] [Key] public virtual int Key { get; set; }
 
         [BsonId] [AsObjectId] [NotMapped] [JsonIgnore]
         public virtual string ID { get; set; }
@@ -82,8 +82,7 @@ namespace Csud.Crud.Models
                         continue;
                     }
                 }
-                if (props.sourceProperty.Name==nameof(UseKey))
-                    continue;
+       
 
                 var newval = props.sourceProperty.GetValue(source, null);
 
@@ -110,16 +109,6 @@ namespace Csud.Crud.Models
             return x;
         }
 
-        [NotMapped]
-        [JsonIgnore]
-        [BsonIgnore]
-        [Ignore]
-        public virtual int UseKey
-        {
-            get => Key;
-            set => Key = value;
-        }
-
         public  void Dump()
         {
             string json = JsonSerializer.Serialize(this,new JsonSerializerOptions(){WriteIndented = true});
@@ -138,7 +127,6 @@ namespace Csud.Crud.Models
             var err =  string.Join(' ', results.Select(x => x.ErrorMessage));
             throw new ArgumentException(err);
         }
-        public virtual bool Look(Base en) => en.UseKey == UseKey;
 
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using Csud.Crud.DbTool.Generation;
+using Csud.Crud.DbTool.Import;
 using Csud.Crud.DbTool.PromtEx;
-using Csud.Crud.RestApi;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,70 +11,66 @@ namespace Csud.Crud.DbTool
 {
     public static class Program
     {
-        private static IServiceProvider _serviceProvider;
-
-        public static Config Cfg;
-
-        public static IConfiguration cfg;
-
-        public static IServiceScope scope;
-
-        private static int Main(string[] args)
+        private static void Main(string[] args)
         {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile($"appsettings.json", true, true);
-            cfg = builder.Build();
-            Cfg = new Config(cfg);
-            Cfg.DropOnStart = true;
+            X.Init();
+            X.RegisterServices();
 
-            var promt = new Promt();
-            if (args.Contains("auto"))
-                BeginGeneration();
-            else
-                promt.Run();
+            switch (Command)
+            {
+                case "generate":
+                    Generate();
+                    break;
+                case "import":
+                    Import();
+                    break;
+                case "":
+                    X.Promt.Run();
+                    break;
+                default:
+                    throw new InvalidEnumArgumentException();
+            }
 
             Console.WriteLine("Enter to exit");
             Console.ReadKey();
-
-            return 0;
         }
 
-
-        public static void BeginGeneration()
+        public static void Import()
         {
-            RegisterServices();
-            scope = _serviceProvider.CreateScope();
-            var generator = scope.ServiceProvider.GetRequiredService<IGeneratorService>();
+            var importer = X.ServiceProvider.GetRequiredService<IImportService>();
+            importer.Run(Argument);
+        }
+
+        public static void Generate()
+        {
+            var generator = X.ServiceProvider.GetRequiredService<IGeneratorService>();
             generator.Run(Promt.Result);
-            DisposeServices();
         }
 
-        private static void RegisterServices()
+        public static string Command
         {
-            var services = new ServiceCollection();
-
-            services.AddSingleton(typeof(IConfiguration), cfg);
-
-            services.AddSingleton(typeof(Config), Cfg);
-
-            Startup.ConfigureCsudServices(services);
-
-            services.AddSingleton<IGeneratorService, GeneratorService>();
-
-            _serviceProvider = services.BuildServiceProvider(true);
-        }
-
-        private static void DisposeServices()
-        {
-            if (_serviceProvider == null)
+            get
             {
-                return;
+                var args = Environment.GetCommandLineArgs();
+                var arg = "";
+                if (args.Length >= 2)
+                    arg = args[1];
+                return arg;
             }
-            if (_serviceProvider is IDisposable disposable)
+        }
+
+        public static string Argument
+        {
+            get
             {
-                disposable.Dispose();
+                var args = Environment.GetCommandLineArgs();
+                var arg = "";
+                if (args.Length >= 3)
+                    arg = args[2];
+                if (arg == "")
+                    arg = "./Resources/КПИ_ИС.xml";
+                return arg;
             }
         }
     }
-
 }

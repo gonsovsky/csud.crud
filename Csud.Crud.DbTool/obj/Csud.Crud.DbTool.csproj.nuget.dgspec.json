@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\@job\\Csud.Crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj": {}
+    "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj": {}
   },
   "projects": {
-    "C:\\@job\\Csud.Crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj": {
+    "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj",
+        "projectUniqueName": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj",
         "projectName": "Csud.Crud.DbTool",
-        "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj",
+        "projectPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud.DbTool\\obj\\",
+        "outputPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.DbTool\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -31,11 +31,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\@job\\Csud.Crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj": {
-                "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj"
-              },
-              "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {
-                "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj"
+              "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj": {
+                "projectPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj"
               }
             }
           }
@@ -86,102 +83,14 @@
         }
       }
     },
-    "C:\\@job\\Csud.Crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj": {
+    "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj",
-        "projectName": "Csud.Crud.RestApi",
-        "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud.RestApi\\Csud.Crud.RestApi.csproj",
-        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud.RestApi\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net5.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
-            "projectReferences": {
-              "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {
-                "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
-          "dependencies": {
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[5.0.5, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[5.0.5, )"
-            },
-            "Microsoft.Extensions.Logging.Debug": {
-              "target": "Package",
-              "version": "[5.0.0, )"
-            },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-              "target": "Package",
-              "version": "[5.0.2, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.1.4, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj",
+        "projectUniqueName": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj",
         "projectName": "Csud.Crud",
-        "projectPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\Csud.Crud.csproj",
+        "projectPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\Csud.Crud.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\@job\\Csud.Crud\\Csud.Crud\\obj\\",
+        "outputPath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

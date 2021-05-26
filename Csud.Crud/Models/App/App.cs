@@ -2,17 +2,10 @@
 {
     public class App: AppBase
     {
-        public int AppKey { get; set; }
-
         public string Name { get; set; }
 
         public int LastDistribKey { get; set; }
 
-        public override int UseKey
-        {
-            get => AppKey;
-            set => AppKey = value;
-        }
-
+        public virtual string DisplayName { get; set; }
     }
 }

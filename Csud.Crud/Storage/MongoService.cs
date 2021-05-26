@@ -86,7 +86,7 @@ namespace Csud.Crud.Storage
                         o.Background = false;
                         o.Unique = true;
                     })
-                    .Key(a => a.AppKey, KeyType.Text)
+                    .Key(a => a.Key, KeyType.Text)
                     .CreateAsync().Wait();
 
                 DB.Index<AppDistrib>().Option(o =>
@@ -94,8 +94,8 @@ namespace Csud.Crud.Storage
                         o.Background = false;
                         o.Unique = true;
                     })
+                    .Key(a => a.Key, KeyType.Text)
                     .Key(a => a.AppKey, KeyType.Text)
-                    .Key(a => a.DistribKey, KeyType.Text)
                     .CreateAsync().Wait();
 
                 DB.Index<AppRole>().Option(o =>
@@ -121,7 +121,7 @@ namespace Csud.Crud.Storage
                         o.Background = false;
                         o.Unique = true;
                     })
-                    .Key(a => a.RoleKey, KeyType.Text)
+                    .Key(a => a.Key, KeyType.Text)
                     .CreateAsync().Wait();
 
                 DB.Index<AppEntityDefinition>().Option(o =>
@@ -163,7 +163,7 @@ namespace Csud.Crud.Storage
                         o.Background = false;
                         o.Unique = true;
                     })
-                    .Key(a => a.OperationKey, KeyType.Text)
+                    .Key(a => a.Key, KeyType.Text)
                     .CreateAsync().Wait();
 
                 DB.Index<AppOperation>().Option(o =>
@@ -223,7 +223,7 @@ namespace Csud.Crud.Storage
         {
             entity.ID = null;
             if (generateKey)
-                entity.UseKey = entity.GenerateNewKey();
+                entity.Key = entity.GenerateNewKey();
             entity.SaveAsync().Wait();
         }
 
