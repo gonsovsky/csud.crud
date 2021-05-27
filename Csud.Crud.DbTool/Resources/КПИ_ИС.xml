@@ -13,19 +13,18 @@
 		
 			<AzTask Guid="00000000-0000-0000-0000-0000c1b1a1" Name="task c1-b1-a1" Description="task c1-b1-a1" ApplicationData="">
 				<TaskLink>00000000-0000-0000-0000-00d1c1b1a1</TaskLink> 
-				<TaskLink>00000000-0000-0000-0000-00d1c1b1a1</TaskLink> 
 			</AzTask>
 						
 				<AzTask Guid="00000000-0000-0000-0000-00d1c1b1a1" Name="task d1-c1-b1-a1" Description="task d1-c1-b1-a1" ApplicationData="">
 					<OperationLink>10000000-0000-0000-0000-00d1c1b1a1</OperationLink>
-					<OperationLink>20000000-0000-0000-0000-00d1c1b1a1</OperationLink>
+					<OperationLink>20000000-0000-0000-0000-00d2c1b1a1</OperationLink>
 				</AzTask>
 							
-	<AzOperation Guid="10000000-0000-0000-0000-000000d1c1b1a1" Name="operation 1 [d1-c1-b1-a1]" Description="operation 1 [d1-c1-b1-a1]">
+	<AzOperation Guid="10000000-0000-0000-0000-00d1c1b1a1" Name="operation 1 [d1-c1-b1-a1]" Description="operation 1 [d1-c1-b1-a1]">
 		<OperationID>88881</OperationID>
 	</AzOperation>
 	
-	<AzOperation Guid="20000000-0000-0000-0000-000000d1c1b1a1" Name="operation 2 [d1-c1-b1-a1]" Description="operation 2 [d1-c1-b1-a1]">
+	<AzOperation Guid="20000000-0000-0000-0000-00d2c1b1a1" Name="operation 2 [d2-c1-b1-a1]" Description="operation 2 [d2-c1-b1-a1]">
 		<OperationID>88882</OperationID>
 	</AzOperation>
 								
