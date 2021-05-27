@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Csud.Crud.Models.Internal;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Csud.Crud.Models.App
 {

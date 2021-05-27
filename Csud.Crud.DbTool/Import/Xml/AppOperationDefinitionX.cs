@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Csud.Crud.Models.App;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Models.Rules;
 
 namespace Csud.Crud.DbTool.Import.Xml
 {
-    internal class AppOperationDefinitionX: AppOperationDefinition
+    internal class AppOperationDefinitionX: AppOperationDefinition, INoneRepo
     {
         internal AppOperationDefinitionX(XElement node, ObjectX obj)
         {

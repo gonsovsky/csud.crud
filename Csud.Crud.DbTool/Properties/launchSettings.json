@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Csud.Crud.DBTool": {
-      "commandName": "Project",
-      "commandLineArgs": "import"
+      "commandName": "Project"
     }
   }
 }

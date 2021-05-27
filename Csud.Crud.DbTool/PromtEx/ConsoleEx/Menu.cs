@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Csud.Crud.DbTool.PromtEx.Pages;
 
 namespace Csud.Crud.DbTool.PromtEx.ConsoleEx
 {
@@ -19,11 +20,32 @@ namespace Csud.Crud.DbTool.PromtEx.ConsoleEx
             {
                 var cnt = 0;
                 if (Options[i].Page is {PageType: { }}) cnt = Promt.Result.TypeGet(Options[i].Page.PageType);
-                if (Options[i].Name.Contains($"Generate database"))
+
+                if (Options[i].Name.Contains($"Select XML file"))
+                {
+                    Output.WriteLine("");
+                    Output.WriteLine(ConsoleColor.Green, "{0}. {1}", i + 1, Options[i].Name + " [selected: " + ImportPage.FileName + "]");
+                }
+
+                else if (Options[i].Name.Contains($"Start Import"))
+                {
+                    Output.WriteLine("");
+                    Output.WriteLine(ConsoleColor.Magenta, "{0}. {1}", i + 1, Options[i].Name);
+                    Output.WriteLine("");
+
+                }
+
+                else if (Options[i].Name.Contains($"Generate database"))
                 {
                     Output.WriteLine("");
                     Output.WriteLine(ConsoleColor.Green, "{0}. {1}", i + 1, Options[i].Name + " (" + ConsoleProgram.Cfg.UseDataBase +")");
                 }
+                else if (Options[i].Name.Contains($"Import database"))
+                {
+                    Output.WriteLine("");
+                    Output.WriteLine(ConsoleColor.Green, "{0}. {1}", i + 1, Options[i].Name + " (" + ConsoleProgram.Cfg.UseDataBase + ")");
+                }
+
                 else
                 {
                     if (cnt == 0)

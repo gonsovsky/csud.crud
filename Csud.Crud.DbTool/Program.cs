@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Csud.Crud.DbTool.Generation;
 using Csud.Crud.DbTool.Import;
 using Csud.Crud.DbTool.PromtEx;
+using Csud.Crud.DbTool.PromtEx.Pages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Csud.Crud.DbTool
@@ -33,10 +34,10 @@ namespace Csud.Crud.DbTool
             Console.ReadKey();
         }
 
-        internal static void Import()
+        internal static void Import(string p = "")
         {
             var importer = Tool.ServiceProvider.GetRequiredService<IImportService>();
-            importer.Run(Argument);
+            importer.Run(p != "" ? p : Argument);
         }
 
         internal static void Generate()
@@ -65,7 +66,7 @@ namespace Csud.Crud.DbTool
                 if (args.Length >= 3)
                     arg = args[2];
                 if (arg == "")
-                    arg = "./Resources/КПИ_ИС.xml";
+                    arg = ImportPage.DefFile;
                 return arg;
             }
         }

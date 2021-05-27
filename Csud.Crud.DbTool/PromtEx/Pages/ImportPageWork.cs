@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Csud.Crud.DbTool.PromtEx.ConsoleEx;
 
 namespace Csud.Crud.DbTool.PromtEx.Pages
 {
-    class StartDataBaseGeneration : Page
+    internal class ImportPageWork : Page
     {
-        public StartDataBaseGeneration(Type page, string title)
+        public ImportPageWork(Type page, string title)
             : base(page, title)
         {
         }
@@ -14,9 +18,9 @@ namespace Csud.Crud.DbTool.PromtEx.Pages
         {
             base.Display();
 
-            Output.WriteLine(ConsoleColor.Green,"Working...");
+            Output.WriteLine(ConsoleColor.Green, $"Importing XML ({ImportPage.FileName})...");
 
-            Program.Generate();
+            Program.Import(ImportPage.FileName);
 
             Input.ReadString("Press [Enter] to navigate home");
             ConsoleProgram.NavigateHome();

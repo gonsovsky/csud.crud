@@ -10,22 +10,32 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Csud.Crud.DbTool.PromtEx
 {
-    public class Promt : ConsoleProgram
+    internal class Promt : ConsoleProgram
     {
+        internal static GenPage GenPage;
+
+        internal static ImportPage ImportPage;
+
+        internal static MainPage MainPage;
+
         public Promt()
             : base("Csud.Crud.DBTool", breadcrumbHeader: true)
         {
             Program = this;
-            var mainPage = new MainPage();
-            Program.AddPage(mainPage);
-            SetPage(mainPage);
+            MainPage = new MainPage();
+            Program.AddPage(GenPage);
+            GenPage = new GenPage();
+            Program.AddPage(GenPage);
+            ImportPage = new ImportPage();
+            Program.AddPage(ImportPage);
+            SetPage(MainPage);
         }
 
-        public static ConsoleProgram Program;
+        internal static ConsoleProgram Program;
 
-        public static Dictionary<Type, int> Result = new();
+        internal static Dictionary<Type, int> Result = new();
 
-        public static void Save()
+        internal static void Save()
         {
             try
             {
@@ -39,13 +49,13 @@ namespace Csud.Crud.DbTool.PromtEx
             }
         }
 
-        class Q
+        internal class Q
         {
             public string Name { get; set; }
             public int Value { get; set; }
         }
 
-        public static void Load()
+        internal static void Load()
         {
             try
             {
@@ -70,7 +80,7 @@ namespace Csud.Crud.DbTool.PromtEx
             }
         }
 
-        public static IEnumerable<Type> Types
+        internal static IEnumerable<Type> Types
         {
             get
             {
@@ -87,10 +97,7 @@ namespace Csud.Crud.DbTool.PromtEx
 
             }
         }
-
-     
-
-        public static string AssemblyDirectory
+        internal static string AssemblyDirectory
         {
             get
             {
@@ -102,9 +109,8 @@ namespace Csud.Crud.DbTool.PromtEx
         }
     }
 
-    public static class P
+    internal static class P
     {
-
         public static int TypeGet(this Dictionary<Type, int> res, Type type)
         {
             var x = res.First(a => TypeName(a.Key) == TypeName(type)).Key;
