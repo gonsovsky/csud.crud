@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Entities;
@@ -42,7 +43,7 @@ namespace Csud.Crud.Models.Rules
     }
 
     [TaskValidator]
-    public class TaskX : Base, IOneToMany, INameable
+    public class TaskX : Base, IOneToMany, IWellNamed
     {
         protected override string QueueName => "Task";
 

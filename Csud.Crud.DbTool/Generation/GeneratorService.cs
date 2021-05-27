@@ -6,6 +6,7 @@ using Csud.Crud.DbTool.PromtEx;
 using Csud.Crud.Models;
 using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 using Csud.Crud.Services;
@@ -14,12 +15,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Csud.Crud.DbTool.Generation
 {
-    public interface IGeneratorService
+    internal interface IGeneratorService
     {
         public void Run(Dictionary<Type, int> dict);
     };
 
-    public class GeneratorService: IGeneratorService
+    internal class GeneratorService: IGeneratorService
     {
         protected int No;
 
@@ -28,6 +29,7 @@ namespace Csud.Crud.DbTool.Generation
         protected IContextService ContextSvc;
 
         protected Config Config;
+
 
         public GeneratorService(IDbService svc,IContextService svcContext, Config config)
         {
@@ -220,11 +222,11 @@ namespace Csud.Crud.DbTool.Generation
             where TModelEdit: TEntity, IOneToManyEdit 
             where TLinked : Base
         {
-            var svc = X.ServiceProvider.GetRequiredService<IOneToManyService<TEntity, TModelAdd, TModelEdit, TLinked >>();
+            var svc = Tool.ServiceProvider.GetRequiredService<IOneToManyService<TEntity, TModelAdd, TModelEdit, TLinked >>();
             var a = Gen<TModelAdd>();
             var b = Gen<TLinked>();
             act?.Invoke(a);
-            svc.Add(a,true);
+            svc.Add(a);
             Log<TEntity>();
         }
 

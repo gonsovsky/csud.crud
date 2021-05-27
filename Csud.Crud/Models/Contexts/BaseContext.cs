@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Entities;
 
 namespace Csud.Crud.Models.Contexts
 {
-    public abstract class BaseContext: Base, INameable, IOneToOne
+    public abstract class BaseContext: Base, IWellNamed, IOneToOne
     {
         protected override string QueueName => "Context";
 

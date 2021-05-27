@@ -4,6 +4,7 @@ using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 using Csud.Crud.Services;
@@ -15,7 +16,7 @@ namespace Csud.Crud.Storage
         public void Drop();
         string GetPath(string filename);
 
-        public void Add<T>(T entity, bool generateKey = true) where T : Base;
+        public T Add<T>(T entity, bool generateKey = true) where T : Base;
         public void Update<T>(T entity) where T : Base;
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base;
 
@@ -89,7 +90,7 @@ namespace Csud.Crud.Storage
             }
         }
 
-        public void Add<T>(T entity, bool generateKey = true) where T : Base
+        public T Add<T>(T entity, bool generateKey = true) where T : Base
         {
             foreach (var db in DbX)
             {
@@ -99,6 +100,7 @@ namespace Csud.Crud.Storage
                 }
                 db.Add(entity, generateKey);
             }
+            return entity;
         }
 
         public void Update<T>(T entity) where T : Base

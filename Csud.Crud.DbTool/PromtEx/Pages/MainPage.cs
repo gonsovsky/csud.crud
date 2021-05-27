@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.DbTool.PromtEx.ConsoleEx;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 
 namespace Csud.Crud.DbTool.PromtEx.Pages

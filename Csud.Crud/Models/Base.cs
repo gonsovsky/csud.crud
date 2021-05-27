@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;

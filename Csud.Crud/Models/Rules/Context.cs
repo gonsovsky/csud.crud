@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Entities;
@@ -21,7 +22,7 @@ namespace Csud.Crud.Models.Rules
     }
 
     [ContextValidation]
-    public class Context: Base, INameable
+    public class Context: Base, IWellNamed
     {
 
         public string ContextType { get; set; }

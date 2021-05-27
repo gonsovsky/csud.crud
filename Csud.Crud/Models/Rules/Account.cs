@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -51,7 +52,7 @@ namespace Csud.Crud.Models.Rules
     }
 
     [AccountValidation]
-    public class Account: Base, INameable
+    public class Account: Base, IWellNamed
     {
         protected override string QueueName => "Account";
         public virtual int AccountProviderKey { get; set; }

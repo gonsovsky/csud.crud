@@ -1,8 +1,9 @@
-﻿using Csud.Crud.Services;
+﻿using Csud.Crud.Models.Internal;
+using Csud.Crud.Services;
 
 namespace Csud.Crud.Models.Rules
 {
-    public class Relation : Base, INameable
+    public class Relation : Base, IWellNamed
     {
         protected override string QueueName => "Relation";
 

@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text.Json.Serialization;
-using Csud.Crud.Models;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Csud.Crud.Services
+namespace Csud.Crud.Models.Internal
 {
     public interface IBase
     {
@@ -18,11 +16,24 @@ namespace Csud.Crud.Services
 
     }
 
-    internal interface INameable
+    internal interface INamed
     {
         string Name { get; set; }
+    }
+
+    internal interface IDescribed
+    {
         string Description { get; set; }
+    }
+
+    internal interface IDisplayNamed
+    {
         string DisplayName { get; set; }
+    }
+
+    internal interface IWellNamed: INamed, IDescribed, IDisplayNamed
+    {
+
     }
 
     internal interface IContextable
@@ -100,35 +111,5 @@ namespace Csud.Crud.Services
 
         [JsonPropertyName("relations")]
         IEnumerable<IOneToManyItem<TEntity, TLinked>> Relations { get; set; }
-    }
-
-    public interface IOneToAnyService<TEntity, TLinked> where TEntity : Base where TLinked : Base
-    {
-        public TEntity Look(int key);
-        public TEntity Look(TEntity entity);
-    }
-
-    public abstract class OneToAnyService<TEntity, TLinked> : IOneToAnyService<TEntity, TLinked> where TEntity : Base where TLinked : Base
-    {
-
-        protected readonly IEntityService<TEntity> EntitySvc;
-
-        protected readonly IEntityService<TLinked> LinkedSvc;
-
-        protected OneToAnyService(IEntityService<TEntity> entitySvc, IEntityService<TLinked> linkedSvc)
-        {
-            EntitySvc = entitySvc;
-            LinkedSvc = linkedSvc;
-        }
-
-        public TEntity Look(int key)
-        {
-            return EntitySvc.Select().First(a => a.Key == key);
-        }
-
-        public virtual TEntity Look(TEntity entity)
-        {
-            return EntitySvc.Select().First(a => a.Key == entity.Key);
-        }
     }
 }

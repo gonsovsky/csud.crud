@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -39,7 +40,7 @@ namespace Csud.Crud.Models.Rules
     }
 
     [SubjectValidation]
-    public class Subject: Base, INameable
+    public class Subject: Base, IWellNamed
     {
         protected override string QueueName => "Subject";
         public string SubjectType { get; set; } = Const.Subject.Account;

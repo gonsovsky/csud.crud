@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Entities;
@@ -51,7 +52,7 @@ namespace Csud.Crud.Models.Rules
     }
 
     [GroupValidator]
-    public class Group: Base, IOneToMany, IContextable, INameable
+    public class Group: Base, IOneToMany, IContextable, IWellNamed
     {
         protected override string QueueName => "Group";
         [NotMapped] [Ignore] [BsonIgnore] public string Name { get; set; }

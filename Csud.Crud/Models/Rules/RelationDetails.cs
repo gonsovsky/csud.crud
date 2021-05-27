@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Entities;
@@ -31,7 +32,7 @@ namespace Csud.Crud.Models.Rules
     }
 
     [RelationDetailsValidator]
-    public class RelationDetails : Base, IOneToMany, INameable
+    public class RelationDetails : Base, IOneToMany, IWellNamed
     {
         protected override string QueueName => "RelationDetails";
         public virtual int RelatedKey { get; set; }

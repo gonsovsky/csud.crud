@@ -1,20 +1,18 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using Csud.Crud.DbTool.Generation;
 using Csud.Crud.DbTool.Import;
 using Csud.Crud.DbTool.PromtEx;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Csud.Crud.DbTool
 {
-    public static class Program
+    internal static class Program
     {
-        private static void Main(string[] args)
+        internal static void Main(string[] args)
         {
-            X.Init();
-            X.RegisterServices();
+            Tool.Init();
+            Tool.RegisterServices();
 
             switch (Command)
             {
@@ -25,7 +23,7 @@ namespace Csud.Crud.DbTool
                     Import();
                     break;
                 case "":
-                    X.Promt.Run();
+                    Tool.Promt.Run();
                     break;
                 default:
                     throw new InvalidEnumArgumentException();
@@ -35,19 +33,19 @@ namespace Csud.Crud.DbTool
             Console.ReadKey();
         }
 
-        public static void Import()
+        internal static void Import()
         {
-            var importer = X.ServiceProvider.GetRequiredService<IImportService>();
+            var importer = Tool.ServiceProvider.GetRequiredService<IImportService>();
             importer.Run(Argument);
         }
 
-        public static void Generate()
+        internal static void Generate()
         {
-            var generator = X.ServiceProvider.GetRequiredService<IGeneratorService>();
+            var generator = Tool.ServiceProvider.GetRequiredService<IGeneratorService>();
             generator.Run(Promt.Result);
         }
 
-        public static string Command
+        internal static string Command
         {
             get
             {
@@ -58,8 +56,7 @@ namespace Csud.Crud.DbTool
                 return arg;
             }
         }
-
-        public static string Argument
+        internal static string Argument
         {
             get
             {

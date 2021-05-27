@@ -1,6 +1,8 @@
-﻿namespace Csud.Crud.Models.App
+﻿using Csud.Crud.Models.Internal;
+
+namespace Csud.Crud.Models.App
 {
-    public class App: AppBase
+    public class App: AppBase, INamed
     {
         public string Name { get; set; }
 

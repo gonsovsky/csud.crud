@@ -5,6 +5,8 @@ using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Internal;
+using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 using Csud.Crud.Services;
 using MongoDB.Driver;
@@ -98,15 +100,6 @@ namespace Csud.Crud.Storage
                     .Key(a => a.AppKey, KeyType.Text)
                     .CreateAsync().Wait();
 
-                DB.Index<AppRole>().Option(o =>
-                    {
-                        o.Background = false;
-                        o.Unique = false;
-                    })
-                    .Key(a => a.DistribKey, KeyType.Text)
-                    .Key(a => a.RoleName, KeyType.Text)
-                    .CreateAsync().Wait();
-
                 DB.Index<AppRoleDetails>().Option(o =>
                     {
                         o.Background = false;
@@ -116,49 +109,17 @@ namespace Csud.Crud.Storage
                     .Key(a => a.OperationKey, KeyType.Text)
                     .CreateAsync().Wait();
 
+                DB.Index<AppRole>().Option(o =>
+                    {
+                        o.Background = false;
+                        o.Unique = false;
+                    })
+                    .Key(a => a.DistribKey, KeyType.Text)
+                    .Key(a => a.RoleName, KeyType.Text)
+                    .CreateAsync().Wait();
+
+
                 DB.Index<AppRoleDefinition>().Option(o =>
-                    {
-                        o.Background = false;
-                        o.Unique = true;
-                    })
-                    .Key(a => a.Key, KeyType.Text)
-                    .CreateAsync().Wait();
-
-                DB.Index<AppEntityDefinition>().Option(o =>
-                    {
-                        o.Background = false;
-                        o.Unique = true;
-                    })
-                    .Key(a => a.EntityKey, KeyType.Text)
-                    .CreateAsync().Wait();
-
-                DB.Index<AppEntity>().Option(o =>
-                    {
-                        o.Background = false;
-                        o.Unique = false;
-                    })
-                    .Key(a => a.DistribKey, KeyType.Text)
-                    .Key(a => a.EntityName, KeyType.Text)
-                    .CreateAsync().Wait();
-
-                DB.Index<AppAttributeDefinition>().Option(o =>
-                    {
-                        o.Background = false;
-                        o.Unique = true;
-                    })
-                    .Key(a => a.AttributeKey, KeyType.Text)
-                    .CreateAsync().Wait();
-
-                DB.Index<AppAttribute>().Option(o =>
-                    {
-                        o.Background = false;
-                        o.Unique = false;
-                    })
-                    .Key(a => a.DistribKey, KeyType.Text)
-                    .Key(a => a.AttributeType, KeyType.Text)
-                    .CreateAsync().Wait();
-
-                DB.Index<AppOperationDefinition>().Option(o =>
                     {
                         o.Background = false;
                         o.Unique = true;
@@ -173,6 +134,57 @@ namespace Csud.Crud.Storage
                     })
                     .Key(a => a.DistribKey, KeyType.Text)
                     .Key(a => a.OperationName, KeyType.Text)
+                    .CreateAsync().Wait();
+
+                DB.Index<AppOperationDefinition>().Option(o =>
+                    {
+                        o.Background = false;
+                        o.Unique = true;
+                    })
+                    .Key(a => a.Key, KeyType.Text)
+                    .CreateAsync().Wait();
+
+
+                //DB.Index<AppEntityDefinition>().Option(o =>
+                //    {
+                //        o.Background = false;
+                //        o.Unique = true;
+                //    })
+                //    .Key(a => a.EntityKey, KeyType.Text)
+                //    .CreateAsync().Wait();
+
+                //DB.Index<AppEntity>().Option(o =>
+                //    {
+                //        o.Background = false;
+                //        o.Unique = false;
+                //    })
+                //    .Key(a => a.DistribKey, KeyType.Text)
+                //    .Key(a => a.EntityName, KeyType.Text)
+                //    .CreateAsync().Wait();
+
+                //DB.Index<AppAttributeDefinition>().Option(o =>
+                //    {
+                //        o.Background = false;
+                //        o.Unique = true;
+                //    })
+                //    .Key(a => a.AttributeKey, KeyType.Text)
+                //    .CreateAsync().Wait();
+
+                //DB.Index<AppAttribute>().Option(o =>
+                //    {
+                //        o.Background = false;
+                //        o.Unique = false;
+                //    })
+                //    .Key(a => a.DistribKey, KeyType.Text)
+                //    .Key(a => a.AttributeType, KeyType.Text)
+                //    .CreateAsync().Wait();
+
+                DB.Index<AppImport>().Option(o =>
+                    {
+                        o.Background = false;
+                        o.Unique = true;
+                    })
+                    .Key(a => a.Key, KeyType.Text)
                     .CreateAsync().Wait();
             }
         }
@@ -219,12 +231,13 @@ namespace Csud.Crud.Storage
             return Path.Combine(config.Import.Folder, filename);
         }
 
-        public void Add<T>(T entity, bool generateKey = true) where T : Base
+        public T Add<T>(T entity, bool generateKey = true) where T : Base
         {
             entity.ID = null;
             if (generateKey)
                 entity.Key = entity.GenerateNewKey();
             entity.SaveAsync().Wait();
+            return entity;
         }
 
         public void Update<T>(T entity) where T : Base

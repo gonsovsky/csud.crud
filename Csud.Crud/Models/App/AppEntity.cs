@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Csud.Crud.Models.App
+﻿namespace Csud.Crud.Models.App
 {
     public class AppEntity: AppBase
     {

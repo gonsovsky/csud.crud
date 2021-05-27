@@ -1,10 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AzAdminManager MajorVersion="1" MinorVersion="0" Description="Ролевая матрица инфраструктурной подсистемы КПИ" Guid="5f513018-f40f-4da1-814f-456cd30cfa2d" ApplicationData="">
   <AzApplication Guid="73de57e7-9f7d-4277-846f-65fed9eff074" Name="CSC" Description="DisplayName=Компоненты прикладной инфраструктуры (КПИ);AppVersion=6.1.0.6" ApplicationData="" ApplicationVersion="">
-    <AzTask Guid="161e4e52-7c21-4f4d-9029-68ac77540613" Name="ApplicationUserRole" Description="DisplayName=Пользователь системы;Context=0;Rule=2;&lt;&lt;Роль предоставляет право пользователю на доступ к системе посредством ЕКП. Данная роль включает в себя базовый набор прав, предоставляемых всем пользователям системы.&gt;&gt;" RoleDefinition="True" ApplicationData="">
+   
+
+	<AzTask Guid="00000000-0000-0000-0000-00000000a1" Name="task a1" Description="task a1" ApplicationData="">
+		<TaskLink>00000000-0000-0000-0000-000000b1a1</TaskLink>
+    </AzTask>
+		
+		<AzTask Guid="00000000-0000-0000-0000-000000b1a1" Name="task b1-a1" Description="task b1-a1" ApplicationData="">
+			<TaskLink>00000000-0000-0000-0000-0000c1b1a1</TaskLink> 
+		</AzTask>
+		
+			<AzTask Guid="00000000-0000-0000-0000-0000c1b1a1" Name="task c1-b1-a1" Description="task c1-b1-a1" ApplicationData="">
+				<TaskLink>00000000-0000-0000-0000-00d1c1b1a1</TaskLink> 
+				<TaskLink>00000000-0000-0000-0000-00d1c1b1a1</TaskLink> 
+			</AzTask>
+						
+				<AzTask Guid="00000000-0000-0000-0000-00d1c1b1a1" Name="task d1-c1-b1-a1" Description="task d1-c1-b1-a1" ApplicationData="">
+					<OperationLink>10000000-0000-0000-0000-00d1c1b1a1</OperationLink>
+					<OperationLink>20000000-0000-0000-0000-00d1c1b1a1</OperationLink>
+				</AzTask>
+							
+	<AzOperation Guid="10000000-0000-0000-0000-000000d1c1b1a1" Name="operation 1 [d1-c1-b1-a1]" Description="operation 1 [d1-c1-b1-a1]">
+		<OperationID>88881</OperationID>
+	</AzOperation>
+	
+	<AzOperation Guid="20000000-0000-0000-0000-000000d1c1b1a1" Name="operation 2 [d1-c1-b1-a1]" Description="operation 2 [d1-c1-b1-a1]">
+		<OperationID>88882</OperationID>
+	</AzOperation>
+								
+
+
+   <AzTask Guid="161e4e52-7c21-4f4d-9029-68ac77540613" Name="ApplicationUserRole" Description="DisplayName=Пользователь системы;Context=0;Rule=2;&lt;&lt;Роль предоставляет право пользователю на доступ к системе посредством ЕКП. Данная роль включает в себя базовый набор прав, предоставляемых всем пользователям системы.&gt;&gt;" RoleDefinition="True" ApplicationData="">
       <TaskLink>b04e9f3e-7cab-45a9-bec3-1e6816b44571</TaskLink>
       <TaskLink>72b5fcbf-c58e-4d1f-8dac-9bfb7fcfda71</TaskLink>
     </AzTask>
+	
+	
     <AzTask Guid="d576ca18-5298-423a-a0e6-07635b6adf63" Name="ManageConfigurationRole" Description="DisplayName=Оператор управления конфигурацией приложений;Context=0;&lt;&lt;Роль предоставляет доступ к функциям по настройке конфигурационных параметров программного обеспечения системы.&gt;&gt;" RoleDefinition="True" ApplicationData="">
       <TaskLink>5a690620-ead8-4fa8-a7d9-dc03d0c73673</TaskLink>
       <TaskLink>67fd324d-3eb5-4006-9ac7-db5bc1cd00c1</TaskLink>

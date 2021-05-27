@@ -1,10 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using Csud.Crud.Models.Internal;
 
 namespace Csud.Crud.Models.App
 {
-    public class AppOperation: AppBase
+    public class AppOperation: AppBase, IDisplayNamed
     {
         public override int Key { get; set; }
 
@@ -13,6 +11,8 @@ namespace Csud.Crud.Models.App
         public string OperationName { get; set; }
 
         public string DisplayName { get; set; }
+
+        public int OperationId { get; set; }
 
         protected override string QueueName => nameof(AppOperation);
     }

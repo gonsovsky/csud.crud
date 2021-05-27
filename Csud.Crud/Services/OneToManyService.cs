@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.Models;
+using Csud.Crud.Models.Internal;
+using Csud.Crud.Services.Internal;
 
 namespace Csud.Crud.Services
 {
@@ -141,7 +143,7 @@ namespace Csud.Crud.Services
         {
             if (LinkedSvc.Select().Any(a => a.Key == key) == false)
                 throw new ArgumentException($"Объекта с ключем {key} не найдено");
-            if (Select(Const.Status.Actual).Any(a => a.Key == key && a.RelatedKey == relatedKey))
+            if (Select().Any(a => a.Key == key && a.RelatedKey == relatedKey))
                 throw new ArgumentException($"Пара {key}-{relatedKey} уже существует");
 
             if (Select(Const.Status.Any).Any(a => a.Key == key && a.RelatedKey == relatedKey))

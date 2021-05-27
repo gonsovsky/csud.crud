@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Csud.Crud.Models;
+using Csud.Crud.Models.Internal;
+using Csud.Crud.Services.Internal;
 
 namespace Csud.Crud.Services
 {

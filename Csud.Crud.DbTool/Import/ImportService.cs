@@ -1,94 +1,83 @@
-﻿ using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using Csud.Crud.DbTool.Import.Xml;
+using Csud.Crud.DbTool.Log;
 using Csud.Crud.Models.App;
  using Csud.Crud.Models.Rules;
  using Csud.Crud.Storage;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using MongoDB.Bson;
 
- namespace Csud.Crud.DbTool.Import
- {
-     public interface IImportService
-     {
-         public void Run(string file);
-     };
+namespace Csud.Crud.DbTool.Import
+{
+    internal interface IImportService
+    {
+        public void Run(string file);
+    };
 
-     public class ImportService : IImportService
-     {
-         public static IDbService Db;
+    internal class ImportService : IImportService
+    {
+        protected static IDbService Db;
 
-         public XDocument Doc;
+        protected ILogService Logger;
 
-         public ImportService(IDbService db)
-         {
-             Db = db;
-         }
+        protected XDocument Doc;
 
-         public void Run(string file)
-         {
-             Doc = XDocument.Load(file);
+        public ImportService(IDbService db, ILogService logger)
+        {
+            Db = db;
+            Logger = logger;
+        }
 
-             //stub object
-             var obj = new ObjectX() {Key = 888};
+        public void Run(string file)
+        {
+            Doc = XDocument.Load(file);
+            var azAdminManager = Doc.Root;
+            var azApplication = Doc.Descendants("AzApplication").First();
 
-             //Distrib & Application
-             var azAdminManager = Doc.Root;
-             var azApplication = Doc.Descendants("AzApplication").First();
-             var app = new AppX(azApplication);
-             var distrib = new AppDistribX(azAdminManager, azApplication, app);
-             app.LastDistribKey = distrib.Key;
-             Db.Update((App) app);
+            //stub object
+            var obj = new ObjectX() {Key = 888};
 
-             //Operations
-             var azOperations = azApplication.Elements()
-                 .Where(x => x.Name == "AzOperation");
-             foreach (var node in azOperations)
-             {
-                 new AppOperationX(node, distrib);
-             }
+            //Distributive & Application
+            var app = Db.Add(new AppX(azApplication) as App);
+            var distributive = Db.Add(new AppDistribX(azAdminManager, azApplication, app) as AppDistrib);
+            app.LastDistribKey = distributive.Key;
+            Db.Update(app);
 
-             //Roles
-             var azTasks = azApplication.Elements()
-                 .Where(x => x.Name == "AzTask" && x.Attribute("RoleDefinition")?.Value == "True");
-             foreach (var node in azTasks)
-             {
-                 var def = new AppRoleDefinitionX(node, obj);
-                 var azLinks = node.Elements("TaskLink");
-                 foreach (var link in azLinks)
-                 {
-                     var taskId = link.Value;
-                     var task = azApplication.Elements()
-                         .First(x => x.Name == "AzTask" && x.Attribute("RoleDefinition")?.Value != "True"
-                                                        && x.Attribute("Guid")?.Value == taskId);
-                     AppRole role = new AppRoleX(task, distrib, def.Key);
-                 }
-             }
+            //Operations
+            var azOperations = azApplication.GetItems("AzOperation");
+            foreach (var opNode in azOperations)
+            {
+                var def = Db.Add(new AppOperationDefinitionX(opNode, obj) as AppOperationDefinition);
+                Db.Add(new AppOperationX(opNode, distributive, def) as AppOperation, false);
+            }
 
-             azTasks = azApplication.Elements()
-                 .Where(x => x.Name == "AzTask" && x.Attribute("RoleDefinition")?.Value != "True");
-             foreach (var node in azTasks)
-             {
-                 var opLinks = node.Elements("OperationLink");
-                 foreach (var link in opLinks)
-                 {
+            //Roles & Role Details
+            IEnumerable<XElement> ExpandTasks(XElement taskNode) =>
+                azApplication.Expand(taskNode, "TaskLink", "AzTask");
 
-                     if (Db.AppRole.Any(x => x.XmlGuid == node.Attribute("Guid").Value))
-                     {
-                         var operation = Db.AppOperation.First(x => x.XmlGuid == link.Value);
-                         var role = Db.AppRole.First(x => x.XmlGuid == node.Attribute("Guid").Value);
-                         new AppRoleDetailsX(link, role, operation);
-                     }
-                     else
-                     {
-                         Console.WriteLine($"Role not found: {node.Attribute("Guid")?.Value}");
-                     }
-                 }
-             }
-         }
-     }
- }
+            IEnumerable<XElement> ExpandOperations(XElement taskNode) =>
+                azApplication.Expand(taskNode, "OperationLink", "AzOperation");
+
+            var azTasks = azApplication.GetItems("AzTask");
+            foreach (var roleNode in azTasks)
+            {
+                var def = Db.Add(new AppRoleDefinitionX(roleNode, obj) as AppRoleDefinition);
+                var role = Db.Add(new AppRoleX(roleNode, distributive, def) as AppRole, false);
+
+                var subRoles = roleNode.Traverse(ExpandTasks)
+                    .DistinctBy(a => a.Guid());
+
+                var subOperations = subRoles
+                    .SelectMany(ExpandOperations)
+                    .DistinctBy(a => a.Guid());
+
+                foreach (var op in subOperations)
+                {
+                    var operation = Db.AppOperation
+                        .First(a=> a.XmlGuid == op.Guid());
+                    Db.Add(new AppRoleDetailsX(role, operation) as AppRoleDetails);
+                }
+            }
+        }
+    }
+}

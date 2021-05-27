@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HOL2/yb1f1eS3AN8M7AitE1IZz5JNYYikH3ufxlNWL/jjg2zMzQTd93cxKEJjp/TIU26rJb0/3Kxsva2Shv0mA==",
+  "dgSpecHash": "eQPQPssDVx3EMRgVaQAXFW8jSa+JSHrJG2lorppXmSnJZDxrZDExkywwBK3is/JMHnOmIRLOxPB5qOl3PPWfOg==",
   "success": true,
-  "projectFilePath": "C:\\@job\\SoftC\\Csud.Crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj",
+  "projectFilePath": "C:\\@job\\SoftC\\csud.crud\\Csud.Crud.DbTool\\Csud.Crud.DbTool.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\dnsclient\\1.4.0\\dnsclient.1.4.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",

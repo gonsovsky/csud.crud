@@ -7,7 +7,7 @@ namespace Csud.Crud.DbTool.PromtEx.ConsoleEx
 {
     public abstract class ConsoleProgram
     {
-        public static Config Cfg => X.Cfg;
+        public static Config Cfg => Tool.Cfg;
         protected string Title { get; set; }
 
         public bool BreadcrumbHeader { get; private set; }

@@ -71,6 +71,8 @@ namespace Csud.Crud.Storage
                 .Property(f => f.Key)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<AppRoleDetails>().HasKey(x => new { x.RoleKey, x.OperationKey });
+
             modelBuilder.Entity<AppRole>().HasKey(x => new { x.DistribKey, x.RoleName });
 
             modelBuilder.Entity<AppRoleDefinition>().HasKey(x => x.Key);
@@ -79,19 +81,22 @@ namespace Csud.Crud.Storage
                 .Property(f => f.Key)
                 .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<AppRoleDetails>().HasKey(x => new { x.RoleKey, x.OperationKey });
-
-            modelBuilder.Entity<AppEntityDefinition>().HasKey(x => x.EntityKey);
-
-            modelBuilder.Entity<AppEntity>().HasKey(x => new { x.DistribKey, x.EntityName });
-
-            modelBuilder.Entity<AppAttributeDefinition>().HasKey(x => x.AttributeKey);
-
-            modelBuilder.Entity<AppAttribute>().HasKey(x => new { x.DistribKey, x.AttributeType });
-
-            modelBuilder.Entity<AppOperationDefinition>().HasKey(x => x.OperationName);
-
             modelBuilder.Entity<AppOperation>().HasKey(x => new { x.DistribKey, x.OperationName });
+
+            modelBuilder.Entity<AppOperationDefinition>().HasKey(x => x.Key);
+
+            modelBuilder.Entity<AppOperationDefinition>()
+                .Property(f => f.Key)
+                .ValueGeneratedOnAdd();
+
+
+            //modelBuilder.Entity<AppEntityDefinition>().HasKey(x => x.EntityKey);
+
+            //modelBuilder.Entity<AppEntity>().HasKey(x => new { x.DistribKey, x.EntityName });
+
+            //modelBuilder.Entity<AppAttributeDefinition>().HasKey(x => x.AttributeKey);
+
+            //modelBuilder.Entity<AppAttribute>().HasKey(x => new { x.DistribKey, x.AttributeType });
 
             modelBuilder.Entity<AppImport>().HasKey(x => x.Key);
         }
@@ -147,12 +152,13 @@ namespace Csud.Crud.Storage
             return Path.Combine(config.Import.Folder, filename);
         }
 
-        public void Add<T>(T entity, bool generateKey = true) where T : Base
+        public T Add<T>(T entity, bool generateKey = true) where T : Base
         {
             if (generateKey)
                 entity.Key = 0;
             Set<T>().Add(entity);
             SaveChanges();
+            return entity;
         }
 
         public new void Update<T>(T entity) where T : Base

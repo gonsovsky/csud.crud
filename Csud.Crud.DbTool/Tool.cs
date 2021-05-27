@@ -1,46 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Csud.Crud.DbTool.Generation;
 using Csud.Crud.DbTool.Import;
+using Csud.Crud.DbTool.Log;
 using Csud.Crud.DbTool.PromtEx;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Csud.Crud.DbTool
 {
-    public static class X
+    internal static class Tool
     {
-        public static Promt Promt;
+        internal static Promt Promt;
 
-        public static IServiceProvider ServiceProvider;
+        internal static IServiceProvider ServiceProvider;
 
-        public static Config Cfg;
+        internal static Config Cfg;
 
-        public static IConfiguration cfg;
+        internal static IConfiguration Configuration;
 
-        public static void Init()
+        internal static void Init()
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.json", true, true);
-            cfg = builder.Build();
-            Cfg = new Config(cfg);
-            Cfg.DropOnStart = true;
+            Configuration = builder.Build();
+            Cfg = new Config(Configuration) {DropOnStart = true};
             Promt = new Promt();
         }
 
-        public static void RegisterServices()
+        internal static void RegisterServices()
         {
             var services = new ServiceCollection();
 
-            services.AddSingleton(typeof(IConfiguration), cfg);
+            services.AddSingleton(typeof(IConfiguration), Configuration);
 
             services.AddSingleton(typeof(Config), Cfg);
 
-            Csud.Crud.CsudService.ConfigureServices(services);
+            CsudService.ConfigureServices(services);
+
+            services.AddSingleton<ILogService, LogService>();
 
             services.AddSingleton<IGeneratorService, GeneratorService>();
 
