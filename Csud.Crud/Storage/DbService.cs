@@ -18,6 +18,9 @@ namespace Csud.Crud.Storage
 
         public T Add<T>(T entity, bool generateKey = true) where T : Base;
         public void Update<T>(T entity) where T : Base;
+
+        public void Delete<T>(T entity) where T : Base;
+
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base;
 
         public IQueryable<Person> Person => Select<Person>();
@@ -121,6 +124,12 @@ namespace Csud.Crud.Storage
                 entity.CopyTo(result, false, true);
                 db.Update(result);
             }
+        }
+
+        public void Delete<T>(T entity) where T : Base
+        {
+            entity.Status = Const.Status.Removed;
+            Update(entity);
         }
 
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base

@@ -4,6 +4,8 @@ using Csud.Crud.DbTool.Generation;
 using Csud.Crud.DbTool.Import;
 using Csud.Crud.DbTool.PromtEx;
 using Csud.Crud.DbTool.PromtEx.Pages;
+using Csud.Crud.Models.Rules;
+using Csud.Crud.Storage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Csud.Crud.DbTool
@@ -13,8 +15,6 @@ namespace Csud.Crud.DbTool
         internal static void Main(string[] args)
         {
             Tool.Init();
-            Tool.RegisterServices();
-
             switch (Command)
             {
                 case "generate":
@@ -22,6 +22,9 @@ namespace Csud.Crud.DbTool
                     break;
                 case "import":
                     Import();
+                    break;
+                case "create":
+                    Create();
                     break;
                 case "":
                     Tool.Promt.Run();
@@ -36,14 +39,23 @@ namespace Csud.Crud.DbTool
 
         internal static void Import(string p = "")
         {
+            Tool.RegisterServices(false);
             var importer = Tool.ServiceProvider.GetRequiredService<IImportService>();
             importer.Run(p != "" ? p : Argument);
         }
 
         internal static void Generate()
         {
+            Tool.RegisterServices(true);
             var generator = Tool.ServiceProvider.GetRequiredService<IGeneratorService>();
             generator.Run(Promt.Result);
+        }
+
+        internal static void Create()
+        {
+            Tool.RegisterServices(true);
+            var db = Tool.ServiceProvider.GetRequiredService<IDbService>();
+            db.Select<Account>();
         }
 
         internal static string Command

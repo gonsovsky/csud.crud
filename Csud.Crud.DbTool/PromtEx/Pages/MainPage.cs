@@ -13,10 +13,12 @@ namespace Csud.Crud.DbTool.PromtEx.Pages
         {
             var opts = new List<Option>();
 
-            var op1 = new Option("Import database  : [Application... tables] from XML file", Promt.ImportPage, () => Promt.Program.NavigateTo(Promt.ImportPage));
-            var op2 = new Option("Generate database: [All tables] with fake data", Promt.GenPage, () => Promt.Program.NavigateTo(Promt.GenPage));
+            var op1 = new Option("Create database :", Promt.CreatePage, () => Promt.Program.NavigateTo(Promt.CreatePage));
+            var op2 = new Option("Import database  : [Application... tables] from XML file", Promt.ImportPage, () => Promt.Program.NavigateTo(Promt.ImportPage));
+            var op3 = new Option("Generate database: [All tables] with fake data", Promt.GenPage, () => Promt.Program.NavigateTo(Promt.GenPage));
             opts.Add(op1);
             opts.Add(op2);
+            opts.Add(op3);
             Promt.Load();
 
             return opts.ToArray();

@@ -23,27 +23,26 @@ namespace Csud.Crud.DbTool
             var builder = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.json", true, true);
             Configuration = builder.Build();
-            Cfg = new Config(Configuration) {DropOnStart = true};
+            Cfg = new Config(Configuration);
             Promt = new Promt();
         }
 
-        internal static void RegisterServices()
+        internal static void RegisterServices(bool dropOnStart)
         {
+            if (Registered)
+                return;
+            Registered = true;
+            Cfg.DropOnStart = dropOnStart;
             var services = new ServiceCollection();
-
             services.AddSingleton(typeof(IConfiguration), Configuration);
-
             services.AddSingleton(typeof(Config), Cfg);
-
             CsudService.ConfigureServices(services);
-
             services.AddSingleton<ILogService, LogService>();
-
             services.AddSingleton<IGeneratorService, GeneratorService>();
-
             services.AddSingleton<IImportService, ImportService>();
-
             ServiceProvider = services.BuildServiceProvider(true);
         }
+
+        internal static bool Registered { get; set; }
     }
 }

@@ -16,6 +16,8 @@ namespace Csud.Crud.DbTool.PromtEx
 
         internal static ImportPage ImportPage;
 
+        internal static CreatePage CreatePage;
+
         internal static MainPage MainPage;
 
         public Promt()
@@ -28,6 +30,8 @@ namespace Csud.Crud.DbTool.PromtEx
             Program.AddPage(GenPage);
             ImportPage = new ImportPage();
             Program.AddPage(ImportPage);
+            CreatePage = new CreatePage();
+            Program.AddPage(CreatePage);
             SetPage(MainPage);
         }
 

@@ -44,10 +44,13 @@ namespace Csud.Crud.DbTool.Import
             Db.Update(app);
 
             //Operations
-            var azOperations = azApplication.GetItems("AzOperation");
+            var azOperations = azApplication.GetItems("AzOperation").ToList();
             foreach (var opNode in azOperations)
             {
-                var def = Db.Add(new AppOperationDefinitionX(opNode, obj) as AppOperationDefinition);
+                var def = Db.AppOperationDefinition.Any(a => a.OperationName == opNode.Attribute("Name").Value)
+                    ? 
+                    Db.AppOperationDefinition.First(a => a.OperationName == opNode.Attribute("Name").Value) 
+                    : Db.Add(new AppOperationDefinitionX(opNode, obj) as AppOperationDefinition);
                 Db.Add(new AppOperationX(opNode, distributive, def) as AppOperation, false);
             }
 
@@ -58,10 +61,14 @@ namespace Csud.Crud.DbTool.Import
             IEnumerable<XElement> ExpandOperations(XElement taskNode) =>
                 azApplication.Expand(taskNode, "OperationLink", "AzOperation");
 
-            var azTasks = azApplication.GetItems("AzTask");
-            foreach (var roleNode in azTasks)
+            var azRoles = azApplication.GetItems("AzTask").ToList();
+            foreach (var roleNode in azRoles)
             {
-                var def = Db.Add(new AppRoleDefinitionX(roleNode, obj) as AppRoleDefinition);
+
+                var def = Db.AppRoleDefinition.Any(a => a.RoleName == roleNode.Attribute("Name").Value)
+                    ?
+                    Db.AppRoleDefinition.First(a => a.RoleName == roleNode.Attribute("Name").Value)
+                    : Db.Add(new AppRoleDefinitionX(roleNode, obj) as AppRoleDefinition);
                 var role = Db.Add(new AppRoleX(roleNode, distributive, def) as AppRole, false);
 
                 var subRoles = roleNode.Traverse(ExpandTasks)
@@ -75,9 +82,25 @@ namespace Csud.Crud.DbTool.Import
                 {
                     var operation = Db.AppOperation
                         .First(a=> a.XmlGuid == op.Guid());
-                    Db.Add(new AppRoleDetailsX(role, operation) as AppRoleDetails);
+
+                    if (Db.AppRoleDetails.Any(a=> a.RoleKey == role.Key && a.OperationKey==operation.Key)==false)
+                        Db.Add(new AppRoleDetailsX(role, operation) as AppRoleDetails);
                 }
             }
+
+            //clean old roles & operations
+            var oldOperations = Db.AppOperationDefinition.ToList().Where(a =>
+                azOperations.Select(b => b.Attribute("Name").Value).Contains(a.OperationName) == false
+            );
+            foreach (var oldOperation in oldOperations)
+                Db.Delete(oldOperation);
+
+            var oldRoles = Db.AppRoleDefinition.ToList().Where(a =>
+                azRoles.Select(b => b.Attribute("Name").Value).Contains(a.RoleName) == false
+            );
+            foreach (var oldRole in oldRoles)
+                Db.Delete(oldRole);
+
         }
     }
 }

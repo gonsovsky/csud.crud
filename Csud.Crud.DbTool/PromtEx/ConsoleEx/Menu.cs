@@ -35,6 +35,12 @@ namespace Csud.Crud.DbTool.PromtEx.ConsoleEx
 
                 }
 
+                else if (Options[i].Name.Contains($"Create database"))
+                {
+                    Output.WriteLine("");
+                    Output.WriteLine(ConsoleColor.Green, "{0}. {1}", i + 1, Options[i].Name + " (" + ConsoleProgram.Cfg.UseDataBase + ")");
+                }
+
                 else if (Options[i].Name.Contains($"Generate database"))
                 {
                     Output.WriteLine("");

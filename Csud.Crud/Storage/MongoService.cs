@@ -245,6 +245,12 @@ namespace Csud.Crud.Storage
             entity.SaveAsync().Wait();
         }
 
+        public void Delete<T>(T entity) where T : Base
+        {
+            entity.Status = Const.Status.Removed;
+            Update(entity);
+        }
+
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base
         {
             return DB.Queryable<T>().Where(x => status== Const.Status.Any || x.Status == status);
