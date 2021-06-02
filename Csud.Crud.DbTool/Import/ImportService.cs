@@ -3,6 +3,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Csud.Crud.DbTool.Import.Xml;
 using Csud.Crud.DbTool.Log;
+using Csud.Crud.Models;
 using Csud.Crud.Models.App;
  using Csud.Crud.Models.Rules;
  using Csud.Crud.Storage;
@@ -47,11 +48,15 @@ namespace Csud.Crud.DbTool.Import
             var azOperations = azApplication.GetItems("AzOperation").ToList();
             foreach (var opNode in azOperations)
             {
-                var def = Db.AppOperationDefinition.Any(a => a.OperationName == opNode.Attribute("Name").Value)
+                var def = Db.AppOperationDefinition.Any(a => a.OperationName == opNode.Name())
                     ? 
                     Db.AppOperationDefinition.First(a => a.OperationName == opNode.Name()) 
                     : Db.Add(new AppOperationDefinitionX(opNode, obj) as AppOperationDefinition);
                 Db.Add(new AppOperationX(opNode, distributive, def) as AppOperation, false);
+
+                if (def.Status == Const.Status.Actual) continue;
+                def.Status = Const.Status.Actual;
+                Db.Update(def);
             }
 
             //Roles & Role Details
@@ -70,6 +75,10 @@ namespace Csud.Crud.DbTool.Import
                     Db.AppRoleDefinition.First(a => a.RoleName == roleNode.Name())
                     : Db.Add(new AppRoleDefinitionX(roleNode, obj) as AppRoleDefinition);
                 var role = Db.Add(new AppRoleX(roleNode, distributive, def) as AppRole, false);
+
+                if (def.Status == Const.Status.Actual) continue;
+                def.Status = Const.Status.Actual;
+                Db.Update(def);
 
                 var subRoles = roleNode.Traverse(ExpandTasks)
                     .DistinctBy(a => a.Guid());
