@@ -43,6 +43,9 @@ namespace Csud.Crud.DbTool.Import
 
         internal static string Guid(this XElement el) => el.Attribute("Guid")?.Value;
 
+        internal static string Name(this XElement el) => el.Attribute("Name")?.Value;
+
+
         internal static IEnumerable<XElement> Expand(this XElement rootNode, XElement node, string link, string type)
         {
             var links = node.GetItems(link);

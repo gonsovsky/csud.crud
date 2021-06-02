@@ -49,7 +49,7 @@ namespace Csud.Crud.DbTool.Import
             {
                 var def = Db.AppOperationDefinition.Any(a => a.OperationName == opNode.Attribute("Name").Value)
                     ? 
-                    Db.AppOperationDefinition.First(a => a.OperationName == opNode.Attribute("Name").Value) 
+                    Db.AppOperationDefinition.First(a => a.OperationName == opNode.Name()) 
                     : Db.Add(new AppOperationDefinitionX(opNode, obj) as AppOperationDefinition);
                 Db.Add(new AppOperationX(opNode, distributive, def) as AppOperation, false);
             }
@@ -65,9 +65,9 @@ namespace Csud.Crud.DbTool.Import
             foreach (var roleNode in azRoles)
             {
 
-                var def = Db.AppRoleDefinition.Any(a => a.RoleName == roleNode.Attribute("Name").Value)
+                var def = Db.AppRoleDefinition.Any(a => a.RoleName == roleNode.Name())
                     ?
-                    Db.AppRoleDefinition.First(a => a.RoleName == roleNode.Attribute("Name").Value)
+                    Db.AppRoleDefinition.First(a => a.RoleName == roleNode.Name())
                     : Db.Add(new AppRoleDefinitionX(roleNode, obj) as AppRoleDefinition);
                 var role = Db.Add(new AppRoleX(roleNode, distributive, def) as AppRole, false);
 
@@ -90,13 +90,13 @@ namespace Csud.Crud.DbTool.Import
 
             //clean old roles & operations
             var oldOperations = Db.AppOperationDefinition.ToList().Where(a =>
-                azOperations.Select(b => b.Attribute("Name").Value).Contains(a.OperationName) == false
+                azOperations.Select(b => b.Name()).Contains(a.OperationName) == false
             );
             foreach (var oldOperation in oldOperations)
                 Db.Delete(oldOperation);
 
             var oldRoles = Db.AppRoleDefinition.ToList().Where(a =>
-                azRoles.Select(b => b.Attribute("Name").Value).Contains(a.RoleName) == false
+                azRoles.Select(b => b.Name()).Contains(a.RoleName) == false
             );
             foreach (var oldRole in oldRoles)
                 Db.Delete(oldRole);

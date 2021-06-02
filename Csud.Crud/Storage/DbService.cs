@@ -101,7 +101,7 @@ namespace Csud.Crud.Storage
                 {
                     entity = entity.CloneTo<T>(!generateKey, false);
                 }
-                db.Add(entity, generateKey);
+                entity = db.Add(entity, generateKey);
             }
             return entity;
         }
