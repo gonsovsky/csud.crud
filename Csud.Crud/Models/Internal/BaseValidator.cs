@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Csud.Crud.Models
+namespace Csud.Crud.Models.Internal
 {
     internal class BaseValidator : ValidationAttribute
     {

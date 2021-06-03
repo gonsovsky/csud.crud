@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Csud.Crud.DbTool.PromtEx.ConsoleEx;
 using Csud.Crud.DbTool.PromtEx.Pages;
-using Csud.Crud.Models;
+using Csud.Crud.Models.Internal;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Csud.Crud.DbTool.PromtEx

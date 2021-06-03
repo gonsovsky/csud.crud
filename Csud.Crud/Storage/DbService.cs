@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using Csud.Crud.Models;
 using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Internal;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
-using Csud.Crud.Services;
+using Csud.Crud.Services.Internal;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Csud.Crud.Storage
 {
@@ -15,14 +18,11 @@ namespace Csud.Crud.Storage
     {
         public void Drop();
         string GetPath(string filename);
-
         public T Add<T>(T entity, bool generateKey = true) where T : Base;
+        public T Get<T>(IEntityKey key) where T : Base;
         public void Update<T>(T entity) where T : Base;
-
         public void Delete<T>(T entity) where T : Base;
-
         public IQueryable<T> Select<T>(string status = Const.Status.Actual) where T : Base;
-
         public IQueryable<Person> Person => Select<Person>();
         public IQueryable<AccountProvider> AccountProvider => Select<AccountProvider>();
         public IQueryable<Account> Account => Select<Account>();
@@ -106,21 +106,43 @@ namespace Csud.Crud.Storage
             return entity;
         }
 
+        public T Get<T>(IEntityKey key) where T : Base
+        {
+            T result;
+            if (typeof(T).GetInterfaces().Contains(typeof(IOneToMany)))
+            {
+                var entityKey = (EntityKey) key;
+                result = Select<T>().First(a => a.Key == entityKey.Key);
+            }
+            else if (key is AccountKey accKey)
+            {
+                result = Select<T>().First(a => String.Compare((a as Account).Key, accKey.Account, StringComparison.Ordinal) == 0 
+                                                && (a as Account).AccountProviderKey == accKey.Provider);
+
+            }
+            else
+            {
+                var entityKey = (EntityKey)key;
+                result = Select<T>().First(a => a.Key == entityKey.Key);
+            }
+
+            return result;
+        }
+
+
         public void Update<T>(T entity) where T : Base
         {
             foreach (var db in DbX)
             {
-                T result;
-                if (entity is IOneToMany onetomany)
+                var result = entity switch
                 {
-                    result = db.Select<T>().First(a => a.Key == entity.Key &&
-                                                       ((IOneToMany) a).RelatedKey ==
-                                                       onetomany.RelatedKey);
-                }
-                else
-                {
-                    result = db.Select<T>().First(a => a.Key == entity.Key);
-                }
+                    IOneToMany oneToMany => db.Select<T>()
+                        .First(a => a.Key == entity.Key && ((IOneToMany) a).RelatedKey == oneToMany.RelatedKey),
+                    Account acc => Select<T>()
+                        .First(a => String.Compare((a as Account).Key, acc.Key, StringComparison.Ordinal) == 0 &&
+                                    (a as Account).AccountProviderKey == acc.AccountProviderKey),
+                    _ => db.Select<T>().First(a => a.Key == entity.Key)
+                };
                 entity.CopyTo(result, false, true);
                 db.Update(result);
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Csud.Crud.Models;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
 using Microsoft.AspNetCore.Mvc;
 

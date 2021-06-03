@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Csud.Crud.Models.Internal;
-using Csud.Crud.Services;
+using Csud.Crud.Services.Internal;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
-namespace Csud.Crud.Models
+namespace Csud.Crud.Models.Internal
 {
     public abstract class Base : IEntity, IBase
     {

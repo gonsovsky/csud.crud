@@ -1,6 +1,6 @@
 ﻿using MongoDB.Entities;
 
-namespace Csud.Crud.Models
+namespace Csud.Crud.Models.Internal
 {
     public class Seq: Entity
     {

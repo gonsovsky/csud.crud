@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Csud.Crud.Models.Internal;
-using Csud.Crud.Services;
+using Csud.Crud.Services.Internal;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Entities;
 

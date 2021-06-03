@@ -1,4 +1,5 @@
 ﻿using System;
+using Csud.Crud.Models.Internal;
 
 namespace Csud.Crud.Models.Maintenance
 {

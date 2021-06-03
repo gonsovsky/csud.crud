@@ -22,6 +22,11 @@ C:\@job\Csud.Crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.dll
 C:\@job\Csud.Crud\Csud.Crud.DbTool\obj\Debug\net5.0\ref\Csud.Crud.DbTool.dll
 C:\@job\Csud.Crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.pdb
 C:\@job\Csud.Crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.genruntimeconfig.cache
+C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.csprojAssemblyReference.cache
+C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.GeneratedMSBuildEditorConfig.editorconfig
+C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.AssemblyInfoInputs.cache
+C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.AssemblyInfo.cs
+C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.csproj.CoreCompileInputs.cache
 C:\@job\SoftC\csud.crud\Output\net5.0\Resources\КПИ_ИС.xml
 C:\@job\SoftC\csud.crud\Output\net5.0\Csud.Crud.DbTool.exe
 C:\@job\SoftC\csud.crud\Output\net5.0\Csud.Crud.DbTool.deps.json
@@ -30,11 +35,6 @@ C:\@job\SoftC\csud.crud\Output\net5.0\Csud.Crud.DbTool.runtimeconfig.dev.json
 C:\@job\SoftC\csud.crud\Output\net5.0\Csud.Crud.DbTool.dll
 C:\@job\SoftC\csud.crud\Output\net5.0\ref\Csud.Crud.DbTool.dll
 C:\@job\SoftC\csud.crud\Output\net5.0\Csud.Crud.DbTool.pdb
-C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.csprojAssemblyReference.cache
-C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.GeneratedMSBuildEditorConfig.editorconfig
-C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.AssemblyInfoInputs.cache
-C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.AssemblyInfo.cs
-C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.csproj.CoreCompileInputs.cache
 C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.csproj.CopyComplete
 C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\Csud.Crud.DbTool.dll
 C:\@job\SoftC\csud.crud\Csud.Crud.DbTool\obj\Debug\net5.0\ref\Csud.Crud.DbTool.dll

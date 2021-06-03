@@ -2,61 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Csud.Crud.Models.Internal;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Csud.Crud.Models.Internal
+namespace Csud.Crud.Services.Internal
 {
-    public interface IBase
-    {
-        public int Key { get; set; }
-    }
-
-    public interface INoneRepo : IBase
+    public interface IOneToAny : IBase
     {
 
     }
 
-    internal interface INamed
-    {
-        string Name { get; set; }
-    }
-
-    internal interface IDescribed
-    {
-        string Description { get; set; }
-    }
-
-    internal interface IDisplayNamed
-    {
-        string DisplayName { get; set; }
-    }
-
-    internal interface IWellNamed: INamed, IDescribed, IDisplayNamed
-    {
-
-    }
-
-    internal interface IContextable
-    {
-        int ContextKey { get; set; }
-    }
-
-    public interface IOneToAny: IBase
-    {
-
-    }
-
-    public interface IEditable : IBase, INoneRepo
-    {
-
-    }
-
-    public interface IAddable : IEditable
-    {
-
-    }
-
-    public interface IOneToOne: IOneToAny
+    public interface IOneToOne : IOneToAny
     {
         public virtual void Link(Base linked)
         {
@@ -64,7 +20,7 @@ namespace Csud.Crud.Models.Internal
         }
     }
 
-    public interface IOneToMany: IOneToAny
+    public interface IOneToMany : IOneToAny
     {
         public int RelatedKey { get; set; }
 
@@ -81,7 +37,7 @@ namespace Csud.Crud.Models.Internal
             where TLinked : Base;
     }
 
-    public interface IOneToManyEdit: IOneToMany, IEditable
+    public interface IOneToManyEdit : IOneToMany, IEditable
     {
         [NotMapped] [BsonIgnore] [JsonIgnore] public List<int> RelatedKeys { get; set; }
     }
@@ -91,8 +47,8 @@ namespace Csud.Crud.Models.Internal
 
     }
 
-    public interface IOneToManyItem<TEntity, TLinked> 
-        where TEntity : Base, IOneToMany 
+    public interface IOneToManyItem<TEntity, TLinked>
+        where TEntity : Base, IOneToMany
         where TLinked : Base
     {
         [JsonPropertyName("relation")]
@@ -103,7 +59,7 @@ namespace Csud.Crud.Models.Internal
     }
 
     public interface IOneToManyRecord<TEntity, TLinked>
-        where TEntity : Base, IOneToMany 
+        where TEntity : Base, IOneToMany
         where TLinked : Base
     {
         [JsonPropertyName("relation")]

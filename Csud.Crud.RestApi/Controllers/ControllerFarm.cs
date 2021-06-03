@@ -1,6 +1,8 @@
-﻿using Csud.Crud.Models.Rules;
+﻿using Csud.Crud.Models.Internal;
+using Csud.Crud.Models.Rules;
 using Csud.Crud.Services;
 using Microsoft.AspNetCore.Mvc;
+using Csud.Crud.Services.Internal;
 
 namespace Csud.Crud.RestApi.Controllers
 {
@@ -42,7 +44,7 @@ namespace Csud.Crud.RestApi.Controllers
 
     [Route("api/account")]
     [ApiController]
-    public class AccountController : OneController<Account, AccountAdd, AccountEdit>
+    public class AccountController : OneController<Account, AccountAdd, AccountEdit, AccountKey>
     {
         public AccountController(IEntityService<Account> svc) : base(svc)
         {
@@ -52,7 +54,7 @@ namespace Csud.Crud.RestApi.Controllers
     
     [Route("api/accountProvider")]
     [ApiController]
-    public class AccountProviderController : OneController<AccountProvider, AccountProviderAdd, AccountProviderEdit>
+    public class AccountProviderController : OneController<AccountProvider, AccountProviderAdd, AccountProviderEdit,EntityKey>
     {
         public AccountProviderController(IEntityService<AccountProvider> svc) : base(svc)
         {
@@ -61,7 +63,7 @@ namespace Csud.Crud.RestApi.Controllers
 
     [Route("api/object")]
     [ApiController]
-    public class ObjectController : OneController<ObjectX, ObjectXAdd, ObjectXEdit>
+    public class ObjectController : OneController<ObjectX, ObjectXAdd, ObjectXEdit, EntityKey>
     {
         public ObjectController(IEntityService<ObjectX> svc) : base(svc)
         {
@@ -70,7 +72,7 @@ namespace Csud.Crud.RestApi.Controllers
 
     [Route("api/subject")]
     [ApiController]
-    public class SubjectController : OneController<Subject, SubjectAdd, SubjectEdit>
+    public class SubjectController : OneController<Subject, SubjectAdd, SubjectEdit, EntityKey>
     {
         public SubjectController(IEntityService<Subject> svc) : base(svc)
         {

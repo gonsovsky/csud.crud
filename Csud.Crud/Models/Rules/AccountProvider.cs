@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Csud.Crud.Models.Internal;
-using Csud.Crud.Services;
 
 namespace Csud.Crud.Models.Rules
 {

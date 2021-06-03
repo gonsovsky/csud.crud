@@ -9,10 +9,11 @@ namespace Csud.Crud.RestApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class OneController<TEntity, TModelAdd, TModelEdit> : Controller 
+    public class OneController<TEntity, TModelAdd, TModelEdit, TEntityKey> : Controller 
         where TEntity : Base
         where TModelAdd : TEntity, IAddable
         where TModelEdit : TEntity, IEditable
+        where TEntityKey : IEntityKey
     {
         protected readonly IEntityService<TEntity> Svc;
 
@@ -37,11 +38,11 @@ namespace Csud.Crud.RestApi.Controllers
         }
 
         [HttpGet("{key}")]
-        public virtual IActionResult Get(int key)
+        public virtual IActionResult Get([FromQuery] TEntityKey key)
         {
             try
             {
-                var entity = Svc.Look(key);
+                var entity = Svc.Get(key);
                 if (entity == null)
                 {
                     return NotFound();
@@ -58,7 +59,7 @@ namespace Csud.Crud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Post(int key, TModelEdit entity)
+        public virtual IActionResult Post([FromQuery] TEntityKey key, TModelEdit entity)
         {
             try
             {
@@ -66,7 +67,7 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                entity.Key = key;
+                key.CopyTo(entity);
                 var result = Svc.Update(entity);
                 return Ok(result);
             }
@@ -97,12 +98,11 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpDelete("{key}")]
-        public virtual IActionResult Delete(int key)
+        public virtual IActionResult Delete([FromQuery] TEntityKey key)
         {
             try
             {
-                Svc.Delete(Svc.Select().First(a => a.Key == key));
+                Svc.Delete(Svc.Get(key));
                 return Ok();
             }
             catch (Exception ex)
@@ -115,7 +115,7 @@ namespace Csud.Crud.RestApi.Controllers
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
-        public virtual IActionResult Copy(int key)
+        public virtual IActionResult Copy([FromQuery] TEntityKey key)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace Csud.Crud.RestApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var result = Svc.Copy(Svc.Select().First(a => a.Key == key));
+                var result = Svc.Copy(Svc.Get(key));
                 return Ok(result);
             }
             catch (Exception ex)

@@ -2,6 +2,7 @@
 using Csud.Crud.Models;
 using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
+using Csud.Crud.Services.Internal;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Csud.Crud.RestApi.Controllers

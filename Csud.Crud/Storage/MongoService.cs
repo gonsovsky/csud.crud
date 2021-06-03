@@ -8,7 +8,7 @@ using Csud.Crud.Models.Contexts;
 using Csud.Crud.Models.Internal;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
-using Csud.Crud.Services;
+using Csud.Crud.Services.Internal;
 using MongoDB.Driver;
 using MongoDB.Entities;
 
@@ -238,6 +238,11 @@ namespace Csud.Crud.Storage
                 entity.Key = entity.GenerateNewKey();
             entity.SaveAsync().Wait();
             return entity;
+        }
+
+        public T Get<T>(IEntityKey key) where T : Base
+        {
+            throw new NotImplementedException();
         }
 
         public void Update<T>(T entity) where T : Base

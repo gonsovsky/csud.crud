@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Csud.Crud.DbTool.PromtEx.ConsoleEx;
-using Csud.Crud.Models.Internal;
 
 namespace Csud.Crud.DbTool.PromtEx.Pages
 {

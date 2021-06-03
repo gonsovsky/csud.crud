@@ -1,7 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using Csud.Crud.Models.Internal;
 using Csud.Crud.Services;
@@ -72,6 +75,8 @@ namespace Csud.Crud.Models.Rules
             set => PersonKey = value.Key;
         }
 
+        [BsonElement("Key")] [Key] public new virtual string Key { get; set; }
+
         public string Name { get; set; }
         public string Description { get; set; }
         public string DisplayName { get; set; }
@@ -79,13 +84,38 @@ namespace Csud.Crud.Models.Rules
 
     public class AccountEdit : Account, IEditable
     {
-        [JsonIgnore] public override int Key { get; set; }
+        [JsonIgnore] public override string Key { get; set; }
 
         [JsonIgnore] public override int AccountProviderKey { get; set; }
     }
 
     public class AccountAdd : Account, IAddable
     {
-        [JsonIgnore] public override int Key { get; set; }
+        [JsonIgnore] public override string Key { get; set; }
     }
+
+    public class AccountKey : IEntityKey
+    {
+        [DisplayName("account")]
+        [DataMember(Name = "account")]
+        [JsonPropertyName("account")]
+        public virtual string Account { get; set; }
+
+        public virtual int Provider { get; set; }
+
+        public void CopyTo(Base entity)
+        {
+            if (entity is not Account acc) 
+                return;
+            acc.AccountProviderKey = Provider;
+            acc.Key = Account;
+        }
+        public virtual IEntityKey CopyFrom(Base entity)
+        {
+            if (entity is not Account acc)
+                return null;
+            return new AccountKey() { Account = acc.Key, Provider = acc.AccountProviderKey};
+        }
+    }
+
 }

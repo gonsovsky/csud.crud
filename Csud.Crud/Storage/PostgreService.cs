@@ -4,6 +4,7 @@ using System.Linq;
 using Csud.Crud.Models;
 using Csud.Crud.Models.App;
 using Csud.Crud.Models.Contexts;
+using Csud.Crud.Models.Internal;
 using Csud.Crud.Models.Maintenance;
 using Csud.Crud.Models.Rules;
 using Microsoft.EntityFrameworkCore;
@@ -159,6 +160,11 @@ namespace Csud.Crud.Storage
             Set<T>().Add(entity);
             SaveChanges();
             return entity;
+        }
+
+        public T Get<T>(IEntityKey key) where T : Base
+        {
+            throw new NotImplementedException();
         }
 
         public new void Update<T>(T entity) where T : Base
