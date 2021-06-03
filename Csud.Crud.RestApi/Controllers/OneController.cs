@@ -37,7 +37,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpGet("{key}")]
+        [HttpGet()]
         public virtual IActionResult Get([FromQuery] TEntityKey key)
         {
             try
@@ -55,7 +55,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost("{key}")]
+        [HttpPost()]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]
@@ -98,6 +98,10 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
+        [HttpDelete]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [Produces("application/json")]
         public virtual IActionResult Delete([FromQuery] TEntityKey key)
         {
             try
@@ -111,7 +115,7 @@ namespace Csud.Crud.RestApi.Controllers
             }
         }
 
-        [HttpPost("copy/{key}")]
+        [HttpPost("copy")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [Produces("application/json")]

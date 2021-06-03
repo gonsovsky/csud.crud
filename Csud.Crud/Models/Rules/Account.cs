@@ -26,7 +26,7 @@ namespace Csud.Crud.Models.Rules
                         typeof(IEntityService<AccountProvider>));
                 if (serviceAccProvider == null)
                     throw new ApplicationException($"{nameof(IEntityService<AccountProvider>)} is not found");
-                if (!serviceAccProvider.Select().Any(x => x.Key == account.AccountProviderKey))
+                if (!serviceAccProvider.Select().Any(x => x.Key == account.ProviderKey))
                     return new ValidationResult("Неверный ключ поставщика услуг.");
             }
 
@@ -58,13 +58,12 @@ namespace Csud.Crud.Models.Rules
     public class Account: Base, IWellNamed
     {
         protected override string QueueName => "Account";
-        public virtual int AccountProviderKey { get; set; }
         public int PersonKey { get; set; }
         public int SubjectKey { get; set; }
 
         [NotMapped] [BsonIgnore] [JsonIgnore] public AccountProvider AccountProvider
         {
-            set => AccountProviderKey = value.Key;
+            set => ProviderKey = value.Key;
         }
         [NotMapped] [BsonIgnore] [JsonIgnore] public Subject Subject
         {
@@ -75,7 +74,21 @@ namespace Csud.Crud.Models.Rules
             set => PersonKey = value.Key;
         }
 
-        [BsonElement("Key")] [Key] public new virtual string Key { get; set; }
+        [NotMapped] [BsonIgnore] [JsonIgnore] protected new string Key
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
+        public virtual string AccountKey { get; set; }
+        public virtual int ProviderKey { get; set; }
 
         public string Name { get; set; }
         public string Description { get; set; }
@@ -84,14 +97,14 @@ namespace Csud.Crud.Models.Rules
 
     public class AccountEdit : Account, IEditable
     {
-        [JsonIgnore] public override string Key { get; set; }
+        [JsonIgnore] public override string AccountKey { get; set; }
 
-        [JsonIgnore] public override int AccountProviderKey { get; set; }
+        [JsonIgnore] public override int ProviderKey { get; set; }
     }
 
     public class AccountAdd : Account, IAddable
     {
-        [JsonIgnore] public override string Key { get; set; }
+        [JsonIgnore] public override string AccountKey { get; set; }
     }
 
     public class AccountKey : IEntityKey
@@ -107,14 +120,14 @@ namespace Csud.Crud.Models.Rules
         {
             if (entity is not Account acc) 
                 return;
-            acc.AccountProviderKey = Provider;
-            acc.Key = Account;
+            acc.ProviderKey = Provider;
+            acc.AccountKey = Account;
         }
         public virtual IEntityKey CopyFrom(Base entity)
         {
             if (entity is not Account acc)
                 return null;
-            return new AccountKey() { Account = acc.Key, Provider = acc.AccountProviderKey};
+            return new AccountKey() { Account = acc.AccountKey, Provider = acc.ProviderKey};
         }
     }
 

@@ -58,8 +58,8 @@ namespace Csud.Crud.Storage
                         o.Background = false;
                         o.Unique = true;
                     })
-                    .Key(a => a.Key, KeyType.Text)
-                    .Key(a => a.AccountProviderKey, KeyType.Text)
+                    .Key(a => a.AccountKey, KeyType.Text)
+                    .Key(a => a.ProviderKey, KeyType.Text)
                     .CreateAsync().Wait();
 
 

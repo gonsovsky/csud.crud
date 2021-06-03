@@ -50,10 +50,10 @@ namespace Csud.Crud.Storage
                 .HasKey(x => new { x.Key, x.RelatedKey });
 
             modelBuilder.Entity<Account>()
-                .HasKey(x => x.Key);
-
-            modelBuilder.Entity<Account>()
-                .HasIndex(x => new { x.Key, x.AccountProviderKey });
+                .HasKey(x => new
+                {
+                    x.AccountKey, x.ProviderKey
+                });
 
             modelBuilder.Entity<Person>()
                 .HasIndex(x => new { x.FirstName, x.LastName });

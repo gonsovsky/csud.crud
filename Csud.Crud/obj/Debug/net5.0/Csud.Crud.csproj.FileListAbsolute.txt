@@ -12,7 +12,6 @@ C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.dll
 C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\ref\Csud.Crud.dll
 C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.pdb
 C:\@job\Csud.Crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.genruntimeconfig.cache
-C:\@job\SoftC\csud.crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.csprojAssemblyReference.cache
 C:\@job\SoftC\csud.crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.GeneratedMSBuildEditorConfig.editorconfig
 C:\@job\SoftC\csud.crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.AssemblyInfoInputs.cache
 C:\@job\SoftC\csud.crud\Csud.Crud\obj\Debug\net5.0\Csud.Crud.AssemblyInfo.cs

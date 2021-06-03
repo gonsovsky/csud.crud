@@ -116,8 +116,8 @@ namespace Csud.Crud.Storage
             }
             else if (key is AccountKey accKey)
             {
-                result = Select<T>().First(a => String.Compare((a as Account).Key, accKey.Account, StringComparison.Ordinal) == 0 
-                                                && (a as Account).AccountProviderKey == accKey.Provider);
+                result = Select<T>().First(a => String.Compare((a as Account).AccountKey, accKey.Account, StringComparison.Ordinal) == 0 
+                                                && (a as Account).ProviderKey == accKey.Provider);
 
             }
             else
@@ -139,8 +139,8 @@ namespace Csud.Crud.Storage
                     IOneToMany oneToMany => db.Select<T>()
                         .First(a => a.Key == entity.Key && ((IOneToMany) a).RelatedKey == oneToMany.RelatedKey),
                     Account acc => Select<T>()
-                        .First(a => String.Compare((a as Account).Key, acc.Key, StringComparison.Ordinal) == 0 &&
-                                    (a as Account).AccountProviderKey == acc.AccountProviderKey),
+                        .First(a => String.Compare((a as Account).AccountKey, acc.AccountKey, StringComparison.Ordinal) == 0 &&
+                                    (a as Account).ProviderKey == acc.ProviderKey),
                     _ => db.Select<T>().First(a => a.Key == entity.Key)
                 };
                 entity.CopyTo(result, false, true);

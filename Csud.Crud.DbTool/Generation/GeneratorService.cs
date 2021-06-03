@@ -251,7 +251,7 @@ namespace Csud.Crud.DbTool.Generation
 
         private void MakeAccount(Account a)
         {
-            a.AccountProviderKey = Take(Svc.AccountProvider, 1).First().Key;
+            a.ProviderKey = Take(Svc.AccountProvider, 1).First().Key;
             a.SubjectKey = Take(Svc.Subject, 1).First().Key;
             a.Person = Take(Svc.Person, 1).First();
         }
